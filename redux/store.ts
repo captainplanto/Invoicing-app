@@ -1,5 +1,6 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import loginModalSlice from "./features/slices/login.slice";
+import  loginModalSlice  from "./features/applicants/applicant.slice";
+
 
 
 export const store = configureStore({
