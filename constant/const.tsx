@@ -1,0 +1,1 @@
+export const logo ="https://res.cloudinary.com/captainkoder/image/upload/v1670369055/invoicing/logo_k9ugfb.svg";

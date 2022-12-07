@@ -1,25 +1,27 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
+import { ApolloProvider } from "@apollo/client";
 //import { SessionProvider } from "next-auth/react";
-import { Provider } from "react-redux";
-
-//import { SSRProvider } from "@react-aria/ssr";
-import { store } from "../redux/store";
+import { SSRProvider } from "@react-aria/ssr";
+import { client } from "../apollo/Config";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-   // <SSRProvider>
-    //  <SessionProvider
+    <SSRProvider>
+      <ApolloProvider client={client}>
+        <Component {...pageProps} />
+      </ApolloProvider>
+    </SSRProvider>
+  );
+}
+
+/*
+ </SSRProvider> 
     //    session={pageProps.session}
      //   refetchInterval={0}
      //   refetchOnWindowFocus={true}
-    //  >
-       
-          <Provider store={store}>
-            <Component {...pageProps} />
-          </Provider>
-       
-    //  </SessionProvider>
-   // </SSRProvider>
-  );
-}
+    //  />
+
+  //  </SessionProvider>
+
+*/

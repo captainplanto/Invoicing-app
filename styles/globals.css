@@ -1,22 +1,19 @@
-@import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@100;200;300;400;500;600;700;800;900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 :root {
-  --main-grey: #333333;
-  --main-white: #fff;
-  --main-black: #000;
-  --main-orange: #f64900;
-  --main-red: #ff0000;
-  --light-grey: #f2f2f2;
-  --light-grey-2: #dddddd;
-  --light-grey-3: #fafafa;
-  --main-font: -apple-system, Inter, BlinkMacSystemFont, Segoe UI, Roboto,
-    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  --sec-font: "Libre Baskerville", serif;
-  --main-grey-rgb: 51, 51, 51;
-  --main-orange-rgb: 246, 73, 0;
-  --main-black-rgb: 0, 0, 0;
+  --main-blue: rgb(124, 93, 250);
+  --light-blue: rgb(146, 119, 255);
+  --main-dark-blue: rgb(30, 33, 57);
+  --light-dark-blue: rgb(37, 41, 69);
+  --main-red: rgb(236, 87, 87);
+  --light-red: rgb(255, 151, 151);
+  --main-grey: rgb(136, 142, 176);
+  --light-grey: rgb(223, 227, 250);
+  --main-black: rgb(12, 14, 22);
+  --light-black: rgb(20, 22, 37);
+  --light-bg: rgb(248, 248, 251);
+  --light-blue-bg: rgb(126, 136, 195);
+  --main-font: "League Spartan", sans-serif;
 }
 
 html,
@@ -62,11 +59,6 @@ h3 {
   font-size: 14px;
 }
 
-
-
 p {
   line-height: 1.8;
 }
-
-
-
