@@ -8,12 +8,15 @@ export const HomeIndex = () => {
     <Container>
       <SideBarComponent />
       <LayOutComponent>
-       <Index/>
+        <Index />
       </LayOutComponent>
     </Container>
   );
 };
 const Container = styled.div`
   display: grid;
-  grid-template-columns: .7fr 11fr;
+  grid-template-columns: 8.5rem 11fr;
+  @media screen and (max-width: 820px) {
+    display: block;
+  }
 `;

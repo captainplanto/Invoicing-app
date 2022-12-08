@@ -5,6 +5,7 @@
   --light-blue: rgb(146, 119, 255);
   --main-dark-blue: rgb(30, 33, 57);
   --light-dark-blue: rgb(37, 41, 69);
+  --main-white: rgb(255, 255, 255);
   --main-red: rgb(236, 87, 87);
   --light-red: rgb(255, 151, 151);
   --main-grey: rgb(136, 142, 176);
@@ -12,6 +13,7 @@
   --main-black: rgb(12, 14, 22);
   --light-black: rgb(20, 22, 37);
   --light-bg: rgb(248, 248, 251);
+  --divider-bg: rgba(248, 248, 251, 0.3);
   --light-blue-bg: rgb(126, 136, 195);
   --main-font: "League Spartan", sans-serif;
 }
