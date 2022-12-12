@@ -3,24 +3,20 @@ import { Image } from "@nextui-org/react";
 import { filterButton } from "../../constant/const";
 import { DropdownComponent } from "./DropDown.component";
 import { useEffect, useState } from "react";
+import { useScreenSize } from "../../hooks/useScreenSize";
 export const FilterComponent = () => {
-  const [size, setSize] = useState<number>(0);
-  useEffect(() => {
-    const findWidth = window.innerWidth;
-    setSize(findWidth);
-  }, []);
+  const { screenSize } = useScreenSize();
   return (
     <Container>
-      <h3>{size > 600 ? "Filter by status" : "Filter"}</h3>
+      <h3>{screenSize > 600 ? "Filter by status" : "Filter"}</h3>
       <DropdownComponent
-        icon={<Image src={filterButton}  width={20} alt="filter-button" />}
+        icon={<Image src={filterButton} width={20} alt="filter-button" />}
       />
     </Container>
   );
 };
 
 const Container = styled.div`
-
   display: flex;
   gap: 1rem;
   img {
@@ -28,5 +24,4 @@ const Container = styled.div`
       cursor: pointer;
     }
   }
- 
 `;

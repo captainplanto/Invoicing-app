@@ -2,16 +2,26 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { ApolloProvider } from "@apollo/client";
 //import { SessionProvider } from "next-auth/react";
-import { SSRProvider } from "@react-aria/ssr";
 import { client } from "../apollo/Config";
-
+import { SSRProvider } from "react-aria";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { darkTheme, lightTheme } from "../components/common/theme/Theme";
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <SSRProvider>
-      <ApolloProvider client={client}>
-        <Component {...pageProps} />
-      </ApolloProvider>
-    </SSRProvider>
+    <NextThemesProvider
+      defaultTheme="system"
+      attribute="class"
+      value={{
+        light: lightTheme.className,
+        dark: darkTheme.className,
+      }}
+    >
+      <SSRProvider>
+        <ApolloProvider client={client}>
+          <Component {...pageProps} />
+        </ApolloProvider>
+      </SSRProvider>
+    </NextThemesProvider>
   );
 }
 
@@ -23,5 +33,5 @@ export default function App({ Component, pageProps }: AppProps) {
     //  />
 
   //  </SessionProvider>
-
+    themes={[lightTheme, darkTheme]}
 */

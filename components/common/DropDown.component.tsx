@@ -8,7 +8,12 @@ export const DropdownComponent: FC<IIcon> = ({ icon }) => {
   return (
     <Dropdown closeOnSelect={true}>
       <Dropdown.Trigger>{icon}</Dropdown.Trigger>
-      <Dropdown.Menu aria-label="Dynamic Actions">
+      <Dropdown.Menu
+        aria-label="Dynamic Actions"
+        css={{
+          maxWidth: "40%",
+        }}
+      >
         {menuItems && menuItems.length > 0 ? (
           menuItems.map(({ key, name }) => (
             <Dropdown.Item key={key}>
@@ -26,3 +31,15 @@ export const DropdownComponent: FC<IIcon> = ({ icon }) => {
     </Dropdown>
   );
 };
+
+/*
+
+  css={{
+                ".nextui-c-clSMyX": {
+                  background: "yellow",
+                  marginTop: "2rem",
+                },
+              }}
+
+
+*/

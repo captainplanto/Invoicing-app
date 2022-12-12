@@ -1,15 +1,25 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import { HomeIndex } from '../components/component/home/Home.index'
+import  { GetServerSideProps, NextPage } from "next";
+import invoices from "../content/dbseeding/data.json";
+import { HomeIndex } from "../components/component/home/Home.index";
+import { IInvoiceCard } from "../type/type";
 
+const Home: NextPage = ({ data }: { data: { invoices: IInvoiceCard[]}}) => {
+  return <HomeIndex invoices={data.invoices} />;
+};
 
-const Home: NextPage = () => {
-  return (
-    <HomeIndex />
-   
-   
-  )
-}
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const request = invoices.map((invoice: IInvoiceCard) => {
+    return invoice;
+  });
+  const response = request;
 
-export default Home
+  return {
+    props: {
+      data: {
+        invoices: response,
+      },
+    },
+  };
+};
+
+export default Home;
