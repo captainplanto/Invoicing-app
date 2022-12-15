@@ -1,7 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
 import { IDBInvoices } from "../../../type/type";
-import { ConfirmationComponent } from "../../common/Confirmation.component";
 import { DrawerComponent } from "../../common/Drawer.component";
 import { HeaderComponent } from "../../common/Header.component";
 import { InvoiceCardComponent } from "../../common/InvoiceCardComponent";
@@ -32,3 +31,5 @@ const Container = styled.div`
     width: 90%;
   }
 `;
+
+

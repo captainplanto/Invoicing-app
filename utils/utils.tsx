@@ -18,3 +18,13 @@ export const validationSchema = Yup.object({
   paymentPlan:Yup.string().required("Please select a payment plan"),
   description:Yup.string().max(100).required('Provide the project details here')
 });
+export const MAX_LIMIT_PRICE = 10000000;
+ export  const MAX_LIMIT_QTY = 1000;
+ export  const isAllowed = (values: any, x: string) => {
+    const { floatValue } = values;
+    if (x === "price") {
+      return floatValue < MAX_LIMIT_PRICE;
+    } else {
+      return floatValue < MAX_LIMIT_QTY;
+    }
+  };

@@ -53,3 +53,33 @@ export interface IInvoiceCard {
 export interface IDBInvoices {
   invoices: IInvoiceCard[];
 }
+
+export interface IItems {
+  title: string;
+  quantity: number;
+  price: number;
+  total: number;
+}
+
+export interface IInvoiceForm {
+  id:any;
+  userAddress: string;
+  userCountry: string;
+  userRegion: string;
+  userPostCode: number;
+  clientName: string;
+  clientEmail: string;
+  clientAddress: string;
+  status:string;
+  clientCountry: string;
+  clientRegion: string;
+  clientPostCode: number;
+  invoiceDate: Date | ReactNode;
+  paymentPlan: string;
+  description: string;
+  items: IItems[];
+}
+
+export interface IDetailsCardInvoice {
+  invoice:IInvoiceForm
+}

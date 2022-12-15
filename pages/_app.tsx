@@ -5,16 +5,17 @@ import { ApolloProvider } from "@apollo/client";
 import { client } from "../apollo/Config";
 import { SSRProvider } from "react-aria";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { darkTheme, lightTheme } from "../components/common/theme/Theme";
+import { darkTheme, lightTheme } from "../theme/Theme";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <NextThemesProvider
       defaultTheme="system"
-      attribute="class"
+    attribute="class"
       value={{
-        light: lightTheme.className,
-        dark: darkTheme.className,
+       light: lightTheme.className,
+       dark: darkTheme.className,
       }}
+    
     >
       <SSRProvider>
         <ApolloProvider client={client}>

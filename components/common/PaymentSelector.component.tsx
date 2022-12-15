@@ -18,9 +18,9 @@ export const PaymentSelectorComponent = ({
 
   return (
     <div>
-      <FormControl>
+      <FormControl style={{ width:'100%'}}>
         <Select
-          style={{ fontWeight: "800" }}
+          style={{ fontWeight: "800"}}
           value={value}
           name="paymentPlan"
           onChange={onChange}

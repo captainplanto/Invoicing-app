@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { Image } from "@nextui-org/react";
 import { filterButton } from "../../constant/const";
 import { DropdownComponent } from "./DropDown.component";
-import { useEffect, useState } from "react";
 import { useScreenSize } from "../../hooks/useScreenSize";
 export const FilterComponent = () => {
   const { screenSize } = useScreenSize();

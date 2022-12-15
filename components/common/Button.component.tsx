@@ -5,15 +5,7 @@ import { Image } from "@nextui-org/react";
 import { IButton } from "../../type/type";
 
 export const ButtonComponent: FC<IButton> = (props) => {
-  const {
-    children,
-    icon,
-    link,
-    onClick,
-    showIcon,
-    style,
-    className,
-  } = props;
+  const { children, icon, link, onClick, showIcon, style, className } = props;
   if (link) {
     return (
       <Link href={link && link}>
@@ -82,7 +74,7 @@ const CustomButton = styled.button<{ $showIcon: boolean }>`
   }
   border-radius: 3rem;
   padding: ${(props) =>
-    props.$showIcon ? "0.5rem 3rem 0.5rem 0.5rem" : "1rem 3rem"};
+    props.$showIcon ? "0.5rem 3rem 0.5rem 0.5rem" : "1rem 1.3rem"};
   cursor: pointer;
   p {
     font-size: 1.3rem;
@@ -90,6 +82,7 @@ const CustomButton = styled.button<{ $showIcon: boolean }>`
     color: white;
     font-family: var(--main-font);
     text-align: center !important;
+    white-space: nowrap;
   }
 
   .icon_child {

@@ -21,6 +21,7 @@
   --status-pending: rgb(255, 143, 0);
   --status-pending-bg: #fff9f0;
   --status-draft: rgb(55, 59, 83);
+  --save-draft-btn:rgba(55, 59, 83, 1);
   --status-draft-bg: #f4f4f5;
 }
 

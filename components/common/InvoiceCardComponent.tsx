@@ -5,6 +5,7 @@ import { FC } from "react";
 import { IDBInvoices } from "../../type/type";
 import { StatusComponent } from "./Status.component";
 import { numberWithCommas } from "../../utils/utils";
+import Link from "next/link";
 
 export const InvoiceCardComponent: FC<IDBInvoices> = ({ invoices }) => {
   return (
@@ -14,25 +15,30 @@ export const InvoiceCardComponent: FC<IDBInvoices> = ({ invoices }) => {
           invoices.map(
             ({ id, paymentDue, createdAt, clientName, total, status }) => (
               <>
-                <div key={id.toString()} className="items desktop_view">
-                  <li>
-                    #<span>{id.toString()}</span>
-                  </li>
-                  <li>{`Due ${new Date(paymentDue)
-                    .toUTCString()
-                    .slice(5, 16)}`}</li>
-                  <li> {clientName}</li>
-                  <li> {`£${numberWithCommas(total)}`}</li>
-                  <StatusComponent>{status}</StatusComponent>
-                  <div className="arrow_icon">
-                    <Image
-                      src={rightArrow}
-                      width={7}
-                      objectFit="contain"
-                      alt="right-arrow-icon"
-                    />
+                <Link
+                  href={`/invoice/details/${clientName}/${id}`}
+                  key={id.toString()}
+                >
+                  <div className="items desktop_view">
+                    <li>
+                      #<span>{id.toString()}</span>
+                    </li>
+                    <li>{`Due ${new Date(paymentDue)
+                      .toUTCString()
+                      .slice(5, 16)}`}</li>
+                    <li> {clientName}</li>
+                    <li> {`£${numberWithCommas(total)}`}</li>
+                    <StatusComponent>{status}</StatusComponent>
+                    <div className="arrow_icon">
+                      <Image
+                        src={rightArrow}
+                        width={7}
+                        objectFit="contain"
+                        alt="right-arrow-icon"
+                      />
+                    </div>
                   </div>
-                </div>
+                </Link>
                 <div key={id.toString()} className="items mobile_view">
                   <li>
                     #<span>{id.toString()}</span>

@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
-import { ChangeEvent, FC } from "react";
+import { FC } from "react";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import styled from "styled-components";
 
@@ -55,6 +55,7 @@ export const CountrySelectorComponent: FC<ISelector> = ({
         <div>
           <h3>Post Code</h3>
           <TextField
+            fullWidth
             className="spin_button"
             type="number"
             onChange={onTextChange}
@@ -62,6 +63,7 @@ export const CountrySelectorComponent: FC<ISelector> = ({
             name={inputNamePostCode}
             error={postalCodeError}
             helperText={postalCodeHelperText}
+            placeholder='PostCode'
           />
         </div>
         <div>
@@ -101,8 +103,8 @@ const Container = styled.div`
   }
   .country_region {
     display: grid;
-    grid-template-columns: 10rem 10rem 10rem;
-    gap: 2rem;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
 
     .spin_button {
       input[type="number"]::-webkit-outer-spin-button,
@@ -129,7 +131,9 @@ const Container = styled.div`
       }
     }
   }
-  input{
-      font-weight:800;
+  input {
+    font-weight: 800;
   }
 `;
+// grid-template-columns: 10rem 10rem 10rem;
+//gap: 2rem;
