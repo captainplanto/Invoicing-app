@@ -39,19 +39,24 @@ export const InvoiceCardComponent: FC<IDBInvoices> = ({ invoices }) => {
                     </div>
                   </div>
                 </Link>
-                <div key={id.toString()} className="items mobile_view">
-                  <li>
-                    #<span>{id.toString()}</span>
-                  </li>
-                  <li style={{ textAlign: "center" }}> {clientName}</li>
-                  <div className="mobile_div">
-                    <li>{`Due ${new Date(paymentDue)
-                      .toUTCString()
-                      .slice(5, 16)}`}</li>
-                    <li> {`£${numberWithCommas(total)}`}</li>
+                <Link
+                  href={`/invoice/details/${clientName}/${id}`}
+                  key={id.toString()}
+                >
+                  <div key={id.toString()} className="items mobile_view">
+                    <li>
+                      #<span>{id.toString()}</span>
+                    </li>
+                    <li style={{ textAlign: "center" }}> {clientName}</li>
+                    <div className="mobile_div">
+                      <li>{`Due ${new Date(paymentDue)
+                        .toUTCString()
+                        .slice(5, 16)}`}</li>
+                      <li> {`£${numberWithCommas(total)}`}</li>
+                    </div>
+                    <StatusComponent>{status}</StatusComponent>
                   </div>
-                  <StatusComponent>{status}</StatusComponent>
-                </div>
+                </Link>
               </>
             )
           )

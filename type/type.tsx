@@ -62,7 +62,7 @@ export interface IItems {
 }
 
 export interface IInvoiceForm {
-  id:any;
+  id: any;
   userAddress: string;
   userCountry: string;
   userRegion: string;
@@ -70,7 +70,7 @@ export interface IInvoiceForm {
   clientName: string;
   clientEmail: string;
   clientAddress: string;
-  status:string;
+  status: string;
   clientCountry: string;
   clientRegion: string;
   clientPostCode: number;
@@ -81,5 +81,5 @@ export interface IInvoiceForm {
 }
 
 export interface IDetailsCardInvoice {
-  invoice:IInvoiceForm
+  invoice: IInvoiceForm;
 }

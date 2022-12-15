@@ -73,8 +73,7 @@ const CustomButton = styled.button<{ $showIcon: boolean }>`
     background: var(--light-blue);
   }
   border-radius: 3rem;
-  padding: ${(props) =>
-    props.$showIcon ? "0.5rem 3rem 0.5rem 0.5rem" : "1rem 1.3rem"};
+  padding: ${(props) =>props.$showIcon ? "0.5rem 3rem 0.5rem 0.5rem" : ".9rem 1.3rem"};
   cursor: pointer;
   p {
     font-size: 1.3rem;
@@ -86,10 +85,9 @@ const CustomButton = styled.button<{ $showIcon: boolean }>`
   }
 
   .icon_child {
-    display: flex;
+    display: ${(props) => (props.$showIcon ? "flex" : "")};
     align-items: center;
-    gap: 1.5rem;
-
+    gap: 1rem;
     .icon_bg {
       background-color: var(--main-white);
       padding: 1.5rem;
@@ -98,8 +96,5 @@ const CustomButton = styled.button<{ $showIcon: boolean }>`
         padding: 0.9rem;
       }
     }
-  }
-  @media screen and (max-width: 500px) {
-    padding: 0.5rem 1rem 0.5rem 0.5rem;
   }
 `;

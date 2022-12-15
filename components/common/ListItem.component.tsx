@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Table } from "@nextui-org/react";
-import { columns, deleteIcon } from "../../constant/const";
+import {  createInvoiceColumns, deleteIcon } from "../../constant/const";
 import { Image } from "@nextui-org/react";
 import { ChangeEvent, useState } from "react";
 import { TextField } from "@mui/material";
@@ -56,7 +56,7 @@ export const ListItemComponent = () => {
         className="table"
         color="error"
       >
-        <Table.Header columns={columns}>
+        <Table.Header columns={createInvoiceColumns}>
           {(column) => (
             <Table.Column
               key={column.key}
