@@ -1,18 +1,23 @@
 import styled from "styled-components";
 import { ButtonComponent } from "../Button.component";
+import { DrawerComponent } from "../Drawer.component";
 
-export const EditBtn = ({ className }: { className: string }) => {
+export const DetailPageButtonComponent = ({
+  className,
+}: {
+  className: string;
+}) => {
   return (
     <Containers>
       {className === "desktop_buttons" ? (
         <div className={`${className} action_btn`}>
-          <ButtonComponent showIcon={false}>Edit</ButtonComponent>
+          <DrawerComponent LeftDrawer={false} />
           <ButtonComponent showIcon={false}>Delete</ButtonComponent>
           <ButtonComponent showIcon={false}>Mark as Paid</ButtonComponent>
         </div>
       ) : (
         <div className={`${className} action_btn`}>
-          <ButtonComponent showIcon={false}>Edit</ButtonComponent>
+          <DrawerComponent LeftDrawer={false} />
           <ButtonComponent showIcon={false}>Delete</ButtonComponent>
           <ButtonComponent showIcon={false}>Mark as Paid</ButtonComponent>
         </div>
@@ -43,3 +48,15 @@ const Containers = styled.div`
     }
   }
 `;
+
+export const EditInvoiceButton = ({
+  onClick,
+}: {
+  onClick: (event: React.KeyboardEvent | React.MouseEvent) => void;
+}) => {
+  return (
+    <ButtonComponent showIcon={false} onClick={onClick}>
+      Edit
+    </ButtonComponent>
+  );
+};

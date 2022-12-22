@@ -1,15 +1,13 @@
 import * as React from "react";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Button from "@mui/material/Button";
 import { useState } from "react";
 import styled from "styled-components";
+import { CreateNewInvoiceButton } from "./Header.component";
+import { EditInvoiceButton } from "./buttons/DetailPageButton.component";
+import { CreateInvoiceComponent } from "../component/invoice/New.component";
 type Anchor = "top" | "left" | "bottom" | "right";
 
-export const DrawerComponent = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const DrawerComponent = ({ LeftDrawer }: { LeftDrawer: boolean }) => {
   const [state, setState] = useState({
     top: false,
     left: false,
@@ -28,68 +26,55 @@ export const DrawerComponent = ({
       ) {
         return;
       }
-
       setState({ ...state, [anchor]: open });
     };
-  /*
-  const list = (anchor: Anchor) => (
-    <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
-   {list(anchor)}
-*/
+
   return (
     <Container>
-      {(["left", "right", "top", "bottom"] as const).map((anchor) => (
-        <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-          <SwipeableDrawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-            onOpen={toggleDrawer(anchor, true)}
-            style={swipeStyle }
-          >
-            {children}
-          </SwipeableDrawer>
-        </React.Fragment>
-      ))}
+      {LeftDrawer
+        ? (["left"] as const).map((anchor) => (
+            <React.Fragment key={anchor}>
+              <CreateNewInvoiceButton onClick={toggleDrawer(anchor, true)} />
+              <SwipeableDrawer
+                anchor={anchor}
+                open={state[anchor]}
+                onClose={toggleDrawer(anchor, false)}
+                onOpen={toggleDrawer(anchor, true)}
+                style={swipeStyle}
+              >
+                <CreateInvoiceComponent title="New Invoice" />
+              </SwipeableDrawer>
+            </React.Fragment>
+          ))
+        : (["right"] as const).map((anchor) => (
+            <React.Fragment key={anchor}>
+              <EditInvoiceButton onClick={toggleDrawer(anchor, true)} />
+              <SwipeableDrawer
+                anchor={anchor}
+                open={state[anchor]}
+                onClose={toggleDrawer(anchor, false)}
+                onOpen={toggleDrawer(anchor, true)}
+                style={swipeStyle}
+              >
+                <CreateInvoiceComponent
+                  title="Edit Invoice"
+                  className="invoice"
+                />
+              </SwipeableDrawer>
+            </React.Fragment>
+          ))}
     </Container>
   );
 };
 const Container = styled.div`
+  .invoice {
+    padding: 1rem;
+    @media screen and (max-width: 1500px) {
+      padding: 1rem;
+      background: red;
+    }
+  }
 `;
 const swipeStyle = {
   zIndex: "0",
- 
 };

@@ -7,7 +7,8 @@ import { PaymentSelectorComponent } from "../../common/PaymentSelector.component
 import { ListItemComponent } from "../../common/ListItem.component";
 import { IInvoiceForm } from "../../../type/type";
 
-export const CreateInvoiceComponent = ({ title }: { title: string }) => {
+
+export const CreateInvoiceComponent = ({ title, className }: { title: string, className?:string }) => {
   const formik = useFormik({
     initialValues: {
       userAddress: "",
@@ -35,14 +36,13 @@ export const CreateInvoiceComponent = ({ title }: { title: string }) => {
   });
 
   return (
-    <Container>
+    <Container className={className}>
       <form onSubmit={formik.handleSubmit}>
         <h1>{title}</h1>
         <h2>Bill From</h2>
         <div className="error">
           <h3>Street Address</h3>
         </div>
-
         <TextField
           error={
             formik.touched.userAddress && Boolean(formik.errors.userAddress)

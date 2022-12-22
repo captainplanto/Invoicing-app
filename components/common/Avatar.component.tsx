@@ -1,7 +1,11 @@
-import { Avatar} from "@nextui-org/react";
+import { Avatar } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
 
 export const AvatarComponent = () => {
-  return (
-    <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" size="lg" />
-  );
+  const { data: session, status } = useSession();
+  if (session && session.user.image) {
+    return <Avatar src={session.user.image} size="lg"  alt="avatar"/>;
+  } 
+    return <Avatar src="aa" size="lg" alt="avatar" />;
+  
 };

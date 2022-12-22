@@ -1,18 +1,16 @@
 import { FC } from "react";
 import styled from "styled-components";
+import { CREATE_INVOICE_QUERY } from "../../../apollo/queries";
+import { useQuery } from "@apollo/client";
 import { IDBInvoices } from "../../../type/type";
-import { DrawerComponent } from "../../common/Drawer.component";
 import { HeaderComponent } from "../../common/Header.component";
 import { InvoiceCardComponent } from "../../common/InvoiceCardComponent";
-import { CreateInvoiceComponent } from "../invoice/New.component";
 
 export const Index: FC<IDBInvoices> = ({ invoices }) => {
+  const { data } = useQuery(CREATE_INVOICE_QUERY);
   return (
     <Container>
       <HeaderComponent />
-      <DrawerComponent>
-        <CreateInvoiceComponent title="New Invoice" />
-      </DrawerComponent>
       <main>
         <InvoiceCardComponent invoices={invoices} />
       </main>
@@ -32,4 +30,9 @@ const Container = styled.div`
   }
 `;
 
+/*
+  <Link href="/register">REGISTER</Link>
+      <Link href="/login">LOGIN</Link>
 
+
+*/

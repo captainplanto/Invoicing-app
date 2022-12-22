@@ -3,7 +3,7 @@ import { FC } from "react";
 import styled from "styled-components";
 import { DetailsInvoiceColumns, leftArrow } from "../../constant/const";
 import { IDetailsCardInvoice, IItems } from "../../type/type";
-import { EditBtn } from "./buttons/EditButton.component";
+import { DetailPageButtonComponent } from "./buttons/DetailPageButton.component";
 import { StatusComponent } from "./Status.component";
 import { Image } from "@nextui-org/react";
 
@@ -41,7 +41,7 @@ export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
           <p className="status">Status</p>
           <StatusComponent>{status}</StatusComponent>
         </div>
-        <EditBtn className="desktop_buttons" />
+        <DetailPageButtonComponent className="desktop_buttons" />
       </div>
       <div className="card">
         <div className="id_client_address">
@@ -138,7 +138,7 @@ export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
       </div>
 
       <div>
-        <EditBtn className="mobile_buttons" />
+        <DetailPageButtonComponent className="mobile_buttons" />
       </div>
     </Container>
   );
@@ -150,6 +150,7 @@ const Container = styled.div`
     border: none;
     background: transparent;
     gap: 1rem;
+    cursor: pointer;
     h3 {
       margin-bottom: 0;
       color: var(--main-black);
@@ -157,6 +158,7 @@ const Container = styled.div`
     }
   }
   td {
+    z-index: 0;
     :nth-child(1),
     :nth-child(4) {
       font-weight: 700;
@@ -169,7 +171,7 @@ const Container = styled.div`
   }
   width: 40%;
   margin: 0 auto;
-  margin-top: 8rem;
+  margin-top: 4rem;
   @media screen and (max-width: 1500px) {
     width: 60%;
   }

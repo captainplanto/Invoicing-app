@@ -2,7 +2,11 @@ import { Schema } from "mongoose";
 import { ReactNode } from "react";
 
 export interface IUser {
+  _id: Schema.Types.ObjectId;
   name: string;
+  email: string;
+  image: string;
+  invoices: IInvoiceForm[];
 }
 
 export interface IMenu {
@@ -16,9 +20,9 @@ export interface IIcon {
 export interface IButton {
   children: ReactNode;
   showIcon: boolean;
-  icon?: string;
+  icon?: string | any;
   link?: string;
-  onClick?: () => void;
+  onClick?: (event: React.KeyboardEvent | React.MouseEvent) => void;
   style?: object;
   className?: string;
   background?: string;
@@ -62,7 +66,7 @@ export interface IItems {
 }
 
 export interface IInvoiceForm {
-  id: any;
+  _id: Schema.Types.ObjectId;
   userAddress: string;
   userCountry: string;
   userRegion: string;
@@ -78,6 +82,7 @@ export interface IInvoiceForm {
   paymentPlan: string;
   description: string;
   items: IItems[];
+  author: IUser;
 }
 
 export interface IDetailsCardInvoice {

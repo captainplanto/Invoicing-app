@@ -18,13 +18,19 @@ export const leftArrow =
   "https://res.cloudinary.com/captainkoder/image/upload/v1670369053/invoicing/icon-arrow-left_zjxzj7.svg";
 export const deleteIcon =
   "https://res.cloudinary.com/captainkoder/image/upload/v1670369054/invoicing/icon-delete_fbmee3.svg";
+export const loginBgImage =
+  "https://res.cloudinary.com/captainkoder/image/upload/v1671176588/invoicing/invoicing-login-image_d8pyiw.jpg";
+
+export const github =
+  "https://img.icons8.com/sf-ultralight-filled/500/000000/github.png";
+export const google = "https://img.icons8.com/fluency/240/null/google-logo.png";
 
 export const menuItems: IMenu[] = [
   { key: "draft", name: "Draft" },
   { key: "pending", name: "Pending" },
   { key: "paid", name: "Paid" },
 ];
-
+//
 export const days: string[] = [
   "Net 1 Day",
   "Net 7Days",

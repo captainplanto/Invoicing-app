@@ -73,7 +73,8 @@ const CustomButton = styled.button<{ $showIcon: boolean }>`
     background: var(--light-blue);
   }
   border-radius: 3rem;
-  padding: ${(props) =>props.$showIcon ? "0.5rem 3rem 0.5rem 0.5rem" : ".9rem 1.3rem"};
+  padding: ${(props) =>
+    props.$showIcon ? "0.5rem 3rem 0.5rem 0.5rem" : ".9rem 1.3rem"};
   cursor: pointer;
   p {
     font-size: 1.3rem;
