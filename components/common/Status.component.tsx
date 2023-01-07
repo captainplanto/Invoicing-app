@@ -6,7 +6,7 @@ interface IStatus {
   style?: object;
 }
 const statusColorCode = (children: string | ReactNode) =>
-  children === "paid" ? "paid" : children === "pending" ? "pending" : "draft";
+  children === "Paid" ? "paid" : children === "Pending" ? "pending" : "draft";
 
 export const StatusComponent: FC<IStatus> = ({ children, style }) => {
   return (

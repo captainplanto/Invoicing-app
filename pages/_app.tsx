@@ -2,7 +2,7 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { ApolloProvider } from "@apollo/client";
 import { SessionProvider } from "next-auth/react";
-import { client } from "../apollo/Config";
+import { client } from "../apollo/client/Config";
 import { SSRProvider } from "react-aria";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { darkTheme, lightTheme } from "../theme/Theme";

@@ -4,8 +4,8 @@ import { Image } from "@nextui-org/react";
 import { FC } from "react";
 import { IDBInvoices } from "../../type/type";
 import { StatusComponent } from "./Status.component";
-import { numberWithCommas } from "../../utils/utils";
 import Link from "next/link";
+import { numberWithCommas } from "../../utils/utils";
 
 export const InvoiceCardComponent: FC<IDBInvoices> = ({ invoices }) => {
   return (
@@ -13,21 +13,35 @@ export const InvoiceCardComponent: FC<IDBInvoices> = ({ invoices }) => {
       <ul>
         {invoices && invoices.length > 0 ? (
           invoices.map(
-            ({ id, paymentDue, createdAt, clientName, total, status }) => (
+            (
+              {
+                _id,
+                paymentDue,
+                createdAt,
+                updatedAt,
+                clientName,
+                status,
+                items,
+              },
+              index
+            ) => (
               <>
                 <Link
-                  href={`/invoice/details/${clientName}/${id}`}
-                  key={id.toString()}
+                  href={`/invoice/details/${clientName}/${_id}`}
+                  key={index}
                 >
                   <div className="items desktop_view">
                     <li>
-                      #<span>{id.toString()}</span>
+                      #<span>{_id.toString().slice(18, 24).toUpperCase()}</span>
                     </li>
-                    <li>{`Due ${new Date(paymentDue)
-                      .toUTCString()
-                      .slice(5, 16)}`}</li>
+                    <li>{`Due ${new Date(createdAt).toLocaleString("en-GB", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}`}</li>
                     <li> {clientName}</li>
-                    <li> {`£${numberWithCommas(total)}`}</li>
+                    <li> € {numberWithCommas(items.subTotal)}</li>
+
                     <StatusComponent>{status}</StatusComponent>
                     <div className="arrow_icon">
                       <Image
@@ -40,19 +54,21 @@ export const InvoiceCardComponent: FC<IDBInvoices> = ({ invoices }) => {
                   </div>
                 </Link>
                 <Link
-                  href={`/invoice/details/${clientName}/${id}`}
-                  key={id.toString()}
+                  href={`/invoice/details/${clientName}/${_id}`}
+                  key={index}
                 >
-                  <div key={id.toString()} className="items mobile_view">
+                  <div key={index} className="items mobile_view">
                     <li>
-                      #<span>{id.toString()}</span>
+                    #<span>{_id.toString().slice(18, 24).toUpperCase()}</span>
                     </li>
                     <li style={{ textAlign: "center" }}> {clientName}</li>
                     <div className="mobile_div">
-                      <li>{`Due ${new Date(paymentDue)
-                        .toUTCString()
-                        .slice(5, 16)}`}</li>
-                      <li> {`£${numberWithCommas(total)}`}</li>
+                      <li>{`Due ${new Date(createdAt).toLocaleString("en-GB", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })}`}</li>
+                      <li> € {numberWithCommas(items.subTotal)}</li>
                     </div>
                     <StatusComponent>{status}</StatusComponent>
                   </div>

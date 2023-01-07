@@ -5,10 +5,13 @@ import { CountrySelectorComponent } from "../../common/CountrySelector.component
 import { validationSchema } from "../../../utils/utils";
 import { PaymentSelectorComponent } from "../../common/PaymentSelector.component";
 import { ListItemComponent } from "../../common/ListItem.component";
-import { IInvoiceForm } from "../../../type/type";
+import {CREATE_NEW_INVOICE_MUTATION} from "../../../apollo/client/queries/invoice";
+import { useMutation} from "@apollo/client";
+import {  IItems } from "../../../type/type";
 
+export const CreateInvoiceComponent = ({title,className}: {title: string, className?: string}) => {
+  const [createInvoice, { data, loading, error }] = useMutation(CREATE_NEW_INVOICE_MUTATION)
 
-export const CreateInvoiceComponent = ({ title, className }: { title: string, className?:string }) => {
   const formik = useFormik({
     initialValues: {
       userAddress: "",
@@ -24,29 +27,56 @@ export const CreateInvoiceComponent = ({ title, className }: { title: string, cl
       invoiceDate: new Date(),
       paymentPlan: "",
       description: "",
-      items: [],
-    } as IInvoiceForm,
+      items: [] as any,
+      status: "Pending",
+      author: "",
+    },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       const dbValue = localStorage.getItem("totalPackage");
-      const setValue = dbValue ? JSON.parse(dbValue) : [];
+      const setValue: IItems = dbValue ? JSON.parse(dbValue) : [];
       formik.values.items = setValue;
-      console.log(values);
+      createInvoice({
+        variables: {
+          userCountry: formik.values.userCountry,
+          userPostCode: formik.values.userPostCode,
+          userRegion: formik.values.userRegion,
+          clientAddress: formik.values.clientAddress,
+          clientCountry: formik.values.clientCountry,
+          clientEmail: formik.values.clientEmail,
+          clientName: formik.values.clientName,
+          clientPostCode: formik.values.clientPostCode,
+          clientRegion: formik.values.clientRegion,
+          description: formik.values.description,
+          invoiceDate: formik.values.invoiceDate,
+          items: formik.values.items,
+          paymentPlan: formik.values.paymentPlan,
+          userAddress: formik.values.userAddress,
+          status: formik.values.status,
+          author: "",
+        },
+      });
+
     },
   });
 
+
+  const handleSubmits = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    localStorage.removeItem("totalPackage");
+    return formik.initialValues
+  };
+
   return (
     <Container className={className}>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={handleSubmits}>
         <h1>{title}</h1>
         <h2>Bill From</h2>
         <div className="error">
           <h3>Street Address</h3>
         </div>
         <TextField
-          error={
-            formik.touched.userAddress && Boolean(formik.errors.userAddress)
-          }
+          error={formik.touched.userAddress && Boolean(formik.errors.userAddress)}
           helperText={formik.touched.userAddress && formik.errors.userAddress}
           fullWidth
           className="text-area"
@@ -64,13 +94,27 @@ export const CreateInvoiceComponent = ({ title, className }: { title: string, cl
           inputNameRegion="userRegion"
           inputNamePostCode="userPostCode"
           inputNameCountry="userCountry"
-          onChange={(_, e) => {formik.handleChange(e)}}
-          regionError={formik.touched.userRegion && Boolean(formik.errors.userRegion)}
-          regionHelperText={formik.touched.userRegion && formik.errors.userRegion}
-          countryError={formik.touched.userCountry && Boolean(formik.errors.userCountry)}
-          countryHelperText={formik.touched.userCountry && formik.errors.userCountry}
-          postalCodeError={formik.touched.userPostCode && Boolean(formik.errors.userPostCode)}
-          postalCodeHelperText={formik.touched.userPostCode && formik.errors.userPostCode}
+          onChange={(_, e) => {
+            formik.handleChange(e);
+          }}
+          regionError={
+            formik.touched.userRegion && Boolean(formik.errors.userRegion)
+          }
+          regionHelperText={
+            formik.touched.userRegion && formik.errors.userRegion
+          }
+          countryError={
+            formik.touched.userCountry && Boolean(formik.errors.userCountry)
+          }
+          countryHelperText={
+            formik.touched.userCountry && formik.errors.userCountry
+          }
+          postalCodeError={
+            formik.touched.userPostCode && Boolean(formik.errors.userPostCode)
+          }
+          postalCodeHelperText={
+            formik.touched.userPostCode && formik.errors.userPostCode
+          }
           onTextChange={formik.handleChange}
         />
         <div className="client_div">
@@ -83,7 +127,9 @@ export const CreateInvoiceComponent = ({ title, className }: { title: string, cl
               onChange={formik.handleChange}
               value={formik.values.clientName}
               name="clientName"
-              error={formik.touched.clientName && Boolean(formik.errors.clientName)}
+              error={
+                formik.touched.clientName && Boolean(formik.errors.clientName)
+              }
               helperText={formik.touched.clientName && formik.errors.clientName}
             />
           </div>
@@ -96,8 +142,12 @@ export const CreateInvoiceComponent = ({ title, className }: { title: string, cl
               onChange={formik.handleChange}
               value={formik.values.clientEmail}
               name="clientEmail"
-              error={formik.touched.clientEmail && Boolean(formik.errors.clientEmail)}
-              helperText={formik.touched.clientEmail && formik.errors.clientEmail}
+              error={
+                formik.touched.clientEmail && Boolean(formik.errors.clientEmail)
+              }
+              helperText={
+                formik.touched.clientEmail && formik.errors.clientEmail
+              }
             />
           </div>
           <div>
@@ -108,8 +158,13 @@ export const CreateInvoiceComponent = ({ title, className }: { title: string, cl
               onChange={formik.handleChange}
               value={formik.values.clientAddress}
               name="clientAddress"
-              error={formik.touched.clientAddress &&Boolean(formik.errors.clientAddress)}
-              helperText={formik.touched.clientAddress && formik.errors.clientAddress}
+              error={
+                formik.touched.clientAddress &&
+                Boolean(formik.errors.clientAddress)
+              }
+              helperText={
+                formik.touched.clientAddress && formik.errors.clientAddress
+              }
             />
           </div>
         </div>
@@ -121,13 +176,28 @@ export const CreateInvoiceComponent = ({ title, className }: { title: string, cl
           inputNameRegion="clientRegion"
           inputNamePostCode="clientPostCode"
           inputNameCountry="clientCountry"
-          onChange={(_, e) => {formik.handleChange(e)}}
-          regionError={formik.touched.clientRegion && Boolean(formik.errors.clientRegion)}
-          regionHelperText={formik.touched.clientRegion && formik.errors.clientRegion}
-          countryError={formik.touched.clientCountry && Boolean(formik.errors.clientCountry)}
-          countryHelperText={formik.touched.clientCountry && formik.errors.clientCountry}
-          postalCodeError={formik.touched.clientPostCode &&Boolean(formik.errors.clientPostCode)}
-          postalCodeHelperText={formik.touched.clientPostCode && formik.errors.clientPostCode}
+          onChange={(_, e) => {
+            formik.handleChange(e);
+          }}
+          regionError={
+            formik.touched.clientRegion && Boolean(formik.errors.clientRegion)
+          }
+          regionHelperText={
+            formik.touched.clientRegion && formik.errors.clientRegion
+          }
+          countryError={
+            formik.touched.clientCountry && Boolean(formik.errors.clientCountry)
+          }
+          countryHelperText={
+            formik.touched.clientCountry && formik.errors.clientCountry
+          }
+          postalCodeError={
+            formik.touched.clientPostCode &&
+            Boolean(formik.errors.clientPostCode)
+          }
+          postalCodeHelperText={
+            formik.touched.clientPostCode && formik.errors.clientPostCode
+          }
           onTextChange={formik.handleChange}
         />
 
@@ -141,15 +211,19 @@ export const CreateInvoiceComponent = ({ title, className }: { title: string, cl
               onChange={formik.handleChange}
               value={formik.values.invoiceDate}
               name="invoiceDate"
-              error={formik.touched.invoiceDate && Boolean(formik.errors.invoiceDate)}
-              helperText={formik.touched.invoiceDate && formik.errors.invoiceDate}
+              error={
+                formik.touched.invoiceDate && Boolean(formik.errors.invoiceDate)
+              }
+              // helperText={formik.touched.invoiceDate && formik.errors.invoiceDate}
             />
           </div>
           <div className="mobile_margin">
             <h3>{`Payment Terms`}</h3>
             <PaymentSelectorComponent
               value={formik.values.paymentPlan}
-              onChange={(e: any) => {formik.handleChange(e)}}
+              onChange={(e: any) => {
+                formik.handleChange(e);
+              }}
             />
           </div>
         </div>
@@ -162,18 +236,20 @@ export const CreateInvoiceComponent = ({ title, className }: { title: string, cl
             onChange={formik.handleChange}
             value={formik.values.description}
             name="description"
-            error={formik.touched.description && Boolean(formik.errors.description)}
+            error={
+              formik.touched.description && Boolean(formik.errors.description)
+            }
             helperText={formik.touched.description && formik.errors.description}
           />
         </div>
         <div>
-          <ListItemComponent />
+          <ListItemComponent onClick={() => formik.handleSubmit()} />
         </div>
       </form>
     </Container>
   );
 };
-//  <button type="submit">Submit</button>
+//   <button type="button">Submit</button>
 const Container = styled.div`
   width: 40vw;
   max-width: 100vw;
@@ -246,3 +322,40 @@ const Container = styled.div`
     margin-top: 3rem;
   }
 `;
+
+
+
+/*
+  if (error) {
+    console.log(error);
+  }
+  if (loading) {
+    console.log("loading......");
+    return <Loading />;
+  }
+  if (data) {
+    console.log(data, "data");
+  }
+,{
+      update(cache, { data: { createInvoice } }) {
+        const currentState: any = cache.readQuery({
+          query: GET_ALL_INVOICE_BY_USER,
+        });
+        const data = currentState.invoices;
+        cache.writeQuery({
+          query: GET_ALL_INVOICE_BY_USER,
+          data: { invoices: createInvoice, ...data },
+        });
+      },
+    }
+  );
+  const {
+    data: myData,
+    loading: theLoading,
+    error: theError,
+  } = useQuery(GET_ALL_INVOICE_BY_USER, {
+    onCompleted: (myData) => {
+      return myData;
+    },
+  });
+*/

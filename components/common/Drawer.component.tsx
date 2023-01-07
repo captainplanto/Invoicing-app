@@ -5,9 +5,10 @@ import styled from "styled-components";
 import { CreateNewInvoiceButton } from "./Header.component";
 import { EditInvoiceButton } from "./buttons/DetailPageButton.component";
 import { CreateInvoiceComponent } from "../component/invoice/New.component";
+import { Schema } from "mongoose";
 type Anchor = "top" | "left" | "bottom" | "right";
 
-export const DrawerComponent = ({ LeftDrawer }: { LeftDrawer: boolean }) => {
+export const DrawerComponent = ({ LeftDrawer, _id }: { LeftDrawer: boolean, _id:Schema.Types.ObjectId }) => {
   const [state, setState] = useState({
     top: false,
     left: false,
@@ -15,9 +16,7 @@ export const DrawerComponent = ({ LeftDrawer }: { LeftDrawer: boolean }) => {
     right: false,
   });
 
-  const toggleDrawer =
-    (anchor: Anchor, open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
+  const toggleDrawer =(anchor: Anchor, open: boolean) =>(event: React.KeyboardEvent | React.MouseEvent | React.KeyboardEvent | React.MouseEvent) => {
       if (
         event &&
         event.type === "keydown" &&
@@ -48,7 +47,7 @@ export const DrawerComponent = ({ LeftDrawer }: { LeftDrawer: boolean }) => {
           ))
         : (["right"] as const).map((anchor) => (
             <React.Fragment key={anchor}>
-              <EditInvoiceButton onClick={toggleDrawer(anchor, true)} />
+              <EditInvoiceButton onClick={toggleDrawer(anchor, true)} _id={_id} />
               <SwipeableDrawer
                 anchor={anchor}
                 open={state[anchor]}

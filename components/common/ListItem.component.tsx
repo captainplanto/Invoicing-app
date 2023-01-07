@@ -1,18 +1,25 @@
 import styled from "styled-components";
 import { Table } from "@nextui-org/react";
-import {  createInvoiceColumns, deleteIcon } from "../../constant/const";
+import { createInvoiceColumns, deleteIcon } from "../../constant/const";
 import { Image } from "@nextui-org/react";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, FormEventHandler, useState } from "react";
 import { TextField } from "@mui/material";
 import { ButtonComponent } from "./Button.component";
-import { IItems } from "../../type/type";
+import { IItem, IItems } from "../../type/type";
 import { isAllowed } from "../../utils/utils";
 import { NumericFormat } from "react-number-format";
-
-export const ListItemComponent = () => {
-  const [newItem, setNewItem] = useState<any>([]);
-  const handleClick = () => {
-    setNewItem([...newItem, { title: "", quantity: 0, price: 0, total: 0 }]);
+interface ITotalValue {
+    newItem: IItems[];
+    subTotal: number;
+}
+export const ListItemComponent = ({
+  onClick,
+}: {
+  onClick: (event: FormEvent<Element> | FormEventHandler<Element>) => void;
+}) => {
+  const [newItem, setNewItem] = useState<any[]>([]);
+  const handleCreateNewItemClick = () => {
+    setNewItem([...newItem, { name: "", quantity: 0, price: 0, total: 0 }]);
   };
 
   const handleChange = (
@@ -23,18 +30,19 @@ export const ListItemComponent = () => {
     const eachItem = [...newItem];
     eachItem[index][name] = value;
     setNewItem(eachItem);
-    console.log(eachItem);
     const total = eachItem.reduce((acc, item) => {
       return item.price * item.quantity;
     }, 0);
     eachItem[index].total = total;
 
-    const subTotal = newItem.map((item: { total: number }) => item.total)
+     const subTotal = newItem
+      .map((item: { total: number }) => item.total)
       .reduce((prev: number, next: number) => {
         return prev + next;
       }, 0);
 
-    const totalValue = [{ ...newItem, subTotal }];
+       const totalValue:ITotalValue ={newItem, subTotal}; 
+       console.log(totalValue, 'totalValue before pushing to storage')
     localStorage.setItem("totalPackage", JSON.stringify(totalValue));
   };
 
@@ -78,8 +86,8 @@ export const ListItemComponent = () => {
                 <TextField
                   type="text"
                   onChange={(e) => handleChange(e, index)}
-                  value={item.title}
-                  name="title"
+                  value={item.name}
+                  name="name"
                   style={{ width: "18rem" }}
                 />
               </Table.Cell>
@@ -91,7 +99,7 @@ export const ListItemComponent = () => {
                   thousandSeparator=","
                   name="quantity"
                   thousandsGroupStyle="thousand"
-                  valueIsNumericString={true}
+                 valueIsNumericString={true}
                   onChange={(e) => handleChange(e, index)}
                   displayType="input"
                   style={{ width: "5rem" }}
@@ -105,7 +113,7 @@ export const ListItemComponent = () => {
 
               <Table.Cell>
                 <NumericFormat
-                  type="text"
+                 type="text"
                   value={item.price}
                   //thousandSeparator=","
                   name="price"
@@ -152,7 +160,7 @@ export const ListItemComponent = () => {
       </Table>
 
       <div className="button_items">
-        <ButtonComponent showIcon={false} onClick={handleClick}>
+        <ButtonComponent showIcon={false} onClick={handleCreateNewItemClick}>
           &#43; Add New Item
         </ButtonComponent>
       </div>
@@ -164,7 +172,9 @@ export const ListItemComponent = () => {
 
         <div className="btn_btn_two">
           <ButtonComponent showIcon={false}>Save as Draft</ButtonComponent>
-          <ButtonComponent showIcon={false}>Save & Send</ButtonComponent>
+          <ButtonComponent showIcon={false} onClick={onClick}>
+            Save & Send
+          </ButtonComponent>
         </div>
       </div>
     </Container>

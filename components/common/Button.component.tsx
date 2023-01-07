@@ -5,7 +5,7 @@ import { Image } from "@nextui-org/react";
 import { IButton } from "../../type/type";
 
 export const ButtonComponent: FC<IButton> = (props) => {
-  const { children, icon, link, onClick, showIcon, style, className } = props;
+  const { children, icon, link, onClick, showIcon, style, className, _id } = props;
   if (link) {
     return (
       <Link href={link && link}>
@@ -37,7 +37,8 @@ export const ButtonComponent: FC<IButton> = (props) => {
       </Link>
     );
   }
-  return (
+  else{
+return (
     <CustomButton
       onClick={onClick}
       $showIcon={showIcon && showIcon}
@@ -64,6 +65,8 @@ export const ButtonComponent: FC<IButton> = (props) => {
       </div>
     </CustomButton>
   );
+  }
+  
 };
 const CustomButton = styled.button<{ $showIcon: boolean }>`
   border: none;

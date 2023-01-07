@@ -1,24 +1,28 @@
 import { Link, Table } from "@nextui-org/react";
-import { FC } from "react";
+import { FC} from "react";
 import styled from "styled-components";
 import { DetailsInvoiceColumns, leftArrow } from "../../constant/const";
 import { IDetailsCardInvoice, IItems } from "../../type/type";
 import { DetailPageButtonComponent } from "./buttons/DetailPageButton.component";
 import { StatusComponent } from "./Status.component";
 import { Image } from "@nextui-org/react";
+import { numberWithCommas } from "../../utils/utils";
+
 
 export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
   invoice,
 }) => {
   const {
     status,
-    id,
+    _id,
     description,
+    items,
     userAddress,
     userRegion,
     userPostCode,
     userCountry,
-    invoiceDate,
+    createdAt,
+    paymentPlan,
     clientAddress,
     clientCountry,
     clientEmail,
@@ -41,23 +45,22 @@ export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
           <p className="status">Status</p>
           <StatusComponent>{status}</StatusComponent>
         </div>
-        <DetailPageButtonComponent className="desktop_buttons" />
+        <DetailPageButtonComponent className="desktop_buttons" _id={_id} />
       </div>
       <div className="card">
         <div className="id_client_address">
           <div className="id">
             <p>
-              <span>#</span>
-              {id}
+              #<span>{_id?.toString().slice(18, 24).toUpperCase()}</span>
             </p>
             <p>{description}</p>
           </div>
           <div className="user_address">
             <ul>
-              <li>19 Union Terrace</li>
-              <li>London</li>
-              <li>E1 3EZ</li>
-              <li>United Kingdom</li>
+              <li>{userAddress}</li>
+              <li>{userRegion}</li>
+              <li>{userPostCode}</li>
+              <li>{userCountry}</li>
             </ul>
           </div>
         </div>
@@ -65,30 +68,35 @@ export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
         <div className="bill_to_client_grid">
           <div className="grid_one">
             <p>
-              Invoice Date <span>21 Aug 2021</span>
+              Invoice Date
+              <span>{`${new Date(createdAt).toLocaleString("en-GB", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })}`}</span>
             </p>
             <p>
-              Payment Due <span>20 Sep 2021</span>
+              Payment Due <span>{paymentPlan}</span>
             </p>
           </div>
 
           <div className="grid_two">
             <div>
               <p> Bill To</p>
-              <p>Alex Grim</p>
+              <p>{clientName}</p>
               <span>
                 <ul>
-                  <li>84 Church Way</li>
-                  <li>Brandford</li>
-                  <li>BD1 9PB</li>
-                  <li>United Kingdom</li>
+                  <li>{clientAddress}</li>
+                  <li>{clientRegion}</li>
+                  <li>{clientPostCode}</li>
+                  <li>{clientCountry}</li>
                 </ul>
               </span>
             </div>
           </div>
           <div className="grid_three">
             <p>
-              Sent to <span>alexgrim@gmail.com</span>
+              Sent to <span>{clientEmail}</span>
             </p>
           </div>
         </div>
@@ -116,12 +124,11 @@ export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
                 </Table.Column>
               )}
             </Table.Header>
-
             <Table.Body>
-              {newItem.map(
-                ({ title, quantity, price, total }: IItems, index: number) => (
+              {items.newItem.map(
+                ({ name, quantity, total, price }: IItems, index) => (
                   <Table.Row key={index}>
-                    <Table.Cell>{title}</Table.Cell>
+                    <Table.Cell>{name}</Table.Cell>
                     <Table.Cell>{quantity}</Table.Cell>
                     <Table.Cell>{price}</Table.Cell>
                     <Table.Cell>{total}</Table.Cell>
@@ -132,17 +139,18 @@ export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
           </Table>
           <div className="total_amount">
             <h6>Amount</h6>
-            <h2>$ 3,000</h2>
+            <h2>€ {numberWithCommas(items.subTotal)}</h2>
+          </div>
+
+          <div>
+            <DetailPageButtonComponent className="mobile_buttons" _id={_id} />
           </div>
         </div>
-      </div>
-
-      <div>
-        <DetailPageButtonComponent className="mobile_buttons" />
       </div>
     </Container>
   );
 };
+
 const Container = styled.div`
   .go_back_btn {
     display: flex;
@@ -350,19 +358,3 @@ const Container = styled.div`
     margin-top: 2rem;
   }
 `;
-
-const newItem = [
-  {
-    title: "Banner Design",
-    quantity: 3,
-    price: 200,
-    total: 600,
-  },
-
-  {
-    title: "Banner Design",
-    quantity: 3,
-    price: 200,
-    total: 600,
-  },
-];

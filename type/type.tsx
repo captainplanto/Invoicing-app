@@ -18,11 +18,12 @@ export interface IIcon {
 }
 
 export interface IButton {
+   _id?: Schema.Types.ObjectId;
   children: ReactNode;
   showIcon: boolean;
   icon?: string | any;
   link?: string;
-  onClick?: (event: React.KeyboardEvent | React.MouseEvent) => void;
+  onClick?: (event: React.FormEventHandler | React.FormEvent) => void;
   style?: object;
   className?: string;
   background?: string;
@@ -39,30 +40,35 @@ export interface IItem {
   quantity: number;
   price: number;
   total: number;
+  subTotal: number;
 }
 export interface IInvoiceCard {
-  id: string | Schema.Types.ObjectId;
+  _id: Schema.Types.ObjectId;
   paymentDue: Date;
   createdAt: string;
+  updatedAt: string;
   clientName: string;
   description: string;
   paymentTerms: number;
-  total: number;
   status: string;
   senderAddress: IAddress;
   clientAddress: IAddress;
-  items: IItem[];
+  items: IINewtems;
 }
 
 export interface IDBInvoices {
   invoices: IInvoiceCard[];
 }
-
 export interface IItems {
-  title: string;
+  _id: Schema.Types.ObjectId;
+  name: string;
   quantity: number;
   price: number;
   total: number;
+}
+export interface IINewtems {
+  newItem: IItems[];
+  subTotal: number;
 }
 
 export interface IInvoiceForm {
@@ -76,12 +82,13 @@ export interface IInvoiceForm {
   clientAddress: string;
   status: string;
   clientCountry: string;
+  createdAt: string;
   clientRegion: string;
   clientPostCode: number;
   invoiceDate: Date | ReactNode;
   paymentPlan: string;
   description: string;
-  items: IItems[];
+  items: IINewtems;
   author: IUser;
 }
 

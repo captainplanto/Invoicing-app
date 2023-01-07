@@ -1,19 +1,13 @@
 import { GetServerSideProps, NextPage } from "next";
-import invoices from "../content/dbseeding/data.json";
 import { HomeIndex } from "../components/component/home/Home.index";
 import { IInvoiceCard } from "../type/type";
-import {
-  ClientSafeProvider,
-  getProviders,
-  LiteralUnion,
-  useSession,
-} from "next-auth/react";
+import {ClientSafeProvider,getProviders,getSession,LiteralUnion,useSession} from "next-auth/react";
 import { RegisterComponent } from "../components/component/register/Register.component";
 import { BuiltInProviderType } from "next-auth/providers";
+import { GET_ALL_INVOICE_BY_USER } from "../apollo/client/queries/invoice";
+import { client } from "../apollo/client/Config";
 
-const Home: NextPage<any> = ({
-  data,
-}: {
+const Home = ({data}: {
   data: {
     invoices: IInvoiceCard[];
     providers: Record<
@@ -32,16 +26,20 @@ const Home: NextPage<any> = ({
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { req } = context;
+  const session = await getSession({ req });
   const providers = await getProviders();
-  const request = invoices.map((invoice) => {
-    return invoice;
+  const request = await client.query({
+    query: GET_ALL_INVOICE_BY_USER,
+    variables: {
+     _id: session?.id,
+    },
   });
-  const response = request;
-
+ 
   return {
     props: {
       data: {
-        invoices: response,
+        invoices: request.data.userInvoices,
         providers: providers,
       },
     },
