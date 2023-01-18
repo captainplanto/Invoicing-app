@@ -19,7 +19,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       _id: invoiceId,
     },
   });
- 
 
   return {
     props: {

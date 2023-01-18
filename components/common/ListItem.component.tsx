@@ -2,25 +2,23 @@ import styled from "styled-components";
 import { Table } from "@nextui-org/react";
 import { createInvoiceColumns, deleteIcon } from "../../constant/const";
 import { Image } from "@nextui-org/react";
-import { ChangeEvent, FormEvent, FormEventHandler, useState } from "react";
+import { ChangeEvent,  useState } from "react";
 import { TextField } from "@mui/material";
 import { ButtonComponent } from "./Button.component";
-import { IItem, IItems } from "../../type/type";
+import { IItems } from "../../type/type";
 import { isAllowed } from "../../utils/utils";
 import { NumericFormat } from "react-number-format";
 interface ITotalValue {
     newItem: IItems[];
     subTotal: number;
 }
-export const ListItemComponent = ({
-  onClick,
-}: {
-  onClick: (event: FormEvent<Element> | FormEventHandler<Element>) => void;
-}) => {
+export const ListItemComponent = ({onClick, type}:{onClick?:()=>void, type:string}) => {
   const [newItem, setNewItem] = useState<any[]>([]);
-  const handleCreateNewItemClick = () => {
+  const handleCreateNewItemClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
     setNewItem([...newItem, { name: "", quantity: 0, price: 0, total: 0 }]);
   };
+
 
   const handleChange = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -42,8 +40,7 @@ export const ListItemComponent = ({
       }, 0);
 
        const totalValue:ITotalValue ={newItem, subTotal}; 
-       console.log(totalValue, 'totalValue before pushing to storage')
-    localStorage.setItem("totalPackage", JSON.stringify(totalValue));
+     localStorage.setItem("totalPackage", JSON.stringify(totalValue));
   };
 
   const removeItemAdded = (index: number) => {
@@ -172,7 +169,7 @@ export const ListItemComponent = ({
 
         <div className="btn_btn_two">
           <ButtonComponent showIcon={false}>Save as Draft</ButtonComponent>
-          <ButtonComponent showIcon={false} onClick={onClick}>
+          <ButtonComponent showIcon={false} onClick={onClick} type={type}>
             Save & Send
           </ButtonComponent>
         </div>

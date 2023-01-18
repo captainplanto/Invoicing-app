@@ -11,6 +11,9 @@ export const schema = {
 
 const server = new ApolloServer<ApolloServer>(schema);
 export default startServerAndCreateNextHandler(server, {
-  context: async (req: NextApiRequest, res: NextApiResponse) => ({ req, res, session: await getSession({req}) }),
+  context: async (req: NextApiRequest, res: NextApiResponse) => ({
+    req,
+    res,
+    session: await getSession({ req }),
+  }),
 });
-

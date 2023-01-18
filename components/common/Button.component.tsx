@@ -2,9 +2,9 @@ import Link from "next/link";
 import { FC } from "react";
 import styled from "styled-components";
 import { Image } from "@nextui-org/react";
-import { IButton } from "../../type/type";
+import { IButtonProps } from "../../type/type";
 
-export const ButtonComponent: FC<IButton> = (props) => {
+export const ButtonComponent: FC<IButtonProps> = (props) => {
   const { children, icon, link, onClick, showIcon, style, className, _id } = props;
   if (link) {
     return (

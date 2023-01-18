@@ -1,12 +1,12 @@
 import { Link, Table } from "@nextui-org/react";
-import { FC} from "react";
+import { FC, Key} from "react";
 import styled from "styled-components";
 import { DetailsInvoiceColumns, leftArrow } from "../../constant/const";
 import { IDetailsCardInvoice, IItems } from "../../type/type";
 import { DetailPageButtonComponent } from "./buttons/DetailPageButton.component";
 import { StatusComponent } from "./Status.component";
 import { Image } from "@nextui-org/react";
-import { numberWithCommas } from "../../utils/utils";
+import { idToString, numberWithCommas } from "../../utils/utils";
 
 
 export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
@@ -32,6 +32,7 @@ export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
   } = invoice;
 
   return (
+
     <Container>
       <Link href="/">
         <button className="go_back_btn">
@@ -51,7 +52,7 @@ export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
         <div className="id_client_address">
           <div className="id">
             <p>
-              #<span>{_id?.toString().slice(18, 24).toUpperCase()}</span>
+              #<span>{idToString(_id)}</span>
             </p>
             <p>{description}</p>
           </div>
@@ -125,8 +126,8 @@ export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
               )}
             </Table.Header>
             <Table.Body>
-              {items.newItem.map(
-                ({ name, quantity, total, price }: IItems, index) => (
+              {items?.newItem.map(
+                ({ name, quantity, total, price }: IItems, index: Key | null | undefined) => (
                   <Table.Row key={index}>
                     <Table.Cell>{name}</Table.Cell>
                     <Table.Cell>{quantity}</Table.Cell>
@@ -139,7 +140,7 @@ export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
           </Table>
           <div className="total_amount">
             <h6>Amount</h6>
-            <h2>€ {numberWithCommas(items.subTotal)}</h2>
+            <h2>€ {numberWithCommas(items?.subTotal)}</h2>
           </div>
 
           <div>
@@ -148,6 +149,7 @@ export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
         </div>
       </div>
     </Container>
+      
   );
 };
 

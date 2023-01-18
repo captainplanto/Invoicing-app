@@ -3,8 +3,9 @@ import { FC, ReactNode, useState } from "react";
 
 interface IModal {
   children: ReactNode;
+  button:ReactNode;
 }
-export const ModalComponent: FC<IModal> = ({ children }) => {
+export const ModalComponent: FC<IModal> = ({ children, button }) => {
   const [visible, setVisible] = useState(false);
   const handler = () => setVisible(true);
   const closeHandler = () => {
@@ -13,9 +14,7 @@ export const ModalComponent: FC<IModal> = ({ children }) => {
   };
   return (
     <div>
-      <Button auto flat color="error" onClick={handler}>
-        Open modal
-      </Button>
+     <div onClick={handler}>{button}</div>
       <Modal  open={visible} onClose={closeHandler} >
         <Modal.Body>{children}</Modal.Body>
       </Modal>

@@ -17,16 +17,17 @@ export interface IIcon {
   icon: string | ReactNode;
 }
 
-export interface IButton {
-   _id?: Schema.Types.ObjectId;
+export interface IButtonProps {
+  _id?: Schema.Types.ObjectId;
   children: ReactNode;
   showIcon: boolean;
   icon?: string | any;
   link?: string;
-  onClick?: (event: React.FormEventHandler | React.FormEvent) => void;
+  onClick?: (event:any) => void;
   style?: object;
   className?: string;
   background?: string;
+  type?:string;
 }
 
 export interface IAddress {
@@ -41,6 +42,9 @@ export interface IItem {
   price: number;
   total: number;
   subTotal: number;
+}
+export interface IUserInvoiceProps{
+  userInvoices: IInvoiceCard[];
 }
 export interface IInvoiceCard {
   _id: Schema.Types.ObjectId;
@@ -59,6 +63,7 @@ export interface IInvoiceCard {
 export interface IDBInvoices {
   invoices: IInvoiceCard[];
 }
+
 export interface IItems {
   _id: Schema.Types.ObjectId;
   name: string;
@@ -89,7 +94,7 @@ export interface IInvoiceForm {
   paymentPlan: string;
   description: string;
   items: IINewtems;
-  author: IUser;
+  author: string;
 }
 
 export interface IDetailsCardInvoice {

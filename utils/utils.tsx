@@ -1,9 +1,8 @@
+import { Schema } from "mongoose";
 import * as Yup from "yup";
-import moment from "moment";
 
-import { formatDistanceStrict } from "date-fns";
 export const numberWithCommas = (total: number) => {
-  return total.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  return total?.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 };
 
 export const validationSchema = Yup.object({
@@ -42,3 +41,7 @@ export const isAllowed = (values: any, x: string) => {
   }
 };
 
+
+  export const idToString = (idx: Schema.Types.ObjectId) => {
+    return idx?.toString().slice(18, 24).toUpperCase();
+  };

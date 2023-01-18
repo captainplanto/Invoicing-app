@@ -5,13 +5,13 @@ import { CountrySelectorComponent } from "../../common/CountrySelector.component
 import { validationSchema } from "../../../utils/utils";
 import { PaymentSelectorComponent } from "../../common/PaymentSelector.component";
 import { ListItemComponent } from "../../common/ListItem.component";
-import {CREATE_NEW_INVOICE_MUTATION} from "../../../apollo/client/queries/invoice";
-import { useMutation} from "@apollo/client";
-import {  IItems } from "../../../type/type";
+import { useMutation } from "@apollo/client";
+import { CREATE_NEW_INVOICE_MUTATION } from "../../../apollo/client/mutations/addInvoice";
 
-export const CreateInvoiceComponent = ({title,className}: {title: string, className?: string}) => {
-  const [createInvoice, { data, loading, error }] = useMutation(CREATE_NEW_INVOICE_MUTATION)
 
+export const CreateInvoiceComponent = ({title,className}: {title: string, className?: string;
+}) => {
+  const [createInvoice, { data, loading, error }] = useMutation(CREATE_NEW_INVOICE_MUTATION);
   const formik = useFormik({
     initialValues: {
       userAddress: "",
@@ -27,56 +27,63 @@ export const CreateInvoiceComponent = ({title,className}: {title: string, classN
       invoiceDate: new Date(),
       paymentPlan: "",
       description: "",
-      items: [] as any,
+      items: [],
       status: "Pending",
       author: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       const dbValue = localStorage.getItem("totalPackage");
-      const setValue: IItems = dbValue ? JSON.parse(dbValue) : [];
+      let setValue = dbValue ? JSON.parse(dbValue) : [];
       formik.values.items = setValue;
-      createInvoice({
-        variables: {
-          userCountry: formik.values.userCountry,
-          userPostCode: formik.values.userPostCode,
-          userRegion: formik.values.userRegion,
-          clientAddress: formik.values.clientAddress,
-          clientCountry: formik.values.clientCountry,
-          clientEmail: formik.values.clientEmail,
-          clientName: formik.values.clientName,
-          clientPostCode: formik.values.clientPostCode,
-          clientRegion: formik.values.clientRegion,
-          description: formik.values.description,
-          invoiceDate: formik.values.invoiceDate,
-          items: formik.values.items,
-          paymentPlan: formik.values.paymentPlan,
-          userAddress: formik.values.userAddress,
-          status: formik.values.status,
-          author: "",
-        },
-      });
-
     },
   });
 
-
-  const handleSubmits = (event: { preventDefault: () => void }) => {
+  const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    localStorage.removeItem("totalPackage");
-    return formik.initialValues
+    createInvoice({
+      variables: {
+        userCountry: formik.values.userCountry,
+        userPostCode: formik.values.userPostCode,
+        userRegion: formik.values.userRegion,
+        clientAddress: formik.values.clientAddress,
+        clientCountry: formik.values.clientCountry,
+        clientEmail: formik.values.clientEmail,
+        clientName: formik.values.clientName,
+        clientPostCode: formik.values.clientPostCode,
+        clientRegion: formik.values.clientRegion,
+        description: formik.values.description,
+        invoiceDate: formik.values.invoiceDate,
+        items: formik.values.items,
+        paymentPlan: formik.values.paymentPlan,
+        userAddress: formik.values.userAddress,
+        status: formik.values.status,
+        author: "",
+      },
+    });
   };
 
+  /*if (loading) {
+    return <div>Loading....</div>;
+  }
+  if (error) {
+    return (
+      <div>{`Error sending data, please try again later ${error.message}`}</div>
+    );
+  }
+*/
   return (
     <Container className={className}>
-      <form onSubmit={handleSubmits}>
+      <form onSubmit={handleSubmit}>
         <h1>{title}</h1>
         <h2>Bill From</h2>
         <div className="error">
           <h3>Street Address</h3>
         </div>
         <TextField
-          error={formik.touched.userAddress && Boolean(formik.errors.userAddress)}
+          error={
+            formik.touched.userAddress && Boolean(formik.errors.userAddress)
+          }
           helperText={formik.touched.userAddress && formik.errors.userAddress}
           fullWidth
           className="text-area"
@@ -243,13 +250,14 @@ export const CreateInvoiceComponent = ({title,className}: {title: string, classN
           />
         </div>
         <div>
-          <ListItemComponent onClick={() => formik.handleSubmit()} />
+          <ListItemComponent onClick={() => formik.handleSubmit()} type={""} />
         </div>
       </form>
     </Container>
   );
 };
 //   <button type="button">Submit</button>
+//onClick={() => formik.handleSubmit()}
 const Container = styled.div`
   width: 40vw;
   max-width: 100vw;
@@ -322,40 +330,42 @@ const Container = styled.div`
     margin-top: 3rem;
   }
 `;
-
-
-
-/*
-  if (error) {
-    console.log(error);
-  }
-  if (loading) {
-    console.log("loading......");
-    return <Loading />;
-  }
-  if (data) {
-    console.log(data, "data");
-  }
-,{
-      update(cache, { data: { createInvoice } }) {
-        const currentState: any = cache.readQuery({
-          query: GET_ALL_INVOICE_BY_USER,
-        });
-        const data = currentState.invoices;
-        cache.writeQuery({
-          query: GET_ALL_INVOICE_BY_USER,
-          data: { invoices: createInvoice, ...data },
-        });
+/*const request = await fetch("/api/graphql", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
       },
+      body: JSON.stringify({
+        query: print(CREATE_NEW_INVOICE_MUTATION),
+        variables: {
+          userCountry: formik.values.userCountry,
+          userPostCode: formik.values.userPostCode,
+          userRegion: formik.values.userRegion,
+          clientAddress: formik.values.clientAddress,
+          clientCountry: formik.values.clientCountry,
+          clientEmail: formik.values.clientEmail,
+          clientName: formik.values.clientName,
+          clientPostCode: formik.values.clientPostCode,
+          clientRegion: formik.values.clientRegion,
+          description: formik.values.description,
+          invoiceDate: formik.values.invoiceDate,
+          items: formik.values.items,
+          paymentPlan: formik.values.paymentPlan,
+          userAddress: formik.values.userAddress,
+          status: formik.values.status,
+          author: "",
+        },
+     
+      }),
+     
+    });
+  
+    const response = await request.json();
+    if (response) {
+      localStorage.removeItem("totalPackage");
+      formik.setValues({ ...formik.initialValues });
     }
-  );
-  const {
-    data: myData,
-    loading: theLoading,
-    error: theError,
-  } = useQuery(GET_ALL_INVOICE_BY_USER, {
-    onCompleted: (myData) => {
-      return myData;
-    },
-  });
-*/
+    if (!response) {
+      alert("server error, try again later");
+    }
+  */

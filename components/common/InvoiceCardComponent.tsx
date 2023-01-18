@@ -2,17 +2,17 @@ import styled from "styled-components";
 import { noInvoice, rightArrow } from "../../constant/const";
 import { Image } from "@nextui-org/react";
 import { FC } from "react";
-import { IDBInvoices } from "../../type/type";
+import { IUserInvoiceProps } from "../../type/type";
 import { StatusComponent } from "./Status.component";
 import Link from "next/link";
 import { numberWithCommas } from "../../utils/utils";
 
-export const InvoiceCardComponent: FC<IDBInvoices> = ({ invoices }) => {
+export const InvoiceCardComponent: FC<IUserInvoiceProps> = ({ userInvoices }) => {
   return (
     <Container>
       <ul>
-        {invoices && invoices.length > 0 ? (
-          invoices.map(
+        {userInvoices && userInvoices.length > 0 ? (
+          userInvoices.map(
             (
               {
                 _id,

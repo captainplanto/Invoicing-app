@@ -1,8 +1,8 @@
-import { useQuery } from "@apollo/client";
+import { useReactiveVar } from "@apollo/client";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { DATA_ALL_INVOICE_BY_USER } from "../../apollo/client/queries";
+import { invoiceVar } from "../../apollo/client/Config";
 import { addInvoiceIcon } from "../../constant/const";
 import { ButtonComponent } from "./Button.component";
 import { DrawerComponent } from "./Drawer.component";
@@ -11,15 +11,16 @@ import { FilterComponent } from "./Filter.component";
 export const HeaderComponent = () => {
   const { data: session, status } = useSession();
   const [day, setDay] = useState<string>();
-  const { data, error, loading } = useQuery(DATA_ALL_INVOICE_BY_USER);
+  const { invoices } = useReactiveVar(invoiceVar);
 
-  const invoiceLengthDesktop = data.invoices > 1
-      ? `There are ${data?.invoices} total invoices`
-      : `There is ${data?.invoices} total invoice`;
+  const invoiceLengthDesktop =
+    invoices && invoices?.length > 1
+      ? `There are ${invoices.length} total invoices`
+      : `There is ${invoices.length} total invoice`;
   const invoiceLengthMobile =
-    data.invoices > 1
-      ? `${data?.invoices} total invoices`
-      : `${data?.invoices} total invoice`;
+    invoices && invoices.length > 1
+      ? `${invoices.length} total invoices`
+      : `${invoices.length} total invoice`;
   useEffect(() => {
     const date = new Date();
     const hour = date.toLocaleString("en-US", {
@@ -49,7 +50,10 @@ export const HeaderComponent = () => {
         </div>
 
         <div className="filter">
-          <FilterComponent desktop_view="desktop_view" mobile_view="mobile_view" />
+          <FilterComponent
+            desktop_view="desktop_view"
+            mobile_view="mobile_view"
+          />
           <DrawerComponent LeftDrawer />
         </div>
       </Container>
@@ -99,26 +103,28 @@ const greetings = {
   fontWeight: "700",
 };
 
-export const CreateNewInvoiceButton = ({onClick}: {
+export const CreateNewInvoiceButton = ({
+  onClick,
+}: {
   onClick: (event: React.FormEventHandler | React.FormEvent) => void;
 }) => {
   return (
     <ButtonContainer>
-    <ButtonComponent icon={addInvoiceIcon} showIcon onClick={onClick}>
-    <div className="desktop_view">New Invoice</div>
-     <div className="mobile_view">New</div>
-    </ButtonComponent>
+      <ButtonComponent icon={addInvoiceIcon} showIcon onClick={onClick}>
+        <div className="desktop_view">New Invoice</div>
+        <div className="mobile_view">New</div>
+      </ButtonComponent>
     </ButtonContainer>
   );
 };
 const ButtonContainer = styled.div`
- .desktop_view {
+  .desktop_view {
     @media screen and (max-width: 600px) {
       display: none;
     }
   }
   .mobile_view {
-     @media screen and (min-width: 601px) {
+    @media screen and (min-width: 601px) {
       display: none;
     }
   }

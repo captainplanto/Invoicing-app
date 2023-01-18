@@ -1,4 +1,5 @@
 import { gql } from "apollo-server";
+import { GraphQLError } from "graphql";
 import { ObjectId } from "mongoose/node_modules/mongodb";
 import dbConnect from "../../db/config/dbConnects";
 import InvoiceModel from "../../db/models/Invoice.model";
@@ -87,6 +88,7 @@ export const typeDefs = gql`
   }
   type Mutation {
     createInvoice(createNewInvoice: CreateInvoiceInput): Invoice!
+    deleteInvoice(_id: String): Invoice
   }
 `;
 dbConnect();
@@ -96,7 +98,7 @@ export const resolvers = {
     users: async (
       parent: any,
       args: { name: any },
-      contextValue: any,
+      context: any,
       info: any
     ) => {
       try {
@@ -112,20 +114,18 @@ export const resolvers = {
       }
     },
 
-    userInvoices: async (_: any, { _id }: { _id: string }) => {
+    userInvoices: async (_: any, { _id }: { _id: string }, context: any) => {
       try {
         const allInvoicesByUser = await InvoiceModel.find({
           author: new ObjectId(_id),
         });
         if (allInvoicesByUser) {
-          console.log(allInvoicesByUser, "invoices created by a user");
           return allInvoicesByUser;
         } else {
-          console.log("no invoices created by you yet");
           return [];
         }
-      } catch (error) {
-        console.log(error, "cannot get invoices");
+      } catch (error: any) {
+        return `${error.message}`;
       }
     },
 
@@ -194,16 +194,31 @@ export const resolvers = {
             author: context.session.id,
           });
           const response = await newInvoice.save();
-          context.res.status(200).json({
-            message: "Invoice Successfully Created",
-            data:response
-          });
-
-         // return response;
+          if (response) {
+            return response;
+          }
         } catch (error) {
           return error;
         }
       } else {
+        console.log("Please log in to create an invoice");
+      }
+    },
+    deleteInvoice: async (_: any, { _id }: { _id: string }, context: any) => {
+      try {
+        const deleteInvoice = await InvoiceModel.findByIdAndDelete({
+          _id: new ObjectId(_id),
+        });
+        if (deleteInvoice) {
+          const newInvoice = await InvoiceModel.find({
+            author: context.session.id,
+          });
+          return newInvoice;
+        } else {
+          console.log("Cannot delete invoice");
+        }
+      } catch (error) {
+        console.log(error, "Invoice deleted");
       }
     },
   },
