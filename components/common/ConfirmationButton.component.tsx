@@ -9,19 +9,19 @@ interface IConfirmProps {
   title: string;
   description?: string;
   id: Schema.Types.ObjectId;
-  button: ReactNode;
-  onClick: (e: React.MouseEventHandler<HTMLButtonElement>) => void;
+  deleteButton: ReactNode;
+  deleteButtonLogic: ReactNode;
+  // onClick: (e: React.MouseEventHandler<HTMLButtonElement>) => void;
 }
 
 export const ConfirmationButtonComponent: FC<IConfirmProps> = ({
   title,
-  button,
+  deleteButton,
+  deleteButtonLogic,
   id,
-  onClick,
 }) => {
-
   return (
-    <ModalComponent button={button}>
+    <ModalComponent button={deleteButton}>
       <Container>
         <div className="content">
           {title === "delete" ? (
@@ -42,28 +42,17 @@ export const ConfirmationButtonComponent: FC<IConfirmProps> = ({
             <ButtonComponent showIcon={false} className="cancel_button">
               Cancel
             </ButtonComponent>
-            <ButtonComponent
-              showIcon={false}
-              className="delete_button"
-              onClick={onClick}
-            >
-              {title}
-            </ButtonComponent>
+            {deleteButtonLogic}
           </div>
         </div>
       </Container>
     </ModalComponent>
   );
 };
+
 const Container = styled.div`
   .content {
-    padding: 1.5rem;
-    .buttons {
-      display: flex;
-      justify-content: flex-end;
-      gap: 2rem;
-      margin-top: 2rem;
-    }
+    text-align: center;
     h1 {
       font-size: 3rem;
     }
@@ -72,19 +61,26 @@ const Container = styled.div`
 
       color: var(--main-grey);
     }
-    .cancel_button {
-      padding: 0 2rem;
-      background: var(--light-bg);
-    }
+    .buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 5rem;
+      margin-top: 2rem;
 
-    .delete_button {
-      padding: 1rem 2rem;
-      background: var(--main-red);
-      &:hover {
-        background: var(--light-red);
+      .cancel_button {
+        padding: 0 2rem;
+        background: var(--light-bg);
       }
-      p {
-        color: var(--main-white);
+
+      .delete_button {
+        padding: 1rem 2rem;
+        background: var(--main-red);
+        &:hover {
+          background: var(--light-red);
+        }
+        p {
+          color: var(--main-white);
+        }
       }
     }
   }

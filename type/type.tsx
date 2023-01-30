@@ -23,18 +23,20 @@ export interface IButtonProps {
   showIcon: boolean;
   icon?: string | any;
   link?: string;
-  onClick?: (event:any) => void;
+  onClick?: (event: any) => void;
   style?: object;
   className?: string;
   background?: string;
-  type?:string;
+  type?: string;
 }
 
 export interface IAddress {
   street: string;
   city: string;
-  postCode: string;
+  email?:string;
+  postCode: number;
   country: string;
+  name?: string;
 }
 export interface IItem {
   name: string;
@@ -43,7 +45,7 @@ export interface IItem {
   total: number;
   subTotal: number;
 }
-export interface IUserInvoiceProps{
+export interface IUserInvoiceProps {
   userInvoices: IInvoiceCard[];
 }
 export interface IInvoiceCard {
@@ -54,8 +56,8 @@ export interface IInvoiceCard {
   clientName: string;
   description: string;
   paymentTerms: number;
-  status: string;
-  senderAddress: IAddress;
+  invoiceState: string;
+  userAddress: IAddress;
   clientAddress: IAddress;
   items: IINewtems;
 }
@@ -78,18 +80,10 @@ export interface IINewtems {
 
 export interface IInvoiceForm {
   _id: Schema.Types.ObjectId;
-  userAddress: string;
-  userCountry: string;
-  userRegion: string;
-  userPostCode: number;
-  clientName: string;
-  clientEmail: string;
-  clientAddress: string;
-  status: string;
-  clientCountry: string;
+  userAddress: IAddress;
+  clientAddress: IAddress;
+  invoiceState: string;
   createdAt: string;
-  clientRegion: string;
-  clientPostCode: number;
   invoiceDate: Date | ReactNode;
   paymentPlan: string;
   description: string;
@@ -99,4 +93,8 @@ export interface IInvoiceForm {
 
 export interface IDetailsCardInvoice {
   invoice: IInvoiceForm;
+}
+
+export interface IButtonLogicProps {
+  _id: Schema.Types.ObjectId;
 }

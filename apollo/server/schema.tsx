@@ -1,5 +1,4 @@
 import { gql } from "apollo-server";
-import { GraphQLError } from "graphql";
 import { ObjectId } from "mongoose/node_modules/mongodb";
 import dbConnect from "../../db/config/dbConnects";
 import InvoiceModel from "../../db/models/Invoice.model";
@@ -21,6 +20,23 @@ export const typeDefs = gql`
     price: String
     total: Int
   }
+  input IAddress {
+    city: String
+    country: String
+    postCode: Int
+    name: String
+    email: String
+    street: String
+  }
+
+  type Address {
+    city: String
+    country: String
+    postCode: Int
+    name: String
+    email: String
+    street: String
+  }
   input InputItems {
     newItem: [ItemArray]
     subTotal: Int
@@ -41,17 +57,9 @@ export const typeDefs = gql`
 
   type Invoice {
     _id: ID
-    userAddress: String
-    userCountry: String
-    userRegion: String
-    userPostCode: Int
-    clientName: String
-    clientEmail: String
-    clientAddress: String
-    status: String
-    clientCountry: String
-    clientRegion: String
-    clientPostCode: Int
+    userAddress: Address
+    clientAddress: Address
+    invoiceState: String
     invoiceDate: String
     paymentPlan: String
     description: String
@@ -69,26 +77,19 @@ export const typeDefs = gql`
 
   input CreateInvoiceInput {
     _id: ID
-    userAddress: String
-    userCountry: String
-    userRegion: String
-    userPostCode: Int
-    clientName: String
-    clientEmail: String
-    clientAddress: String
-    clientCountry: String
-    clientRegion: String
-    clientPostCode: Int
+    userAddress: IAddress
+    clientAddress: IAddress
     invoiceDate: String
     paymentPlan: String
     description: String
     items: InputItems
     author: String
-    status: String
+    invoiceState: String
   }
   type Mutation {
     createInvoice(createNewInvoice: CreateInvoiceInput): Invoice!
     deleteInvoice(_id: String): Invoice
+    markInvoiceAsPaid(_id: String, invoiceState: String): Invoice
   }
 `;
 dbConnect();
@@ -152,17 +153,9 @@ export const resolvers = {
       _: any,
       {
         createNewInvoice: {
-          userCountry,
           userAddress,
-          userRegion,
-          userPostCode,
-          clientName,
-          clientEmail,
           clientAddress,
-          status,
-          clientCountry,
-          clientRegion,
-          clientPostCode,
+          invoiceState,
           invoiceDate,
           paymentPlan,
           description,
@@ -176,17 +169,21 @@ export const resolvers = {
       if (context.session) {
         try {
           const newInvoice = await new InvoiceModel({
-            userCountry: userCountry,
-            userAddress: userAddress,
-            userRegion: userRegion,
-            userPostCode: userPostCode,
-            clientName: clientName,
-            clientEmail: clientEmail,
-            clientAddress: clientAddress,
-            status: status,
-            clientCountry: clientCountry,
-            clientRegion: clientRegion,
-            clientPostCode: clientPostCode,
+            userAddress: {
+              street: userAddress.street,
+              country: userAddress.country,
+              postCode: userAddress.postCode,
+              city: userAddress.city,
+            },
+            clientAddress: {
+              street: clientAddress.street,
+              country: clientAddress.country,
+              postCode: clientAddress.postCode,
+              city: clientAddress.city,
+              name: clientAddress.name,
+              email: clientAddress.email,
+            },
+            invoiceState: invoiceState,
             invoiceDate: invoiceDate,
             paymentPlan: paymentPlan,
             description: description,
@@ -194,7 +191,9 @@ export const resolvers = {
             author: context.session.id,
           });
           const response = await newInvoice.save();
+            console.log(response, "response here");
           if (response) {
+          
             return response;
           }
         } catch (error) {
@@ -215,10 +214,38 @@ export const resolvers = {
           });
           return newInvoice;
         } else {
-          console.log("Cannot delete invoice");
+          return {
+            status: "unsuccessful",
+            message: "Invoice not found, please try again later",
+          };
         }
       } catch (error) {
-        console.log(error, "Invoice deleted");
+        return error;
+      }
+    },
+    markInvoiceAsPaid: async (
+      _: any,
+      { _id, invoiceState }: { _id: string; invoiceState: string },
+      context: any
+    ) => {
+      try {
+        const markAsPaid = await InvoiceModel.findByIdAndUpdate(
+          {
+            _id: new ObjectId(_id),
+            //   status: "paid",
+          },
+          {
+            $set: {
+              invoiceState: invoiceState,
+            },
+          }
+        );
+        console.log(markAsPaid, "paid status");
+        if (markAsPaid) {
+          return markAsPaid;
+        }
+      } catch (error) {
+        console.log(error);
       }
     },
   },

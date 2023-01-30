@@ -1,4 +1,4 @@
-import { IMenu } from "../type/type";
+import { IAddress, IINewtems, IInvoiceForm, IMenu } from "../type/type";
 
 export const logo =
   "https://res.cloudinary.com/captainkoder/image/upload/v1670369055/invoicing/logo_k9ugfb.svg";
@@ -24,6 +24,30 @@ export const loginBgImage =
 export const github =
   "https://img.icons8.com/sf-ultralight-filled/500/000000/github.png";
 export const google = "https://img.icons8.com/fluency/240/null/google-logo.png";
+
+export const initialState: IInvoiceForm = {
+  userAddress: {
+    street: "",
+    city: "",
+    postCode: 1000,
+    country: "",
+  } as IAddress,
+  clientAddress: {
+    street: "",
+    city: "",
+    postCode: 1000,
+    country: "",
+    name: "",
+    email: "",
+  } as IAddress,
+  invoiceDate: new Date(),
+  paymentPlan: "",
+  description: "",
+  items: {} as IINewtems,
+  invoiceState: "Pending",
+  author: "",
+  createdAt: "",
+};
 
 export const menuItems: IMenu[] = [
   { key: "draft", name: "Draft" },

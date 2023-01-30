@@ -3,12 +3,14 @@ import { Divider, Image } from "@nextui-org/react";
 import { logo } from "../../constant/const";
 import { AvatarComponent } from "./Avatar.component";
 import { ToggleComponent } from "./Toggle.component";
+import { useRouter } from "next/router";
 
 export const SideBarComponent = () => {
+  const router = useRouter();
   return (
     <Container>
       <div className="container_small">
-        <div className="logo_icon">
+        <div className="logo_icon" onClick={() => router.push("/")}>
           <Image
             src={logo}
             alt="logo"
@@ -51,6 +53,7 @@ const Container = styled.div`
       border-bottom-right-radius: 2rem;
       background: var(--main-blue);
       padding: 2.6rem;
+      cursor: pointer;
     }
     .divider_avatar {
       display: flex;

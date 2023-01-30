@@ -1,17 +1,9 @@
 import { gql } from "@apollo/client";
 export const CREATE_NEW_INVOICE_MUTATION = gql`
   mutation CreateNewInvoice(
-    $userAddress: String
-    $userCountry: String
-    $userRegion: String
-    $userPostCode: Int
-    $clientName: String
-    $clientEmail: String
-    $clientAddress: String
-    $status: String
-    $clientCountry: String
-    $clientRegion: String
-    $clientPostCode: Int
+    $userAddress: IAddress
+    $clientAddress: IAddress
+    $invoiceState: String
     $invoiceDate: String
     $paymentPlan: String
     $description: String
@@ -21,31 +13,34 @@ export const CREATE_NEW_INVOICE_MUTATION = gql`
     createInvoice(
       createNewInvoice: {
         clientAddress: $clientAddress
-        clientCountry: $clientCountry
-        clientEmail: $clientEmail
-        clientName: $clientName
-        clientPostCode: $clientPostCode
-        clientRegion: $clientRegion
+        userAddress: $userAddress
         invoiceDate: $invoiceDate
         items: $items
         paymentPlan: $paymentPlan
-        userAddress: $userAddress
-        userCountry: $userCountry
-        userPostCode: $userPostCode
-        userRegion: $userRegion
         author: $author
-        status: $status
+        invoiceState: $invoiceState
         description: $description
       }
     ) {
-      clientAddress
-      clientCountry
-      clientEmail
-      clientName
-      clientPostCode
-      clientRegion
       description
       invoiceDate
+      invoiceState
+      paymentPlan
+      author
+      clientAddress {
+        street
+        postCode
+        country
+        city
+        name
+        email
+      }
+      userAddress {
+        street
+        postCode
+        country
+        city
+      }
       items {
         newItem {
           _id
@@ -56,44 +51,23 @@ export const CREATE_NEW_INVOICE_MUTATION = gql`
         }
         subTotal
       }
-      status
-      paymentPlan
-      userAddress
-      userCountry
-      userPostCode
-      userRegion
-      author
     }
   }
 `;
 
 export const DELETE_INVOICE_MUTATION = gql`
-mutation DeleteInvoice($id:String){
-  deleteInvoice(_id: $id) {
-    _id
+  mutation DeleteInvoice($id: String) {
+    deleteInvoice(_id: $id) {
+      _id
+    }
   }
-
-}
 `;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export const MARK_INVOICE_AS_PAID_MUTATION = gql`
+  mutation MarkInvoiceAsPaid($id: String, $invoiceState: String) {
+    markInvoiceAsPaid(_id: $id, invoiceState: $invoiceState) {
+      _id
+      invoiceState
+    }
+  }
+`;

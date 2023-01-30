@@ -6,10 +6,14 @@ import { IUserInvoiceProps } from "../../type/type";
 import { StatusComponent } from "./Status.component";
 import Link from "next/link";
 import { numberWithCommas } from "../../utils/utils";
+import { useTheme } from "next-themes";
 
-export const InvoiceCardComponent: FC<IUserInvoiceProps> = ({ userInvoices }) => {
+export const InvoiceCardComponent: FC<IUserInvoiceProps> = ({
+  userInvoices,
+}) => {
+  const { theme } = useTheme();
   return (
-    <Container>
+    <Container theme={theme}>
       <ul>
         {userInvoices && userInvoices.length > 0 ? (
           userInvoices.map(
@@ -20,29 +24,28 @@ export const InvoiceCardComponent: FC<IUserInvoiceProps> = ({ userInvoices }) =>
                 createdAt,
                 updatedAt,
                 clientName,
-                status,
+                invoiceState,
                 items,
               },
               index
             ) => (
-              <>
-                <Link
-                  href={`/invoice/details/${clientName}/${_id}`}
-                  key={index}
-                >
-                  <div className="items desktop_view">
+              <div key={index}>
+                <Link href={`/invoice/details/${clientName}/${_id}`}>
+                  <div className="items desktop_view" key={_id.toString()}>
                     <li>
                       #<span>{_id.toString().slice(18, 24).toUpperCase()}</span>
                     </li>
+
                     <li>{`Due ${new Date(createdAt).toLocaleString("en-GB", {
                       day: "numeric",
                       month: "short",
                       year: "numeric",
                     })}`}</li>
+
                     <li> {clientName}</li>
                     <li> € {numberWithCommas(items.subTotal)}</li>
 
-                    <StatusComponent>{status}</StatusComponent>
+                    <StatusComponent>{invoiceState}</StatusComponent>
                     <div className="arrow_icon">
                       <Image
                         src={rightArrow}
@@ -53,13 +56,11 @@ export const InvoiceCardComponent: FC<IUserInvoiceProps> = ({ userInvoices }) =>
                     </div>
                   </div>
                 </Link>
-                <Link
-                  href={`/invoice/details/${clientName}/${_id}`}
-                  key={index}
-                >
-                  <div key={index} className="items mobile_view">
+
+                <Link href={`/invoice/details/${clientName}/${_id}`}>
+                  <div className="items mobile_view" key={_id.toString()}>
                     <li>
-                    #<span>{_id.toString().slice(18, 24).toUpperCase()}</span>
+                      #<span>{_id.toString().slice(18, 24).toUpperCase()}</span>
                     </li>
                     <li style={{ textAlign: "center" }}> {clientName}</li>
                     <div className="mobile_div">
@@ -70,10 +71,10 @@ export const InvoiceCardComponent: FC<IUserInvoiceProps> = ({ userInvoices }) =>
                       })}`}</li>
                       <li> € {numberWithCommas(items.subTotal)}</li>
                     </div>
-                    <StatusComponent>{status}</StatusComponent>
+                    <StatusComponent>{invoiceState}</StatusComponent>
                   </div>
                 </Link>
-              </>
+              </div>
             )
           )
         ) : (
@@ -82,7 +83,6 @@ export const InvoiceCardComponent: FC<IUserInvoiceProps> = ({ userInvoices }) =>
               src={noInvoice}
               className="invoice"
               alt="invoice-illustration"
-              width="70%"
             />
             <div>
               <p>There is nothing here</p>
@@ -97,7 +97,7 @@ export const InvoiceCardComponent: FC<IUserInvoiceProps> = ({ userInvoices }) =>
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ theme: string }>`
   ul {
     font-size: 1.4rem;
     .items {
@@ -105,7 +105,11 @@ const Container = styled.div`
       align-items: center;
       padding: 2rem;
       grid-template-columns: 0.9fr 1.2fr 1.2fr 1fr 0.8fr 0.5fr;
-      background: var(--main-white);
+      background: ${(props) =>
+        props.theme === "dark"
+          ? "var(--light-dark-blue)"
+          : "var(--main-white)"};
+
       margin-top: 2rem;
       border-radius: 8px;
       -webkit-box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.1004);
@@ -116,7 +120,9 @@ const Container = styled.div`
       cursor: pointer;
       span {
         font-weight: 700;
-        color: black;
+
+        color: ${(props) =>
+          props.theme === "dark" ? "var(--main-white)" : "var(--main-black)"};
       }
 
       @media screen and (max-width: 500px) {
@@ -134,13 +140,16 @@ const Container = styled.div`
     }
     li:nth-child(2),
     li:nth-child(3) {
-      color: var(--main-grey);
+      color: ${(props) =>
+        props.theme === "dark" ? "var(--main-white)" : "var(--main-grey)"};
+
       font-weight: 400;
     }
     li:nth-child(4) {
-      color: var(--main-black);
+      color: ${(props) =>
+        props.theme === "dark" ? "var(--main-white)" : " var(--main-black)"};
       font-size: 1.5rem;
-      font-weight: 700;
+      font-weight: 600;
     }
 
     .desktop_view {
@@ -154,11 +163,13 @@ const Container = styled.div`
       grid-template-columns: 2fr 1.5fr;
       div {
         li:nth-child(1) {
-          color: var(--main-grey);
+          color: ${(props) =>
+            props.theme === "dark" ? "var(--main-white)" : "var(--main-grey)"};
           font-weight: 400 !important;
         }
         li:nth-child(2) {
-          color: var(--main-black);
+          color: ${(props) =>
+            props.theme === "dark" ? "var(--main-white)" : "var(--main-grey)"};
           font-size: 1.7rem;
           font-weight: 700;
         }
@@ -176,6 +187,11 @@ const Container = styled.div`
         p:nth-child(1) {
           font-size: 2rem;
           font-weight: 800;
+        }
+
+        .nextui-c-kbhVdb {
+          margin: 0 auto;
+          width: 50%;
         }
       }
     }

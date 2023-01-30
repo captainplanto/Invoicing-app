@@ -1,5 +1,5 @@
 import { Link, Table } from "@nextui-org/react";
-import { FC, Key} from "react";
+import { FC, Key } from "react";
 import styled from "styled-components";
 import { DetailsInvoiceColumns, leftArrow } from "../../constant/const";
 import { IDetailsCardInvoice, IItems } from "../../type/type";
@@ -7,33 +7,33 @@ import { DetailPageButtonComponent } from "./buttons/DetailPageButton.component"
 import { StatusComponent } from "./Status.component";
 import { Image } from "@nextui-org/react";
 import { idToString, numberWithCommas } from "../../utils/utils";
-
+import { useTheme } from "next-themes";
 
 export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
   invoice,
 }) => {
   const {
-    status,
+    invoiceState,
     _id,
     description,
     items,
     userAddress,
-    userRegion,
-    userPostCode,
-    userCountry,
     createdAt,
     paymentPlan,
     clientAddress,
-    clientCountry,
-    clientEmail,
-    clientName,
-    clientPostCode,
-    clientRegion,
   } = invoice;
-
+  const { street, city, country, name, email, postCode } = clientAddress;
+  const {
+    street: userStreet,
+    city: userCity,
+    country: userCountry,
+    postCode: userPostCode,
+  } = userAddress;
+  const { theme } = useTheme();
+  const darkTheme =
+    theme === "dark" ? "var(--main-white)!important" : "var(--main-black)";
   return (
-
-    <Container>
+    <Container theme={theme}>
       <Link href="/">
         <button className="go_back_btn">
           <Image src={leftArrow} alt="icon-left-arrow" />
@@ -44,7 +44,7 @@ export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
       <div className="invoice_action_btn">
         <div className="mini_flex">
           <p className="status">Status</p>
-          <StatusComponent>{status}</StatusComponent>
+          <StatusComponent>{invoiceState}</StatusComponent>
         </div>
         <DetailPageButtonComponent className="desktop_buttons" _id={_id} />
       </div>
@@ -58,8 +58,8 @@ export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
           </div>
           <div className="user_address">
             <ul>
-              <li>{userAddress}</li>
-              <li>{userRegion}</li>
+              <li>{userStreet}</li>
+              <li>{userCity}</li>
               <li>{userPostCode}</li>
               <li>{userCountry}</li>
             </ul>
@@ -84,20 +84,20 @@ export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
           <div className="grid_two">
             <div>
               <p> Bill To</p>
-              <p>{clientName}</p>
+              <p>{name}</p>
               <span>
                 <ul>
-                  <li>{clientAddress}</li>
-                  <li>{clientRegion}</li>
-                  <li>{clientPostCode}</li>
-                  <li>{clientCountry}</li>
+                  <li>{street}</li>
+                  <li>{city}</li>
+                  <li>{postCode}</li>
+                  <li>{country}</li>
                 </ul>
               </span>
             </div>
           </div>
           <div className="grid_three">
             <p>
-              Sent to <span>{clientEmail}</span>
+              Sent to <span>{email}</span>
             </p>
           </div>
         </div>
@@ -127,12 +127,17 @@ export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
             </Table.Header>
             <Table.Body>
               {items?.newItem.map(
-                ({ name, quantity, total, price }: IItems, index: Key | null | undefined) => (
+                (
+                  { name, quantity, total, price }: IItems,
+                  index: Key | null | undefined
+                ) => (
                   <Table.Row key={index}>
-                    <Table.Cell>{name}</Table.Cell>
-                    <Table.Cell>{quantity}</Table.Cell>
-                    <Table.Cell>{price}</Table.Cell>
-                    <Table.Cell>{total}</Table.Cell>
+                    <Table.Cell css={{ color: darkTheme }}>{name}</Table.Cell>
+                    <Table.Cell css={{ color: darkTheme }}>
+                      {quantity}
+                    </Table.Cell>
+                    <Table.Cell css={{ color: darkTheme }}>{price}</Table.Cell>
+                    <Table.Cell css={{ color: darkTheme }}>{total}</Table.Cell>
                   </Table.Row>
                 )
               )}
@@ -149,7 +154,6 @@ export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
         </div>
       </div>
     </Container>
-      
   );
 };
 
@@ -163,7 +167,8 @@ const Container = styled.div`
     cursor: pointer;
     h3 {
       margin-bottom: 0;
-      color: var(--main-black);
+      color: ${(props) =>
+        props.theme === "dark" ? "var(--main-white)" : "var(--main-black)"};
       font-family: var(--main-font);
     }
   }
@@ -196,7 +201,8 @@ const Container = styled.div`
   .mobile_buttons {
     display: flex;
     justify-content: space-between;
-    background: var(--main-white);
+    background: ${(props) =>
+      props.theme === "dark" ? "var(--main-dark-blue)" : "var(--main-white)"};
     border-radius: 8px;
     padding: 1rem;
     -webkit-box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.1004);
@@ -235,7 +241,14 @@ const Container = styled.div`
   .card {
     font-size: 1.2rem;
     padding: 2rem;
-    background: var(--main-white);
+    @media screen and (max-width: 500px) {
+      .isbAkA {
+        padding: 0.9rem;
+      }
+      padding: 1rem;
+    }
+    background: ${(props) =>
+      props.theme === "dark" ? "var(--main-dark-blue)" : "var(--main-white)"};
     -webkit-box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.1004);
     box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.1004);
     border-radius: 8px;
@@ -248,7 +261,10 @@ const Container = styled.div`
         p:nth-child(1) {
           span {
             font-weight: normal;
-            color: var(--main-text-color);
+            color: ${(props) =>
+              props.theme === "dark"
+                ? "var(--main-white)"
+                : "var(--main-text-color)"};
           }
 
           font-weight: 800;
@@ -259,7 +275,10 @@ const Container = styled.div`
       }
       .user_address {
         text-align: right;
-        color: var(--main-text-color);
+        color: ${(props) =>
+          props.theme === "dark"
+            ? "var(--main-white)"
+            : "var(--main-text-color)"};
       }
       @media screen and (max-width: 500px) {
         display: block;
@@ -276,11 +295,17 @@ const Container = styled.div`
       .grid_one {
         p:nth-child(1),
         P:nth-child(2) {
-          color: var(--main-text-color);
+          color: ${(props) =>
+            props.theme === "dark"
+              ? "var(--main-white)"
+              : "var(--main-text-color)"};
           span {
             display: block;
             font-weight: 800;
-            color: var(--main-black);
+            color: ${(props) =>
+              props.theme === "dark"
+                ? "var(--main-white)"
+                : "var(--main-text-color)"};
           }
         }
         p:nth-child(2) {
@@ -293,17 +318,24 @@ const Container = styled.div`
         }
         p:nth-child(1),
         span {
-          color: var(--main-text-color);
+          color: ${(props) =>
+            props.theme === "dark"
+              ? "var(--main-white)"
+              : "var(--main-text-color)"};
         }
       }
       .grid_three {
         p {
-          color: var(--main-text-color);
+          color: ${(props) =>
+            props.theme === "dark"
+              ? "var(--main-white)"
+              : "var(--main-text-color)"};
         }
         span {
           display: block;
           font-weight: 800;
-          color: var(--main-black);
+          color: ${(props) =>
+            props.theme === "dark" ? "var(--main-white)" : "var(--main-black)"};
         }
       }
 
@@ -315,7 +347,10 @@ const Container = styled.div`
     .total_amount {
       display: grid;
       grid-template-columns: 3fr 1fr;
-      background: var(--light-dark-blue);
+      background: ${(props) =>
+        props.theme === "dark"
+          ? "var(--main-black)"
+          : "var(--light-dark-blue)"};
       color: var(--main-white);
       align-items: center;
       padding: 2rem;
@@ -356,7 +391,11 @@ const Container = styled.div`
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     box-shadow: none;
-    background: var(--light-bg) !important;
+
+    background: ${(props) =>
+      props.theme === "dark"
+        ? "var(--light-dark-blue)"
+        : "var(--light-bg)"} !important;
     margin-top: 2rem;
   }
 `;

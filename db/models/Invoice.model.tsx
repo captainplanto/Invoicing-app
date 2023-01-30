@@ -3,21 +3,25 @@ import { IInvoiceForm } from "../../type/type";
 
 const InvoiceSchema = new mongoose.Schema<IInvoiceForm>(
   {
-    userCountry: { type: String },
-    userAddress: { type: String },
-    userRegion: { type: String },
-    userPostCode: { type: Number },
-    clientName: { type: String },
-    clientEmail: { type: String },
-    clientAddress: { type: String },
-    status: { type: String },
-    clientCountry: { type: String },
-    clientRegion: { type: String },
-    clientPostCode: { type: Number },
+    userAddress: {
+      street: { type: String },
+      country: { type: String },
+      region: { type: String },
+      postCode: { type: Number },
+    },
+    clientAddress: {
+      name: { type: String },
+      street: { type: String },
+      country: { type: String },
+      region: { type: String },
+      postCode: { type: Number },
+      email: { type: String },
+    },
     invoiceDate: { type: String },
     paymentPlan: { type: String },
     description: { type: String },
-   items: {
+    invoiceState: { type: String },
+    items: {
       newItem: [
         {
           name: { type: String },

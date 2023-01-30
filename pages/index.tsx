@@ -1,5 +1,5 @@
 import { GetServerSideProps} from "next";
-import { HomeIndex } from "../components/component/home/Home.index";
+import { HomeIndex } from "../components/component/home/HomeIndex";
 import {ClientSafeProvider,getProviders,LiteralUnion,useSession,} from "next-auth/react";
 import { RegisterComponent } from "../components/component/register/Register.component";
 import { BuiltInProviderType } from "next-auth/providers";

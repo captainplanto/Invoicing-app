@@ -4,8 +4,9 @@ import { FC, ReactNode, useState } from "react";
 interface IModal {
   children: ReactNode;
   button:ReactNode;
+ 
 }
-export const ModalComponent: FC<IModal> = ({ children, button }) => {
+export const ModalComponent: FC<IModal> = ({ children, button}) => {
   const [visible, setVisible] = useState(false);
   const handler = () => setVisible(true);
   const closeHandler = () => {
@@ -15,7 +16,8 @@ export const ModalComponent: FC<IModal> = ({ children, button }) => {
   return (
     <div>
      <div onClick={handler}>{button}</div>
-      <Modal  open={visible} onClose={closeHandler} >
+     
+      <Modal  open={visible}   onClose={closeHandler}>
         <Modal.Body>{children}</Modal.Body>
       </Modal>
     </div>

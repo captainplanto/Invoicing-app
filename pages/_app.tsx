@@ -4,9 +4,8 @@ import { ApolloProvider } from "@apollo/client";
 import { SessionProvider } from "next-auth/react";
 import { client } from "../apollo/client/Config";
 import { SSRProvider } from "react-aria";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { darkTheme, lightTheme } from "../theme/Theme";
 import { Session } from "next-Auth";
+import { ThemeProvider } from "next-themes";
 export default function App({
   Component,
   pageProps,
@@ -14,14 +13,7 @@ export default function App({
   session: Session;
 }>) {
   return (
-    <NextThemesProvider
-      defaultTheme="system"
-      attribute="class"
-      value={{
-        light: lightTheme.className,
-        dark: darkTheme.className,
-      }}
-    >
+    <ThemeProvider>
       <SSRProvider>
         <SessionProvider
           session={pageProps.session}
@@ -33,6 +25,6 @@ export default function App({
           </ApolloProvider>
         </SessionProvider>
       </SSRProvider>
-    </NextThemesProvider>
+    </ThemeProvider>
   );
 }

@@ -2,7 +2,13 @@ import styled from "styled-components";
 import { Image } from "@nextui-org/react";
 import { filterButton } from "../../constant/const";
 import { DropdownComponent } from "./DropDown.component";
-export const FilterComponent = ({desktop_view, mobile_view}:{desktop_view:string, mobile_view:string}) => {
+export const FilterComponent = ({
+  desktop_view,
+  mobile_view,
+}: {
+  desktop_view: string;
+  mobile_view: string;
+}) => {
   return (
     <Container>
       <h3 className={desktop_view}>Filter by status</h3>

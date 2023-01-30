@@ -1,10 +1,12 @@
 import { Dropdown, Radio } from "@nextui-org/react";
 import { FC, useState } from "react";
+
 import { menuItems } from "../../constant/const";
 import { IIcon } from "../../type/type";
 
 export const DropdownComponent: FC<IIcon> = ({ icon }) => {
   const [checked, setChecked] = useState<string>("");
+
   return (
     <Dropdown closeOnSelect={true}>
       <Dropdown.Trigger>{icon}</Dropdown.Trigger>
@@ -31,15 +33,3 @@ export const DropdownComponent: FC<IIcon> = ({ icon }) => {
     </Dropdown>
   );
 };
-
-/*
-
-  css={{
-                ".nextui-c-clSMyX": {
-                  background: "yellow",
-                  marginTop: "2rem",
-                },
-              }}
-
-
-*/

@@ -5,15 +5,19 @@ import {
   ReactiveVar,
   makeVar,
 } from "@apollo/client";
-import { IInvoiceCard} from "../../type/type";
+import { IInvoiceCard } from "../../type/type";
 
 export interface IInvoiceProps {
   invoices: IInvoiceCard[];
-  closeModal: boolean;
+  invoiceError: boolean;
+  invoiceStatus: string;
+  itemEntryLists: boolean;
 }
 const invoiceInitialState: IInvoiceProps = {
   invoices: [],
-  closeModal: false,
+  invoiceStatus: "",
+  invoiceError: false,
+  itemEntryLists: false,
 };
 export const cache: InMemoryCache = new InMemoryCache({
   typePolicies: {

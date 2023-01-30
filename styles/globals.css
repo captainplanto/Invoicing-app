@@ -8,7 +8,7 @@
   --main-white: rgb(255, 255, 255);
   --main-red: rgb(236, 87, 87);
   --light-red: rgb(255, 151, 151);
-  --main-text-color:rgba(126, 136, 195, 1);
+  --main-text-color: rgba(126, 136, 195, 1);
   --main-grey: rgb(136, 142, 176);
   --light-grey: rgb(223, 227, 250);
   --main-black: rgb(12, 14, 22);
@@ -17,15 +17,26 @@
   --divider-bg: rgba(248, 248, 251, 0.3);
   --light-blue-bg: rgb(126, 136, 195);
   --main-font: "League Spartan", sans-serif;
+
   --status-paid: rgb(51, 214, 159);
-  --status-paid-bg: #f3fdfa;
+  --paid-dark-mode: rgba(51, 214, 159, 0.1);
+
   --status-pending: rgb(255, 143, 0);
-  --status-pending-bg: #fff9f0;
+  --pending-dark-mode: rgba(255, 143, 0, 0.1);
+
   --status-draft: rgb(55, 59, 83);
-  --save-draft-btn:rgba(55, 59, 83, 1);
-  --status-draft-bg: #f4f4f5;
+  --save-draft-btn: rgba(55, 59, 83, 1);
+  --draft-dark-mode: rgba(55, 59, 83, 1);
 }
 
+[data-theme="dark"] {
+  background: var(--light-black);
+  --foreground: white;
+}
+[data-theme="light"] {
+  background: var(--light-bg);
+  --foreground: white;
+}
 html,
 body {
   padding: 0;
@@ -74,4 +85,3 @@ h3 {
 p {
   line-height: 1.8;
 }
- 

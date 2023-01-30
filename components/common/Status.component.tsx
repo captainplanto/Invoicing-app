@@ -1,16 +1,17 @@
 import { FC, ReactNode } from "react";
 import styled from "styled-components";
-
+import { useTheme } from "next-themes";
 interface IStatus {
   children: string | ReactNode;
   style?: object;
 }
 const statusColorCode = (children: string | ReactNode) =>
-  children === "Paid" ? "paid" : children === "Pending" ? "pending" : "draft";
+  children === "paid" ? "paid" : children === "Pending" ? "pending" : "draft";
 
 export const StatusComponent: FC<IStatus> = ({ children, style }) => {
+  const { theme } = useTheme();
   return (
-    <Container>
+    <Container theme={theme}>
       <div className={statusColorCode(children)}>
         <p>
           <span>&#9679;</span>
@@ -33,24 +34,28 @@ const Container = styled.div`
     text-transform: capitalize;
   }
   .paid {
-    background: var(--status-paid-bg);
+    background: var(--paid-dark-mode);
     color: var(--status-paid);
     span {
       color: var(--status-paid) !important;
     }
   }
   .pending {
-    background: var(--status-pending-bg);
+    background: var(--pending-dark-mode);
     color: var(--status-pending);
     span {
       color: var(--status-pending) !important;
     }
   }
   .draft {
-    background: var(--status-draft-bg);
-    color: var(--status-draft);
+    background: ${(props) =>
+      props.theme === "dark" ? "var(--draft-dark-mode)" : "var(--light-bg)"};
+    color: ${(props) =>
+      props.theme === "dark"
+        ? "var(--status-draft-btn)"
+        : "var(--draft-dark-mode)"};
     span {
-      color: var(--status-draft) !important;
+      color: var(--status-draft-btn) !important;
     }
   }
   div {
