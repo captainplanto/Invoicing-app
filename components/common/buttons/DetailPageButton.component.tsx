@@ -98,11 +98,6 @@ const Containers = styled.div`
   }
 `;
 
-
-
-
-
-
 export const EditInvoiceButton = ({
   onClick,
   _id,

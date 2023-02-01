@@ -1,5 +1,5 @@
-import { Link, Table } from "@nextui-org/react";
-import { FC, Key } from "react";
+import { Table } from "@nextui-org/react";
+import { FC, Key, useEffect } from "react";
 import styled from "styled-components";
 import { DetailsInvoiceColumns, leftArrow } from "../../constant/const";
 import { IDetailsCardInvoice, IItems } from "../../type/type";
@@ -8,10 +8,17 @@ import { StatusComponent } from "./Status.component";
 import { Image } from "@nextui-org/react";
 import { idToString, numberWithCommas } from "../../utils/utils";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/router";
+import { invoiceMutation } from "../../apollo/client/local/mutation";
 
 export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
   invoice,
 }) => {
+  const { theme } = useTheme();
+  const router = useRouter();
+  
+  const darkTheme =
+    theme === "dark" ? "var(--main-white)!important" : "var(--main-black)";
   const {
     invoiceState,
     _id,
@@ -22,29 +29,33 @@ export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
     paymentPlan,
     clientAddress,
   } = invoice;
-  const { street, city, country, name, email, postCode } = clientAddress;
+  // to persisit the invoicePaid button from 'mark as paid' and 'marked as paid' button  useeffect is used
+  useEffect(() => {
+    if (invoiceState && invoiceState === "paid") {
+      invoiceMutation("invoiceStatus", "paid");
+    } else{
+         invoiceMutation("invoiceStatus", "pending");
+    }
+  }, [invoiceState]);
+
   const {
     street: userStreet,
     city: userCity,
     country: userCountry,
     postCode: userPostCode,
   } = userAddress;
-  const { theme } = useTheme();
-  const darkTheme =
-    theme === "dark" ? "var(--main-white)!important" : "var(--main-black)";
+  const { street, city, country, name, email, postCode } = clientAddress;
   return (
     <Container theme={theme}>
-      <Link href="/">
-        <button className="go_back_btn">
-          <Image src={leftArrow} alt="icon-left-arrow" />
-          <h3>Go back</h3>
-        </button>
-      </Link>
+      <button className="go_back_btn" onClick={() => router.push("/")}>
+        <Image src={leftArrow} alt="icon-left-arrow" />
+        <h3>Go back</h3>
+      </button>
 
       <div className="invoice_action_btn">
         <div className="mini_flex">
           <p className="status">Status</p>
-          <StatusComponent>{invoiceState}</StatusComponent>
+          <StatusComponent>{invoiceState && invoiceState}</StatusComponent>
         </div>
         <DetailPageButtonComponent className="desktop_buttons" _id={_id} />
       </div>

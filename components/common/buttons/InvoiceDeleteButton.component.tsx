@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { FC, useState } from "react";
 import { invoiceMutation } from "../../../apollo/client/local/mutation";
 import { DELETE_INVOICE_MUTATION } from "../../../apollo/client/mutations";
-import { GET_ALL_INVOICE_BY_USER } from "../../../apollo/client/queries";
+import { GET_ALL_INVOICE_BY_USER, GET_INVOICE_DETAIL } from "../../../apollo/client/queries";
 import { IButtonLogicProps } from "../../../type/type";
 import { ButtonComponent } from "../Button.component";
 

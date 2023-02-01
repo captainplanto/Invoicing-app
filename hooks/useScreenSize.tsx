@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
 
-function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
-  return {
-    width,
-    height,
-  };
-}
+
+
+
+
+export const getWindowDimensions = () => {
+  if (typeof window !== "undefined") {
+    const { innerWidth: width, innerHeight: height } = window;
+    return {
+      width,
+      height,
+    };
+  }
+};
 
 export default function useScreenSize() {
   const [windowDimensions, setWindowDimensions] = useState(

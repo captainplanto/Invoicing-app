@@ -15,7 +15,7 @@ export interface IInvoiceProps {
 }
 const invoiceInitialState: IInvoiceProps = {
   invoices: [],
-  invoiceStatus: "",
+  invoiceStatus: "pending",
   invoiceError: false,
   itemEntryLists: false,
 };

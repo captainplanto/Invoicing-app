@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { github, google } from "../../../constant/const";
 import { ButtonComponent } from "../../common/Button.component";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 export const RegisterComponent = ({ providers }: { providers: any }) => {
   return (

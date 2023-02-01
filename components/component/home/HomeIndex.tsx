@@ -14,6 +14,7 @@ export const HomeIndex = () => {
   const { data } = useQuery(GET_ALL_INVOICE_BY_USER, {
     variables: { _id: session?.id },
   });
+
   useEffect(() => {
     if (data) {
       invoiceMutation("invoices", data.userInvoices);

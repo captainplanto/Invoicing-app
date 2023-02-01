@@ -3,6 +3,7 @@ import { FC } from "react";
 import { invoiceVar } from "../../../apollo/client/Config";
 import { invoiceMutation } from "../../../apollo/client/local/mutation";
 import { CREATE_NEW_INVOICE_MUTATION } from "../../../apollo/client/mutations";
+import { GET_ALL_INVOICE_BY_USER } from "../../../apollo/client/queries/invoice";
 import { IInvoiceForm } from "../../../type/type";
 import { ButtonComponent } from "../Button.component";
 
@@ -10,15 +11,15 @@ export interface ISendProps {
   form: IInvoiceForm;
   formik: any;
 }
-
 export const SaveAndSendButtonComponent: FC<ISendProps> = ({
   form,
   formik,
 }) => {
   const [createInvoice, { data, loading, error }] = useMutation(
-    CREATE_NEW_INVOICE_MUTATION
+    CREATE_NEW_INVOICE_MUTATION,
+    { refetchQueries: [GET_ALL_INVOICE_BY_USER] }
   );
-const { itemEntryLists } = useReactiveVar(invoiceVar);
+  const { itemEntryLists } = useReactiveVar(invoiceVar);
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
     const dbValue = localStorage.getItem("totalPackage");
@@ -45,7 +46,7 @@ const { itemEntryLists } = useReactiveVar(invoiceVar);
         invoiceDate: form.invoiceDate,
         items: form.items,
         paymentPlan: form.paymentPlan,
-        invoiceState: form.invoiceState,
+        invoiceState: "pending",
         author: "",
       },
     });

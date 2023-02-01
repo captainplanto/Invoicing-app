@@ -191,10 +191,13 @@ export const resolvers = {
             author: context.session.id,
           });
           const response = await newInvoice.save();
-            console.log(response, "response here");
+
           if (response) {
-          
-            return response;
+            return {
+              data: response,
+              error: null,
+              status: 200,
+            };
           }
         } catch (error) {
           return error;
@@ -228,19 +231,16 @@ export const resolvers = {
       { _id, invoiceState }: { _id: string; invoiceState: string },
       context: any
     ) => {
+      console.log(_id, invoiceState, 'FRONTEND MARKED VARIABLES')
       try {
-        const markAsPaid = await InvoiceModel.findByIdAndUpdate(
-          {
-            _id: new ObjectId(_id),
-            //   status: "paid",
-          },
+        const markAsPaid = await InvoiceModel.findByIdAndUpdate( _id,
           {
             $set: {
               invoiceState: invoiceState,
             },
           }
         );
-        console.log(markAsPaid, "paid status");
+ console.log(_id, invoiceState, 'FRONTEND MARKED VARIABLES')
         if (markAsPaid) {
           return markAsPaid;
         }

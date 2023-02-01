@@ -20,17 +20,15 @@ export const InvoiceCardComponent: FC<IUserInvoiceProps> = ({
             (
               {
                 _id,
-                paymentDue,
                 createdAt,
-                updatedAt,
-                clientName,
+                clientAddress,
                 invoiceState,
                 items,
               },
               index
             ) => (
               <div key={index}>
-                <Link href={`/invoice/details/${clientName}/${_id}`}>
+                <Link href={`/invoice/details/${clientAddress.name}/${_id}`}>
                   <div className="items desktop_view" key={_id.toString()}>
                     <li>
                       #<span>{_id.toString().slice(18, 24).toUpperCase()}</span>
@@ -42,7 +40,7 @@ export const InvoiceCardComponent: FC<IUserInvoiceProps> = ({
                       year: "numeric",
                     })}`}</li>
 
-                    <li> {clientName}</li>
+                    <li> {clientAddress.name}</li>
                     <li> € {numberWithCommas(items.subTotal)}</li>
 
                     <StatusComponent>{invoiceState}</StatusComponent>
@@ -57,12 +55,12 @@ export const InvoiceCardComponent: FC<IUserInvoiceProps> = ({
                   </div>
                 </Link>
 
-                <Link href={`/invoice/details/${clientName}/${_id}`}>
+                <Link href={`/invoice/details/${clientAddress.name}/${_id}`}>
                   <div className="items mobile_view" key={_id.toString()}>
                     <li>
                       #<span>{_id.toString().slice(18, 24).toUpperCase()}</span>
                     </li>
-                    <li style={{ textAlign: "center" }}> {clientName}</li>
+                    <li style={{ textAlign: "center" }}> {clientAddress.name}</li>
                     <div className="mobile_div">
                       <li>{`Due ${new Date(createdAt).toLocaleString("en-GB", {
                         day: "numeric",
@@ -87,7 +85,8 @@ export const InvoiceCardComponent: FC<IUserInvoiceProps> = ({
             <div>
               <p>There is nothing here</p>
               <p>
-                Create and invoice by clicking the new button to get started
+                Create an invoice by clicking the new invoice button to get
+                started.
               </p>
             </div>
           </div>
