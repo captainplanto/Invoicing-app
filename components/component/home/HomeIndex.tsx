@@ -23,7 +23,6 @@ export const HomeIndex = () => {
 
   return (
     <LayOutPage>
-      <SnackBarComponent />
       <Index userInvoices={invoices} />
     </LayOutPage>
   );

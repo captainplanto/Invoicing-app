@@ -12,7 +12,7 @@ export const InvoicePaidButtonComponent = ({
 }: {
   _id: Schema.Types.ObjectId;
 }) => {
-  const [markInvoiceAsPaid, { loading }] = useMutation(
+  const [markInvoiceAsPaid, { loading, error }] = useMutation(
     MARK_INVOICE_AS_PAID_MUTATION,
     { refetchQueries: [GET_ALL_INVOICE_BY_USER] }
   );
@@ -27,9 +27,9 @@ export const InvoicePaidButtonComponent = ({
             invoiceState: "paid",
           },
         });
-        if (!loading) {
+        if (!loading && !error) {
           invoiceMutation({
-            invoiceError: true,
+            errorStatus: false,
             invoiceStatus: "paid",
           });
         }

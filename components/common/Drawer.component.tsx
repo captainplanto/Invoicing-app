@@ -4,7 +4,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { CreateNewInvoiceButton } from "./Header.component";
 import { EditInvoiceButton } from "./buttons/DetailPageButton.component";
-import { CreateInvoiceComponent } from "../component/invoice/New.component";
+import { CreateInvoiceComponent } from "../component/create/NewInvoice.component";
 import { Schema } from "mongoose";
 import { red } from "@nextui-org/react";
 type Anchor = "top" | "left" | "bottom" | "right";

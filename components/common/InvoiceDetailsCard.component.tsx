@@ -12,160 +12,168 @@ import { useRouter } from "next/router";
 import { invoiceMutation } from "../../apollo/client/local/mutation";
 
 export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
-  invoice,
+  invoice
 }) => {
   const { theme } = useTheme();
   const router = useRouter();
-  
   const darkTheme =
     theme === "dark" ? "var(--main-white)!important" : "var(--main-black)";
-  const {
-    invoiceState,
-    _id,
-    description,
-    items,
-    userAddress,
-    createdAt,
-    paymentPlan,
-    clientAddress,
-  } = invoice;
-  // to persisit the invoicePaid button from 'mark as paid' and 'marked as paid' button  useeffect is used
   useEffect(() => {
-    if (invoiceState && invoiceState === "paid") {
+    if (invoice?.invoiceState && invoice?.invoiceState === "paid") {
       invoiceMutation("invoiceStatus", "paid");
-    } else{
-         invoiceMutation("invoiceStatus", "pending");
+    } else {
+      invoiceMutation("invoiceStatus", "pending");
     }
-  }, [invoiceState]);
+  }, [invoice?.invoiceState]);
+  // to persisit the invoicePaid button from 'mark as paid' and 'marked as paid' button  useeffect is used
 
-  const {
-    street: userStreet,
-    city: userCity,
-    country: userCountry,
-    postCode: userPostCode,
-  } = userAddress;
-  const { street, city, country, name, email, postCode } = clientAddress;
-  return (
-    <Container theme={theme}>
-      <button className="go_back_btn" onClick={() => router.push("/")}>
-        <Image src={leftArrow} alt="icon-left-arrow" />
-        <h3>Go back</h3>
-      </button>
+  if (invoice) {
+    const {
+      invoiceState,
+      _id,
+      description,
+      items,
+      userAddress,
+      createdAt,
+      paymentPlan,
+      clientAddress,
+    } = invoice;
+    const {
+      street: userStreet,
+      city: userCity,
+      country: userCountry,
+      postCode: userPostCode,
+    } = userAddress;
+    const { street, city, country, name, email, postCode } = clientAddress;
 
-      <div className="invoice_action_btn">
-        <div className="mini_flex">
-          <p className="status">Status</p>
-          <StatusComponent>{invoiceState && invoiceState}</StatusComponent>
+    return (
+      <Container theme={theme}>
+        <button className="go_back_btn" onClick={() => router.push("/")}>
+          <Image src={leftArrow} alt="icon-left-arrow" />
+          <h3>Go back</h3>
+        </button>
+
+        <div className="invoice_action_btn">
+          <div className="mini_flex">
+            <p className="status">Status</p>
+            <StatusComponent>{invoiceState && invoiceState}</StatusComponent>
+          </div>
+          <DetailPageButtonComponent className="desktop_buttons" _id={_id} />
         </div>
-        <DetailPageButtonComponent className="desktop_buttons" _id={_id} />
-      </div>
-      <div className="card">
-        <div className="id_client_address">
-          <div className="id">
-            <p>
-              #<span>{idToString(_id)}</span>
-            </p>
-            <p>{description}</p>
-          </div>
-          <div className="user_address">
-            <ul>
-              <li>{userStreet}</li>
-              <li>{userCity}</li>
-              <li>{userPostCode}</li>
-              <li>{userCountry}</li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="bill_to_client_grid">
-          <div className="grid_one">
-            <p>
-              Invoice Date
-              <span>{`${new Date(createdAt).toLocaleString("en-GB", {
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-              })}`}</span>
-            </p>
-            <p>
-              Payment Due <span>{paymentPlan}</span>
-            </p>
-          </div>
-
-          <div className="grid_two">
-            <div>
-              <p> Bill To</p>
-              <p>{name}</p>
-              <span>
-                <ul>
-                  <li>{street}</li>
-                  <li>{city}</li>
-                  <li>{postCode}</li>
-                  <li>{country}</li>
-                </ul>
-              </span>
+        <div className="card">
+          <div className="id_client_address">
+            <div className="id">
+              <p>
+                #<span>{idToString(_id)}</span>
+              </p>
+              <p>{description}</p>
+            </div>
+            <div className="user_address">
+              <ul>
+                <li>{userStreet}</li>
+                <li>{userCity}</li>
+                <li>{userPostCode}</li>
+                <li>{userCountry}</li>
+              </ul>
             </div>
           </div>
-          <div className="grid_three">
-            <p>
-              Sent to <span>{email}</span>
-            </p>
-          </div>
-        </div>
 
-        <div>
-          <Table
-            aria-label="Example table with dynamic content"
-            css={{
-              height: "auto",
-              // maxWidth: "100%",
-            }}
-          >
-            <Table.Header columns={DetailsInvoiceColumns}>
-              {(column) => (
-                <Table.Column
-                  key={column.key}
-                  css={{
-                    background: "transparent",
-                    color: "var(--light-blue-bg)",
-                    fontSize: "1rem",
-                    fontWeight: "500",
-                  }}
-                >
-                  {column.label}
-                </Table.Column>
-              )}
-            </Table.Header>
-            <Table.Body>
-              {items?.newItem.map(
-                (
-                  { name, quantity, total, price }: IItems,
-                  index: Key | null | undefined
-                ) => (
-                  <Table.Row key={index}>
-                    <Table.Cell css={{ color: darkTheme }}>{name}</Table.Cell>
-                    <Table.Cell css={{ color: darkTheme }}>
-                      {quantity}
-                    </Table.Cell>
-                    <Table.Cell css={{ color: darkTheme }}>{price}</Table.Cell>
-                    <Table.Cell css={{ color: darkTheme }}>{total}</Table.Cell>
-                  </Table.Row>
-                )
-              )}
-            </Table.Body>
-          </Table>
-          <div className="total_amount">
-            <h6>Amount</h6>
-            <h2>€ {numberWithCommas(items?.subTotal)}</h2>
+          <div className="bill_to_client_grid">
+            <div className="grid_one">
+              <p>
+                Invoice Date
+                <span>{`${new Date(createdAt).toLocaleString("en-GB", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })}`}</span>
+              </p>
+              <p>
+                Payment Due <span>{paymentPlan}</span>
+              </p>
+            </div>
+
+            <div className="grid_two">
+              <div>
+                <p> Bill To</p>
+                <p>{name}</p>
+                <span>
+                  <ul>
+                    <li>{street}</li>
+                    <li>{city}</li>
+                    <li>{postCode}</li>
+                    <li>{country}</li>
+                  </ul>
+                </span>
+              </div>
+            </div>
+            <div className="grid_three">
+              <p>
+                Sent to <span>{email}</span>
+              </p>
+            </div>
           </div>
 
           <div>
-            <DetailPageButtonComponent className="mobile_buttons" _id={_id} />
+            <Table
+              aria-label="Example table with dynamic content"
+              css={{
+                height: "auto",
+                // maxWidth: "100%",
+              }}
+            >
+              <Table.Header columns={DetailsInvoiceColumns}>
+                {(column) => (
+                  <Table.Column
+                    key={column.key}
+                    css={{
+                      background: "transparent",
+                      color: "var(--light-blue-bg)",
+                      fontSize: "1rem",
+                      fontWeight: "500",
+                    }}
+                  >
+                    {column.label}
+                  </Table.Column>
+                )}
+              </Table.Header>
+              <Table.Body>
+                {items?.newItem.map(
+                  (
+                    { name, quantity, total, price }: IItems,
+                    index: Key | null | undefined
+                  ) => (
+                    <Table.Row key={index}>
+                      <Table.Cell css={{ color: darkTheme }}>{name}</Table.Cell>
+                      <Table.Cell css={{ color: darkTheme }}>
+                        {quantity}
+                      </Table.Cell>
+                      <Table.Cell css={{ color: darkTheme }}>
+                        {price}
+                      </Table.Cell>
+                      <Table.Cell css={{ color: darkTheme }}>
+                        {total}
+                      </Table.Cell>
+                    </Table.Row>
+                  )
+                )}
+              </Table.Body>
+            </Table>
+            <div className="total_amount">
+              <h6>Amount</h6>
+              <h2>€ {numberWithCommas(items?.subTotal)}</h2>
+            </div>
+
+            <div>
+              <DetailPageButtonComponent className="mobile_buttons" _id={_id} />
+            </div>
           </div>
         </div>
-      </div>
-    </Container>
-  );
+      </Container>
+    );
+  } else {
+    return <h6>loading invoice details, please wait...</h6>;
+  }
 };
 
 const Container = styled.div`

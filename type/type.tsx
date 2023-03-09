@@ -33,7 +33,7 @@ export interface IButtonProps {
 export interface IAddress {
   street: string;
   city: string;
-  email?:string;
+  email?: string;
   postCode: number;
   country: string;
   name?: string;
@@ -92,7 +92,7 @@ export interface IInvoiceForm {
 }
 
 export interface IDetailsCardInvoice {
-  invoice: IInvoiceForm;
+  invoice: IInvoiceForm | undefined;
 }
 
 export interface IButtonLogicProps {
