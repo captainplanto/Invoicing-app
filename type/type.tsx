@@ -98,3 +98,8 @@ export interface IDetailsCardInvoice {
 export interface IButtonLogicProps {
   _id: Schema.Types.ObjectId;
 }
+export const enum STATUS_NAME {
+  PENDING = "pending",
+  PAID = "paid",
+  DRAFT = "draft",
+}

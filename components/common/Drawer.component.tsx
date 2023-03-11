@@ -6,7 +6,7 @@ import { CreateNewInvoiceButton } from "./Header.component";
 import { EditInvoiceButton } from "./buttons/DetailPageButton.component";
 import { CreateInvoiceComponent } from "../component/create/NewInvoice.component";
 import { Schema } from "mongoose";
-import { red } from "@nextui-org/react";
+import { useTheme as useNextTheme } from "next-themes";
 type Anchor = "top" | "left" | "bottom" | "right";
 
 export const DrawerComponent = ({
@@ -14,7 +14,7 @@ export const DrawerComponent = ({
   _id,
 }: {
   LeftDrawer: boolean;
-  _id: Schema.Types.ObjectId;
+  _id?: Schema.Types.ObjectId;
 }) => {
   const [state, setState] = useState({
     top: false,
@@ -22,6 +22,8 @@ export const DrawerComponent = ({
     bottom: false,
     right: false,
   });
+  const { theme } = useNextTheme();
+  console.log(theme);
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
@@ -47,7 +49,7 @@ export const DrawerComponent = ({
     <Container>
       {LeftDrawer
         ? (["left"] as const).map((anchor) => (
-            <SwipeBackround key={anchor}>
+            <div key={anchor}>
               <CreateNewInvoiceButton onClick={toggleDrawer(anchor, true)} />
               <SwipeableDrawer
                 anchor={anchor}
@@ -55,10 +57,18 @@ export const DrawerComponent = ({
                 onClose={toggleDrawer(anchor, false)}
                 onOpen={toggleDrawer(anchor, true)}
                 style={swipeStyle}
+                sx={{
+                  "& .MuiPaper-root": {
+                    background:
+                      theme === "dark"
+                        ? "var(--light-black)"
+                        : "var(--light-bg)",
+                  },
+                }}
               >
                 <CreateInvoiceComponent title="New Invoice" />
               </SwipeableDrawer>
-            </SwipeBackround>
+            </div>
           ))
         : (["right"] as const).map((anchor) => (
             <React.Fragment key={anchor}>
@@ -88,15 +98,9 @@ const Container = styled.div`
     padding: 1rem;
     @media screen and (max-width: 1500px) {
       padding: 1rem;
-      background: red;
     }
   }
 `;
 const swipeStyle = {
   zIndex: "0",
 };
-const SwipeBackround = styled.div`
-  .css-4t3x6l-MuiPaper-root-MuiDrawer-paper {
-    background: red !important;
-  }
-`;

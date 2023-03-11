@@ -6,27 +6,20 @@ import { IUserInvoiceProps } from "../../type/type";
 import { StatusComponent } from "./Status.component";
 import Link from "next/link";
 import { numberWithCommas } from "../../utils/utils";
-import { useTheme } from "next-themes";
+import { useTheme as useNextTheme } from "@nextui-org/react";
+
 
 export const InvoiceCardComponent: FC<IUserInvoiceProps> = ({
   userInvoices,
 }) => {
-  const { theme } = useTheme();
+  const { theme } = useNextTheme();
+
   return (
     <Container theme={theme}>
       <ul>
         {userInvoices && userInvoices.length > 0 ? (
           userInvoices.map(
-            (
-              {
-                _id,
-                createdAt,
-                clientAddress,
-                invoiceState,
-                items,
-              },
-              index
-            ) => (
+            ({ _id, createdAt, clientAddress, invoiceState, items }, index) => (
               <div key={index}>
                 <Link href={`/invoice/details/${clientAddress.name}/${_id}`}>
                   <div className="items desktop_view" key={_id.toString()}>
@@ -39,7 +32,6 @@ export const InvoiceCardComponent: FC<IUserInvoiceProps> = ({
                       month: "short",
                       year: "numeric",
                     })}`}</li>
-
                     <li> {clientAddress.name}</li>
                     <li> € {numberWithCommas(items.subTotal)}</li>
 
@@ -60,7 +52,9 @@ export const InvoiceCardComponent: FC<IUserInvoiceProps> = ({
                     <li>
                       #<span>{_id.toString().slice(18, 24).toUpperCase()}</span>
                     </li>
-                    <li style={{ textAlign: "center" }}> {clientAddress.name}</li>
+                    <li style={{ textAlign: "center" }}>
+                      {clientAddress.name}
+                    </li>
                     <div className="mobile_div">
                       <li>{`Due ${new Date(createdAt).toLocaleString("en-GB", {
                         day: "numeric",
@@ -98,17 +92,12 @@ export const InvoiceCardComponent: FC<IUserInvoiceProps> = ({
 
 const Container = styled.div<{ theme: string }>`
   ul {
-    font-size: 1.4rem;
     .items {
       display: grid;
       align-items: center;
       padding: 2rem;
       grid-template-columns: 0.9fr 1.2fr 1.2fr 1fr 0.8fr 0.5fr;
-      background: ${(props) =>
-        props.theme === "dark"
-          ? "var(--light-dark-blue)"
-          : "var(--main-white)"};
-
+      background: ${(props) => props.theme.colors.cardItemBg.value};
       margin-top: 2rem;
       border-radius: 8px;
       -webkit-box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.1004);
@@ -119,9 +108,7 @@ const Container = styled.div<{ theme: string }>`
       cursor: pointer;
       span {
         font-weight: 700;
-
-        color: ${(props) =>
-          props.theme === "dark" ? "var(--main-white)" : "var(--main-black)"};
+        color: ${(props) => props.theme.colors.invoiceId.value};
       }
 
       @media screen and (max-width: 500px) {
@@ -136,17 +123,16 @@ const Container = styled.div<{ theme: string }>`
     li:nth-child(1) {
       color: var(--main-grey);
       font-weight: 700;
+      font-size: 1.4rem;
     }
     li:nth-child(2),
     li:nth-child(3) {
-      color: ${(props) =>
-        props.theme === "dark" ? "var(--main-white)" : "var(--main-grey)"};
-
+      color: ${(props) => props.theme.colors.child_2_3.value};
       font-weight: 400;
+      font-size: 1.4rem;
     }
     li:nth-child(4) {
-      color: ${(props) =>
-        props.theme === "dark" ? "var(--main-white)" : " var(--main-black)"};
+      color: ${(props) => props.theme.colors.child_4.value};
       font-size: 1.5rem;
       font-weight: 600;
     }
@@ -162,13 +148,11 @@ const Container = styled.div<{ theme: string }>`
       grid-template-columns: 2fr 1.5fr;
       div {
         li:nth-child(1) {
-          color: ${(props) =>
-            props.theme === "dark" ? "var(--main-white)" : "var(--main-grey)"};
+          color: ${(props) => props.theme.colors.child_2_3.value};
           font-weight: 400 !important;
         }
         li:nth-child(2) {
-          color: ${(props) =>
-            props.theme === "dark" ? "var(--main-white)" : "var(--main-grey)"};
+          color: ${(props) => props.theme.colors.child_2_3.value};
           font-size: 1.7rem;
           font-weight: 700;
         }

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
-import {  IUserInvoiceProps } from "../../../type/type";
+import { IUserInvoiceProps } from "../../../type/type";
 import { HeaderComponent } from "../../common/Header.component";
 import { InvoiceCardComponent } from "../../common/InvoiceCardComponent";
 
@@ -16,7 +16,7 @@ export const Index: FC<IUserInvoiceProps> = ({ userInvoices }) => {
 };
 
 const Container = styled.div`
-  width: 50%;
+  width: 55%;
   margin: 0 auto;
   margin-top: 8rem;
   main {
@@ -26,22 +26,3 @@ const Container = styled.div`
     width: 90%;
   }
 `;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

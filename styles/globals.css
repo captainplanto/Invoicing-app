@@ -29,14 +29,6 @@
   --draft-dark-mode: rgba(55, 59, 83, 1);
 }
 
-[data-theme="dark"] {
-  background: var(--light-black);
-  --foreground: white;
-}
-[data-theme="light"] {
-  background: var(--light-bg);
-  --foreground: white;
-}
 html,
 body {
   padding: 0;

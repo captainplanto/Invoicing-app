@@ -1,28 +1,26 @@
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 import styled from "styled-components";
-import { useTheme } from "next-themes";
+import { useTheme as useNextTheme } from "@nextui-org/react";
+import { statusColorCodeStyle } from "../../utils/utils";
 interface IStatus {
-  children: string | ReactNode;
-  style?: object;
+  children: string;
 }
-const statusColorCode = (children: string | ReactNode) =>
-  children === "paid" ? "paid" : children === "pending" ? "pending" : "draft";
 
-export const StatusComponent: FC<IStatus> = ({ children, style }) => {
-  const { theme } = useTheme();
+export const StatusComponent: FC<IStatus> = ({ children }) => {
+  const { theme } = useNextTheme();
   return (
     <Container theme={theme}>
-      <div className={statusColorCode(children)}>
+      <div className={statusColorCodeStyle(children)}>
         <p>
           <span>&#9679;</span>
-          {statusColorCode(children)}
+          {children}
         </p>
       </div>
     </Container>
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ theme: string }>`
   text-align: center;
   .paid,
   .pending,
@@ -30,36 +28,32 @@ const Container = styled.div`
     font-weight: 600;
     padding: 8px 0;
     border-radius: 6px;
-    font-size: 1.4rem;
     text-transform: capitalize;
   }
   .paid {
-    background: var(--paid-dark-mode);
-    color: var(--status-paid);
+    background: ${(props) => props.theme.colors.paid_bg.value};
+    color: ${(props) => props.theme.colors.paid_text.value};
     span {
-      color: var(--status-paid) !important;
+      color: ${(props) => props.theme.colors.paid_text.value}!important;
     }
   }
   .pending {
-    background: var(--pending-dark-mode);
-    color: var(--status-pending);
+    background: ${(props) => props.theme.colors.pending_bg.value};
+    color: ${(props) => props.theme.colors.pending_text.value};
     span {
-      color: var(--status-pending) !important;
+      color: ${(props) => props.theme.colors.pending_text.value}!important;
     }
   }
   .draft {
-    background: ${(props) =>
-      props.theme === "dark" ? "var(--draft-dark-mode)" : "var(--light-bg)"};
-    color: ${(props) =>
-      props.theme === "dark"
-        ? "var(--status-draft-btn)"
-        : "var(--draft-dark-mode)"};
+    background: ${(props) => props.theme.colors.draft_bg.value};
+    color: ${(props) => props.theme.colors.draft_color};
     span {
-      color: var(--status-draft-btn) !important;
+      color: ${(props) => props.theme.colors.draft_span}!important;
     }
   }
   div {
     p {
+      font-size: 1.4rem;
       span {
         margin-right: 4px;
       }

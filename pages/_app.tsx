@@ -5,26 +5,41 @@ import { SessionProvider } from "next-auth/react";
 import { client } from "../apollo/client/Config";
 import { SSRProvider } from "react-aria";
 import { Session } from "next-Auth";
-import { ThemeProvider } from "next-themes";
+import { darkTheme, lightTheme } from "../styles/theme";
+import { useTheme } from "next-themes";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { NextUIProvider } from "@nextui-org/react";
+
 export default function App({
   Component,
   pageProps,
 }: AppProps<{
   session: Session;
 }>) {
+  const { theme } = useTheme();
+  console.log(theme, "type");
   return (
-    <ThemeProvider>
-      <SSRProvider>
-        <SessionProvider
-          session={pageProps.session}
-          refetchInterval={0}
-          refetchOnWindowFocus={true}
-        >
-          <ApolloProvider client={client}>
-            <Component {...pageProps} />
-          </ApolloProvider>
-        </SessionProvider>
-      </SSRProvider>
-    </ThemeProvider>
+    <NextThemesProvider
+      defaultTheme={lightTheme}
+      attribute="class"
+      value={{
+        light: lightTheme,
+        dark: darkTheme,
+      }}
+    >
+      <NextUIProvider>
+        <SSRProvider>
+          <SessionProvider
+            session={pageProps.session}
+            refetchInterval={0}
+            refetchOnWindowFocus={true}
+          >
+            <ApolloProvider client={client}>
+              <Component {...pageProps} />
+            </ApolloProvider>
+          </SessionProvider>
+        </SSRProvider>
+      </NextUIProvider>
+    </NextThemesProvider>
   );
 }

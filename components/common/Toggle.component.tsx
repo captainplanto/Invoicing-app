@@ -4,9 +4,13 @@ import { Image } from "@nextui-org/react";
 import styled from "styled-components";
 import { useTheme } from "next-themes";
 
+
 export const ToggleComponent = () => {
   const [toggle, setToggle] = useState<boolean>(false);
   const { setTheme } = useTheme();
+
+
+
   const changeTheme = useCallback(() => {
     setToggle(!toggle);
     if (toggle) {
