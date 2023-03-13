@@ -15,6 +15,8 @@ import {
 import { useReactiveVar } from "@apollo/client";
 import { invoiceVar } from "../../apollo/client/Config";
 import { invoiceMutation } from "../../apollo/client/local/mutation";
+import { useTheme as useNextTheme } from "@nextui-org/react";
+
 interface ITotalValue {
   newItem: IItems[];
   subTotal: number;
@@ -22,12 +24,12 @@ interface ITotalValue {
 export const ListItemComponent: FC<ISendProps> = ({ form, formik }) => {
   const [newItem, setNewItem] = useState<any[]>([]);
   const { itemEntryLists } = useReactiveVar(invoiceVar);
+  const { theme } = useNextTheme();
   const handleCreateNewItemClick = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     invoiceMutation("itemEntryLists", true), event.preventDefault();
     setNewItem([...newItem, { name: "", quantity: 0, price: 0, total: 0 }]);
-    //
   };
 
   const handleChange = (
@@ -60,9 +62,9 @@ export const ListItemComponent: FC<ISendProps> = ({ form, formik }) => {
   };
 
   return (
-    <Container>
+    <Container theme={theme}>
       <h3>Item List</h3>
-      {itemEntryLists  ? (
+      {itemEntryLists ? (
         <Table
           aria-label="Example table with dynamic content"
           css={{
@@ -170,32 +172,38 @@ export const ListItemComponent: FC<ISendProps> = ({ form, formik }) => {
         ""
       )}
       <div className="button_items">
-        <ButtonComponent showIcon={false} onClick={handleCreateNewItemClick}>
+        <ButtonComponent
+          showIcon={false}
+          onClick={handleCreateNewItemClick}
+          type="button"
+        >
           &#43; Add New Item
         </ButtonComponent>
       </div>
 
       <div className="draft_send_btn">
         <div className="btn_btn">
-          <ButtonComponent showIcon={false}>Discard</ButtonComponent>
+          <ButtonComponent showIcon={false} className="discard_btn" type="button">
+            Discard
+          </ButtonComponent>
         </div>
 
         <div className="btn_btn_two">
-          <ButtonComponent showIcon={false}>Save as Draft</ButtonComponent>
-          <SaveAndSendButtonComponent form={form} formik={formik} />
+          <ButtonComponent showIcon={false} type="button">
+            Save as Draft
+          </ButtonComponent>
+          <SaveAndSendButtonComponent
+            form={form}
+            formik={formik}
+            type="submit"
+          />
         </div>
       </div>
     </Container>
   );
 };
-/*
-  <ButtonComponent showIcon={false} onClick={onClick} type={type}>
-            Save & Send
-          </ButtonComponent>
 
-
-*/
-const Container = styled.div`
+const Container = styled.div<{ theme: string }>`
   margin-top: 2rem;
   h3 {
     color: var(--main-grey);
@@ -215,9 +223,9 @@ const Container = styled.div`
       display: grid;
       place-items: center;
       width: 100%;
-      background: var(--light-bg);
+      background: var(--save-draft-btn);
       p {
-        color: var(--light-blue-bg);
+        color: var(--main-white);
       }
     }
   }
@@ -227,10 +235,10 @@ const Container = styled.div`
     justify-content: space-between;
     margin-top: 3rem;
     .btn_btn {
-      button {
-        background: var(--light-bg);
+      .discard_btn {
+        background: ${(props) => props.theme.colors.discard_btn.value};
         p {
-          color: var(--light-blue-bg);
+          color: var(--main-grey);
         }
       }
     }

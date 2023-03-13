@@ -1,6 +1,5 @@
 import { Schema } from "mongoose";
 import { useTheme } from "next-themes";
-import { FormEvent, FormEventHandler } from "react";
 import styled from "styled-components";
 import { ButtonComponent } from "../Button.component";
 import { ConfirmationButtonComponent } from "../ConfirmationButton.component";
@@ -102,8 +101,8 @@ export const EditInvoiceButton = ({
   onClick,
   _id,
 }: {
-  onClick: (event: FormEvent<Element> | FormEventHandler<Element>) => void;
-  _id: Schema.Types.ObjectId;
+  onClick: (event: React.KeyboardEvent | React.MouseEvent) => void;
+  _id?: Schema.Types.ObjectId;
 }) => {
   return (
     <ButtonComponent showIcon={false} onClick={onClick} _id={_id}>
@@ -111,3 +110,10 @@ export const EditInvoiceButton = ({
     </ButtonComponent>
   );
 };
+
+/*
+
+  | FormEvent<Element>
+      | FormEventHandler<Element>
+
+*/

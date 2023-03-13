@@ -10,10 +10,12 @@ import { ButtonComponent } from "../Button.component";
 export interface ISendProps {
   form: IInvoiceForm;
   formik: any;
+  type?: "button" | "submit" | "reset" | undefined;
 }
 export const SaveAndSendButtonComponent: FC<ISendProps> = ({
   form,
   formik,
+  type,
 }) => {
   const [createInvoice, { data, loading, error }] = useMutation(
     CREATE_NEW_INVOICE_MUTATION,
@@ -56,13 +58,13 @@ export const SaveAndSendButtonComponent: FC<ISendProps> = ({
       invoiceMutation("itemEntryLists", !itemEntryLists);
     }
     if (error) {
-      invoiceMutation("invoiceError", true);
+      //  invoiceMutation("invoiceError", true);
       console.log(error.message, "message errrr");
     }
   };
 
   return (
-    <ButtonComponent showIcon={false} onClick={handleSubmit}>
+    <ButtonComponent showIcon={false} onClick={handleSubmit} type={type}>
       Save & Send
     </ButtonComponent>
   );

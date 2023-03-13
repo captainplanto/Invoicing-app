@@ -4,8 +4,8 @@ import { FC } from "react";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import styled from "styled-components";
 import { IInvoiceForm } from "../../type/type";
-import { replaceString } from "../../utils/utils";
-// ?.replaceAll('clientAddress.postCode',"PostCode")
+import { useTheme as useNextTheme } from "@nextui-org/react";
+
 interface ISelector {
   countryValue: string;
   country: string;
@@ -38,8 +38,9 @@ export const CountrySelectorComponent: FC<ISelector> = ({
   isUser,
   ...props
 }) => {
+  const { theme } = useNextTheme();
   return (
-    <Container>
+    <Container theme={theme}>
       <div className="country_region">
         <div>
           <h3>City</h3>
@@ -83,12 +84,12 @@ export const CountrySelectorComponent: FC<ISelector> = ({
               isUser
                 ? touch?.userAddress?.postCode && errors?.userAddress?.postCode
                 : touch?.clientAddress?.postCode &&
-                errors?.clientAddress?.postCode
+                  errors?.clientAddress?.postCode
               //   replaceString(errors?.clientAddress?.postCode)
             }
           />
         </div>
-        
+
         <div>
           <h3>Country</h3>
           <CountryDropdown
@@ -139,7 +140,6 @@ const Container = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 1rem;
-
     .spin_button {
       input[type="number"]::-webkit-outer-spin-button,
       input[type="number"]::-webkit-inner-spin-button {
@@ -149,10 +149,13 @@ const Container = styled.div`
     }
     select {
       width: 100%;
-      border-radius: 4px;
-      border: 1px solid var(--light-blue-bg);
-      padding: 1.1rem;
+      border-radius: 3px;
+      border-color: ${(props) => props.theme.colors.input_border.value};
+      font-family: ${(props) => props.theme.fonts.sans};
+      background: ${(props) => props.theme.colors.text_filed_bg.value};
+      color: ${(props) => props.theme.colors.child_4.value};
       font-weight: 800;
+      padding: 1.5rem;
     }
 
     @media screen and (max-width: 600px) {
@@ -165,9 +168,4 @@ const Container = styled.div`
       }
     }
   }
-  input {
-    font-weight: 800;
-  }
 `;
-// grid-template-columns: 10rem 10rem 10rem;
-//gap: 2rem;

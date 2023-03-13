@@ -106,7 +106,7 @@ const greetings = {
 export const CreateNewInvoiceButton = ({
   onClick,
 }: {
-  onClick: (event: React.FormEventHandler | React.FormEvent) => void;
+  onClick: (event: React.KeyboardEvent | React.MouseEvent) => void;
 }) => {
   return (
     <ButtonContainer>

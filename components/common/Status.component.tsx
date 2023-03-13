@@ -55,7 +55,7 @@ const Container = styled.div<{ theme: string }>`
     p {
       font-size: 1.4rem;
       span {
-        margin-right: 4px;
+        padding: 4px;
       }
     }
   }

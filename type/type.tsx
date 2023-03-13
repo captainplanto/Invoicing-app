@@ -27,7 +27,7 @@ export interface IButtonProps {
   style?: object;
   className?: string;
   background?: string;
-  type?: string;
+  type?: "button" | "submit" | "reset" | undefined;
 }
 
 export interface IAddress {

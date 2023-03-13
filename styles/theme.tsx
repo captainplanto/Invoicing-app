@@ -27,6 +27,10 @@ export const lightTheme = createTheme({
   theme: {
     ...sharedTheme,
     colors: {
+      text: "var(--main-black)",
+      input_heading: "var(--main-blue)",
+      input_subheading: "var(--light-blue-bg)",
+      input_border: "var(--light-grey)",
       background: "var(--light-bg)",
       backgroundContrast: "var(--light-bg)",
       cardItemBg: "var(--main-white)",
@@ -35,6 +39,8 @@ export const lightTheme = createTheme({
       child_4: " var(--main-black)",
       draft_bg: "var(--light-bg)",
       draft_color: "var(--draft-dark-mode)",
+      discard_btn: "var(--light-grey)",
+      text_filed_bg: "var(--light-bg)",
       ...status,
     },
   },
@@ -45,6 +51,10 @@ export const darkTheme = createTheme({
   theme: {
     ...sharedTheme,
     colors: {
+      text: "var(--main-white)",
+      input_heading: "var(--main-white)",
+      input_subheading: "var(--main-white)",
+      input_border: "var(--light-dark-blue)",
       background: "var(--light-black)",
       backgroundContrast: "var(--light-black)",
       cardItemBg: "var(--light-dark-blue)",
@@ -53,6 +63,8 @@ export const darkTheme = createTheme({
       child_4: "var(--main-white)",
       draft_bg: "var(--draft-dark-mode)",
       draft_color: "var(--status-draft-btn)",
+      discard_btn: "var(--main-white)",
+      text_filed_bg: "var(--light-dark-blue)",
       ...status,
     },
   },

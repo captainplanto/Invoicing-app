@@ -23,7 +23,6 @@ export const DrawerComponent = ({
     right: false,
   });
   const { theme } = useNextTheme();
-  console.log(theme);
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
@@ -82,6 +81,14 @@ export const DrawerComponent = ({
                 onClose={toggleDrawer(anchor, false)}
                 onOpen={toggleDrawer(anchor, true)}
                 style={swipeStyle}
+                sx={{
+                  "& .MuiPaper-root": {
+                    background:
+                      theme === "dark"
+                        ? "var(--light-black)"
+                        : "var(--light-bg)",
+                  },
+                }}
               >
                 <CreateInvoiceComponent
                   title="Edit Invoice"

@@ -3,6 +3,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { days } from "../../constant/const";
+import { useTheme as useNextTheme } from "@nextui-org/react";
+import styled from "styled-components";
 
 export const PaymentSelectorComponent = ({
   value,
@@ -11,25 +13,31 @@ export const PaymentSelectorComponent = ({
   value: string;
   onChange: (e: any) => void;
 }) => {
+  const { theme } = useNextTheme();
   const selectedValue = React.useMemo(
     () => Array.from(value).join(", ").replaceAll("_", " "),
     [value]
   );
 
   return (
-    <div>
-      <FormControl style={{ width:'100%'}}>
+    <Container theme={theme}>
+      <FormControl style={{ width: "100%" }}>
         <Select
-          style={{ fontWeight: "800"}}
           value={value}
           name="paymentPlan"
           onChange={onChange}
           displayEmpty
-          inputProps={{ "aria-label": "Without label" }}
+          inputProps={{
+            MenuProps: {
+              MenuListProps: {
+                sx: {
+                  backgroundColor: theme?.colors.background.value,
+                },
+              },
+            },
+          }}
         >
-          <MenuItem value="">
-            <h3 style={h3}>Payment Plan</h3>
-          </MenuItem>
+          <MenuItem value="">Payment Plan</MenuItem>
           {days.map((value) => (
             <MenuItem value={value} key={value}>
               {value}
@@ -37,68 +45,15 @@ export const PaymentSelectorComponent = ({
           ))}
         </Select>
       </FormControl>
-    </div>
+    </Container>
   );
 };
-
-const h3 = {
-  fontWeight: "800",
-  color: "var(--main-black)",
-};
-
-/*
-import { Grid, Dropdown, Radio } from "@nextui-org/react";
-
-export default function App() {
-  const [selectedColor, setSelectedColor] = React.useState("default");
-  const colors = [
-    "default",
-    "primary",
-    "secondary",
-    "success",
-    "warning",
-    "error",
-  ];
-
-  const capitalize = (str) => {
-    const lower = str.toLowerCase();
-    return str.charAt(0).toUpperCase() + lower.slice(1);
-  };
-
-  return (
-   <Dropdown>
-        <Dropdown.Button color="secondary" light>
-          {selectedValue}
-        </Dropdown.Button>
-        <Dropdown.Menu
-          color="default"
-          variant="solid"
-          aria-label="Actions"
-          selectionMode="single"
-          disallowEmptySelection
-          selectedKeys={value}
-           // onChange={onChange}
-       onSelectionChange={onChange}
-        >
-          {days.map((value) => (
-            <Dropdown.Item key={value} withDivider>
-              {value}
-            </Dropdown.Item>
-          ))}
-        </Dropdown.Menu>
-      </Dropdown>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
+const Container = styled.div<{ theme: string }>`
+  & .MuiInputBase-root {
+    font-family: ${(props) => props.theme.fonts.sans};
+    font-weight: 800;
+  }
+  & .MuiSvgIcon-root {
+    color: ${(props) => props.theme.colors.child_4.value};
+  }
+`;

@@ -131,6 +131,7 @@ const Container = styled.div<{ theme: string }>`
       font-weight: 400;
       font-size: 1.4rem;
     }
+
     li:nth-child(4) {
       color: ${(props) => props.theme.colors.child_4.value};
       font-size: 1.5rem;

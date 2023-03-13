@@ -6,7 +6,7 @@ import { validationSchema } from "../../../utils/utils";
 import { PaymentSelectorComponent } from "../../common/PaymentSelector.component";
 import { ListItemComponent } from "../../common/ListItem.component";
 import { initialState } from "../../../constant/const";
-
+import { useTheme as useNextTheme } from "@nextui-org/react";
 export const CreateInvoiceComponent = ({
   title,
   className,
@@ -14,6 +14,7 @@ export const CreateInvoiceComponent = ({
   title: string;
   className?: string;
 }) => {
+  const { theme } = useNextTheme();
   const formik = useFormik({
     initialValues: {
       ...initialState,
@@ -31,7 +32,7 @@ export const CreateInvoiceComponent = ({
   const errors = formik.errors;
 
   return (
-    <Container className={className}>
+    <Container className={className} theme={theme}>
       <form onSubmit={formik.handleSubmit}>
         <h1>{title}</h1>
         <h2>Bill From</h2>
@@ -186,7 +187,7 @@ export const CreateInvoiceComponent = ({
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ theme: string }>`
   width: 40vw;
   max-width: 100vw;
   padding: 3rem 5rem 0 13rem;
@@ -209,13 +210,14 @@ const Container = styled.div`
     font-size: 3rem;
     font-weight: 550;
     margin-bottom: 2rem;
+    color: ${(props) => props.theme.colors.text.value};
   }
   h2 {
-    color: var(--main-blue);
+    color: ${(props) => props.theme.colors.input_heading.value};
     margin-bottom: 1rem;
   }
   h3 {
-    color: var(--light-blue-bg);
+    color: ${(props) => props.theme.colors.input_subheading.value};
     font-size: 1.1rem;
     font-weight: 300;
   }
@@ -230,15 +232,15 @@ const Container = styled.div`
       margin-bottom: 0.5rem;
     }
   }
+
   input:-webkit-autofill,
   textarea:-webkit-autofill,
   select:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px #fff inset !important;
+    -webkit-box-shadow: 0 0 0px 1000px
+      ${(props) => props.theme.colors.text_filed_bg.value} inset !important;
+
     font-weight: 800;
     font-family: var(--main-font);
-  }
-  input {
-    font-weight: 800;
   }
 
   .date_pay_term {
@@ -248,7 +250,6 @@ const Container = styled.div`
     grid-template-columns: 1fr 1fr;
     @media screen and (max-width: 500px) {
       display: block;
-
       .mobile_margin {
         margin-top: 3rem;
       }
@@ -256,5 +257,17 @@ const Container = styled.div`
   }
   .description {
     margin-top: 3rem;
+  }
+  & .MuiOutlinedInput-input {
+    background: ${(props) => props.theme.colors.text_filed_bg.value};
+    border-radius: inherit;
+    color: ${(props) => props.theme.colors.child_4.value};
+  }
+  & .MuiOutlinedInput-notchedOutline {
+    border-color: ${(props) => props.theme.colors.input_border.value};
+  }
+  & .MuiInputBase-root {
+    font-family: ${(props) => props.theme.fonts.sans};
+    font-weight: 800;
   }
 `;

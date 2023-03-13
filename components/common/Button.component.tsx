@@ -5,7 +5,17 @@ import { Image } from "@nextui-org/react";
 import { IButtonProps } from "../../type/type";
 
 export const ButtonComponent: FC<IButtonProps> = (props) => {
-  const { children, icon, link, onClick, showIcon, style, className, _id } = props;
+  const {
+    children,
+    icon,
+    link,
+    onClick,
+    showIcon,
+    type,
+    style,
+    className,
+    _id,
+  } = props;
   if (link) {
     return (
       <Link href={link && link}>
@@ -15,6 +25,7 @@ export const ButtonComponent: FC<IButtonProps> = (props) => {
             $showIcon={showIcon}
             style={style && style}
             className={className}
+            type={type}
           >
             {icon ? (
               <>
@@ -36,37 +47,36 @@ export const ButtonComponent: FC<IButtonProps> = (props) => {
         </div>
       </Link>
     );
-  }
-  else{
-return (
-    <CustomButton
-      onClick={onClick}
-      $showIcon={showIcon && showIcon}
-      style={style && style}
-      className={className}
-    >
-      <div className="icon_child">
-        {icon ? (
-          <>
-            <div className="icon_bg">
-              <Image
-                src={icon}
-                objectFit="contain"
-                width={20}
-                height={20}
-                alt="icon-button"
-              />
-            </div>
+  } else {
+    return (
+      <CustomButton
+        onClick={onClick}
+        $showIcon={showIcon && showIcon}
+        style={style && style}
+        type={type}
+        className={className}
+      >
+        <div className="icon_child">
+          {icon ? (
+            <>
+              <div className="icon_bg">
+                <Image
+                  src={icon}
+                  objectFit="contain"
+                  width={20}
+                  height={20}
+                  alt="icon-button"
+                />
+              </div>
+              <p>{children}</p>
+            </>
+          ) : (
             <p>{children}</p>
-          </>
-        ) : (
-          <p>{children}</p>
-        )}
-      </div>
-    </CustomButton>
-  );
+          )}
+        </div>
+      </CustomButton>
+    );
   }
-  
 };
 const CustomButton = styled.button<{ $showIcon: boolean }>`
   border: none;
