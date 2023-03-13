@@ -21,7 +21,7 @@ interface ITotalValue {
   newItem: IItems[];
   subTotal: number;
 }
-export const ListItemComponent: FC<ISendProps> = ({ form, formik }) => {
+export const ListItemComponent: FC<ISendProps> = ({ form, formik, type }) => {
   const [newItem, setNewItem] = useState<any[]>([]);
   const { itemEntryLists } = useReactiveVar(invoiceVar);
   const { theme } = useNextTheme();
@@ -183,7 +183,11 @@ export const ListItemComponent: FC<ISendProps> = ({ form, formik }) => {
 
       <div className="draft_send_btn">
         <div className="btn_btn">
-          <ButtonComponent showIcon={false} className="discard_btn" type="button">
+          <ButtonComponent
+            showIcon={false}
+            className="discard_btn"
+            type="button"
+          >
             Discard
           </ButtonComponent>
         </div>
@@ -192,11 +196,7 @@ export const ListItemComponent: FC<ISendProps> = ({ form, formik }) => {
           <ButtonComponent showIcon={false} type="button">
             Save as Draft
           </ButtonComponent>
-          <SaveAndSendButtonComponent
-            form={form}
-            formik={formik}
-            type="submit"
-          />
+          <SaveAndSendButtonComponent form={form} formik={formik} type={type} />
         </div>
       </div>
     </Container>

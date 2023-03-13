@@ -8,7 +8,6 @@ import Link from "next/link";
 import { numberWithCommas } from "../../utils/utils";
 import { useTheme as useNextTheme } from "@nextui-org/react";
 
-
 export const InvoiceCardComponent: FC<IUserInvoiceProps> = ({
   userInvoices,
 }) => {
@@ -145,6 +144,7 @@ const Container = styled.div<{ theme: string }>`
     }
 
     .mobile_view {
+        padding: 1rem;
       display: grid;
       grid-template-columns: 2fr 1.5fr;
       div {

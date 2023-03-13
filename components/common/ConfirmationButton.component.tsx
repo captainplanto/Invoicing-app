@@ -51,6 +51,7 @@ export const ConfirmationButtonComponent: FC<IConfirmProps> = ({
 };
 
 const Container = styled.div`
+  padding: 1rem;
   .content {
     text-align: center;
     h1 {

@@ -32,7 +32,7 @@ export const CreateInvoiceComponent = ({
   const errors = formik.errors;
 
   return (
-    <Container className={className} theme={theme}>
+    <Container className={className} theme={theme} title={title}>
       <form onSubmit={formik.handleSubmit}>
         <h1>{title}</h1>
         <h2>Bill From</h2>
@@ -180,20 +180,22 @@ export const CreateInvoiceComponent = ({
           />
         </div>
         <div>
-          <ListItemComponent form={form} formik={formik} />
+          <ListItemComponent form={form} formik={formik} type="submit" />
         </div>
       </form>
     </Container>
   );
 };
 
-const Container = styled.div<{ theme: string }>`
+const Container = styled.div<{ theme: string; title: string }>`
   width: 40vw;
   max-width: 100vw;
-  padding: 3rem 5rem 0 13rem;
+  padding: ${(props) =>
+    props.title === "New Invoice" ? "3rem 5rem 0 13rem" : "6rem"};
   @media screen and (max-width: 1500px) {
     min-width: 60vw;
-    padding: 3rem 5rem 0 13rem;
+    padding: ${(props) =>
+      props.title === "New Invoice" ? "3rem 5rem 0 13rem" : "6rem"};
   }
   @media screen and (max-width: 820px) {
     min-width: 84vw;
