@@ -35,8 +35,8 @@ export const validationSchema = Yup.object({
   invoiceDate: Yup.string().required("Please choose a date"),
   paymentPlan: Yup.string().required("Please select a payment plan"),
   description: Yup.string()
-    .max(60)
-    .required("Provide the project details here"),
+    .required("Provide the project details here")
+    .max(60),
 });
 export const MAX_LIMIT_PRICE = 10000000;
 export const MAX_LIMIT_QTY = 1000;
@@ -59,5 +59,3 @@ export const statusColorCodeStyle = (children: string) =>
     : children === STATUS_NAME.PENDING
     ? STATUS_NAME.PENDING
     : STATUS_NAME.DRAFT;
-
-

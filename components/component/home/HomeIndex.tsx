@@ -10,7 +10,7 @@ import { LayOutPage } from "../../layout/pagelayout/LayOutPage.component";
 
 export const HomeIndex = () => {
   const { data: session } = useSession();
-  const { invoices } = useReactiveVar(invoiceVar);
+  const { invoices, showSnackBar } = useReactiveVar(invoiceVar);
   const { data } = useQuery(GET_ALL_INVOICE_BY_USER, {
     variables: { _id: session?.id },
   });
@@ -23,6 +23,7 @@ export const HomeIndex = () => {
 
   return (
     <LayOutPage>
+      {showSnackBar === true && <SnackBarComponent />}
       <Index userInvoices={invoices} />
     </LayOutPage>
   );

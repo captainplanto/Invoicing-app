@@ -21,7 +21,6 @@ export const SaveAndSendButtonComponent: FC<ISendProps> = ({
     { refetchQueries: [GET_ALL_INVOICE_BY_USER] }
   );
   const session = useSession();
-  const { itemEntryLists } = useReactiveVar(invoiceVar);
 
   const handleSubmit = async () => {
     if (session && session.data?.id) {
@@ -29,36 +28,38 @@ export const SaveAndSendButtonComponent: FC<ISendProps> = ({
         const dbValue = localStorage.getItem("totalPackage");
         let setValue = dbValue ? JSON.parse(dbValue) : [];
         formik.values.items = setValue;
-        createInvoice({
-          variables: {
-            userAddress: {
-              street: form.userAddress.street,
-              city: form.userAddress.city,
-              postCode: form.userAddress.postCode,
-              country: form.userAddress.country,
+        try {
+          const newInvoice = await createInvoice({
+            variables: {
+              userAddress: {
+                street: form.userAddress.street,
+                city: form.userAddress.city,
+                postCode: form.userAddress.postCode,
+                country: form.userAddress.country,
+              },
+              clientAddress: {
+                street: form.clientAddress.street,
+                city: form.clientAddress.city,
+                postCode: form.clientAddress.postCode,
+                country: form.clientAddress.country,
+                name: form.clientAddress.name,
+                email: form.clientAddress.email,
+              },
+              description: form.description,
+              invoiceDate: form.invoiceDate,
+              items: form.items,
+              paymentPlan: form.paymentPlan,
+              invoiceState: "pending",
+              author: "",
             },
-            clientAddress: {
-              street: form.clientAddress.street,
-              city: form.clientAddress.city,
-              postCode: form.clientAddress.postCode,
-              country: form.clientAddress.country,
-              name: form.clientAddress.name,
-              email: form.clientAddress.email,
-            },
-            description: form.description,
-            invoiceDate: form.invoiceDate,
-            items: form.items,
-            paymentPlan: form.paymentPlan,
-            invoiceState: "pending",
-            author: "",
-          },
-        });
-        if (data) {
-          formik.setValues({ ...formik.initialValues });
-          localStorage.removeItem("totalPackage");
+          });
+          if (newInvoice.data) {
+            formik.setValues({ ...formik.initialValues });
+            localStorage.removeItem("totalPackage");
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } else {
-        console.log(formik.errors, "formik errors");
       }
     } else {
       console.log("You must be logged in to perform this action");

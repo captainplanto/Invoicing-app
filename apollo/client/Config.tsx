@@ -5,24 +5,21 @@ import {
   ReactiveVar,
   makeVar,
 } from "@apollo/client";
-import {
-  IInvoiceCard,
-  IInvoiceForm,
-} from "../../type/type";
+import { IInvoiceCard, IInvoiceForm } from "../../type/type";
 
 export interface IInvoiceProps {
   invoices: IInvoiceCard[];
   invoiceDetails: IInvoiceForm | undefined;
-  errorStatus: boolean;
+  showSnackBar: boolean;
+  snackbarMessage: string;
   invoiceStatus: string;
-  itemEntryLists: boolean;
 }
 const invoiceInitialState: IInvoiceProps = {
   invoices: [],
   invoiceDetails: undefined,
   invoiceStatus: "pending",
-  errorStatus: true,
-  itemEntryLists: false,
+  showSnackBar: false,
+  snackbarMessage: "",
 };
 export const cache: InMemoryCache = new InMemoryCache({
   typePolicies: {
