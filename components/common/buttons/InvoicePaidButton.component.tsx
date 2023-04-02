@@ -5,6 +5,7 @@ import { invoiceVar } from "../../../apollo/client/Config";
 import { invoiceMutation } from "../../../apollo/client/local/mutation";
 import { MARK_INVOICE_AS_PAID_MUTATION } from "../../../apollo/client/mutations";
 import { GET_ALL_INVOICE_BY_USER } from "../../../apollo/client/queries";
+import { STATUS } from "../../../constant/enum";
 import { ButtonComponent } from "../Button.component";
 
 export const InvoicePaidButtonComponent = ({
@@ -29,8 +30,9 @@ export const InvoicePaidButtonComponent = ({
         });
         if (!loading && !error) {
           invoiceMutation({
-            errorStatus: false,
             invoiceStatus: "paid",
+            snackbarMessage: STATUS.PAID,
+            showSnackBar: true,
           });
         }
       } catch (error) {}
@@ -49,7 +51,7 @@ export const InvoicePaidButtonComponent = ({
         </ButtonComponent>
       </>
     );
-  }, [_id, invoiceStatus, loading, markInvoiceAsPaid]);
+  }, [_id, error, invoiceStatus, loading, markInvoiceAsPaid]);
 
   return completeInvoice();
 };

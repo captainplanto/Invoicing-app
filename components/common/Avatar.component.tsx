@@ -8,10 +8,12 @@ export const AvatarComponent = () => {
   const { data: session, status } = useSession();
   const { windowDimensions } = useScreenSize();
 
-  if (session && session.user.image) {
+  if (session && session?.user.image) {
     return (
       <Tooltips
-        trigger={windowDimensions.width > 820 ? "hover" : "click"}
+        trigger={
+          windowDimensions && windowDimensions.width > 820 ? "hover" : "click"
+        }
         content={<LogoutUser signout={() => signOut()} />}
         placement={
           windowDimensions && windowDimensions.width > 820
