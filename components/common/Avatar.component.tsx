@@ -1,6 +1,5 @@
 import { Avatar, Tooltip } from "@nextui-org/react";
 import { signOut, useSession } from "next-auth/react";
-
 import styled from "styled-components";
 import useScreenSize from "../../hooks/useScreenSize";
 
@@ -8,7 +7,7 @@ export const AvatarComponent = () => {
   const { data: session, status } = useSession();
   const { windowDimensions } = useScreenSize();
 
-  if (session && session?.user.image) {
+  if (session && session?.user?.image) {
     return (
       <Tooltips
         trigger={
