@@ -150,10 +150,10 @@ const Container = styled.div`
     select {
       width: 100%;
       border-radius: 3px;
-      border-color: ${(props) => props.theme.colors.input_border.value};
+      border-color: ${(props) => props.theme.colors.input_border?.value};
       font-family: ${(props) => props.theme.fonts.sans};
-      background: ${(props) => props.theme.colors.text_filed_bg.value};
-      color: ${(props) => props.theme.colors.child_4.value};
+      background: ${(props) => props.theme.colors.text_filed_bg?.value};
+      color: ${(props) => props.theme.colors.child_4?.value};
       font-weight: 800;
       padding: 1.5rem;
     }

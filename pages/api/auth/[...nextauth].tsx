@@ -26,7 +26,7 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    async session({ session, user }) {
+    async session({ session, user }:any) {
       session.id = user.id;
       return session;
     },
@@ -44,15 +44,3 @@ export default NextAuth({
   debug: true,
   secret: process.env.NEXTAUTH_SECRET,
 });
-
-/*
-  GOOGLE_ID: string;
-    GOOGLE_SECRET: string;
-    EMAIL_SERVER: string;
-    EMAIL_FROM: string;
-    FACEBOOK_ID: string;
-    FACEBOOK_SECRET: string;
-    TWITTER_ID: string;
-    TWITTER_SECRET: string;
-    NEXTAUTH_SECRET: string;
-*/

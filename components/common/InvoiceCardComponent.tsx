@@ -96,7 +96,7 @@ const Container = styled.div<{ theme: string }>`
       align-items: center;
       padding: 2rem;
       grid-template-columns: 0.9fr 1.2fr 1.2fr 1fr 0.8fr 0.5fr;
-      background: ${(props) => props.theme.colors.cardItemBg.value};
+      background: ${(props) => props.theme.colors.cardItemBg?.value};
       margin-top: 2rem;
       border-radius: 8px;
       -webkit-box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.1004);
@@ -107,7 +107,7 @@ const Container = styled.div<{ theme: string }>`
       cursor: pointer;
       span {
         font-weight: 700;
-        color: ${(props) => props.theme.colors.invoiceId.value};
+        color: ${(props) => props.theme.colors.invoiceId?.value};
       }
 
       @media screen and (max-width: 500px) {
@@ -126,13 +126,13 @@ const Container = styled.div<{ theme: string }>`
     }
     li:nth-child(2),
     li:nth-child(3) {
-      color: ${(props) => props.theme.colors.child_2_3.value};
+      color: ${(props) => props.theme.colors.child_2_3?.value};
       font-weight: 400;
       font-size: 1.4rem;
     }
 
     li:nth-child(4) {
-      color: ${(props) => props.theme.colors.child_4.value};
+      color: ${(props) => props.theme.colors.child_4?.value};
       font-size: 1.5rem;
       font-weight: 600;
     }
@@ -144,16 +144,16 @@ const Container = styled.div<{ theme: string }>`
     }
 
     .mobile_view {
-        padding: 1rem;
+      padding: 1rem;
       display: grid;
       grid-template-columns: 2fr 1.5fr;
       div {
         li:nth-child(1) {
-          color: ${(props) => props.theme.colors.child_2_3.value};
+          color: ${(props) => props.theme.colors.child_2_3?.value};
           font-weight: 400 !important;
         }
         li:nth-child(2) {
-          color: ${(props) => props.theme.colors.child_2_3.value};
+          color: ${(props) => props.theme.colors.child_2_3?.value};
           font-size: 1.7rem;
           font-weight: 700;
         }

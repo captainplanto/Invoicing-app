@@ -20,7 +20,7 @@ export const RegisterComponent = ({ providers }: { providers: any }) => {
               }
               onClick={() => signIn(provider.id)}
             >
-              {`Sign up with ${provider.name}`}
+              {`Register/Sign in with ${provider.name}`}
             </ButtonComponent>
           </div>
         ))

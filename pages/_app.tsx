@@ -17,10 +17,10 @@ export default function App({
   session: Session;
 }>) {
   const { theme } = useTheme();
-  console.log(theme, "type");
+  // console.log(theme, "type");
   return (
     <NextThemesProvider
-      defaultTheme={lightTheme}
+      //  defaultTheme={lightTheme}
       attribute="class"
       value={{
         light: lightTheme,

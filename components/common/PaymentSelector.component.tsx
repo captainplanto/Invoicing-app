@@ -31,7 +31,7 @@ export const PaymentSelectorComponent = ({
             MenuProps: {
               MenuListProps: {
                 sx: {
-                  backgroundColor: theme?.colors.background.value,
+                  backgroundColor: theme?.colors.background?.value,
                 },
               },
             },
@@ -54,6 +54,6 @@ const Container = styled.div<{ theme: string }>`
     font-weight: 800;
   }
   & .MuiSvgIcon-root {
-    color: ${(props) => props.theme.colors.child_4.value};
+    color: ${(props) => props.theme.colors.child_4?.value};
   }
 `;

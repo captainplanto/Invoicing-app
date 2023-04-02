@@ -31,21 +31,21 @@ const Container = styled.div<{ theme: string }>`
     text-transform: capitalize;
   }
   .paid {
-    background: ${(props) => props.theme.colors.paid_bg.value};
-    color: ${(props) => props.theme.colors.paid_text.value};
+    background: ${(props) => props.theme.colors.paid_bg?.value};
+    color: ${(props) => props.theme.colors.paid_text?.value};
     span {
-      color: ${(props) => props.theme.colors.paid_text.value}!important;
+      color: ${(props) => props.theme.colors.paid_text?.value}!important;
     }
   }
   .pending {
-    background: ${(props) => props.theme.colors.pending_bg.value};
-    color: ${(props) => props.theme.colors.pending_text.value};
+    background: ${(props) => props.theme.colors.pending_bg?.value};
+    color: ${(props) => props.theme.colors.pending_text?.value};
     span {
-      color: ${(props) => props.theme.colors.pending_text.value}!important;
+      color: ${(props) => props.theme.colors.pending_text?.value}!important;
     }
   }
   .draft {
-    background: ${(props) => props.theme.colors.draft_bg.value};
+    background: ${(props) => props.theme.colors.draft_bg?.value};
     color: ${(props) => props.theme.colors.draft_color};
     span {
       color: ${(props) => props.theme.colors.draft_span}!important;

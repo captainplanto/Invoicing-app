@@ -11,16 +11,5 @@ declare module "next-Auth" {
   }
   interface User {
     id: Schema.Types.ObjectId;
-    /*  subtitle: string;
-    aboutMe: string;
-    topics: Schema.Types.ObjectId[];
-    followers: Schema.Types.ObjectId[];
-    following: Schema.Types.ObjectId[];
-    categoriesFollowed: String[];
-    likedTopics: Schema.Types.ObjectId[];
-    comments: ISchema.Types.ObjectId[];
-    likedComments: Schema.Types.ObjectId[];
-    savedTopics: Schema.Types.ObjectId[];
-    */
   }
 }

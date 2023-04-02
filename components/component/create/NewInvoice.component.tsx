@@ -7,6 +7,7 @@ import { PaymentSelectorComponent } from "../../common/PaymentSelector.component
 import { ListItemComponent } from "../../common/ListItem.component";
 import { initialState } from "../../../constant/const";
 import { useTheme as useNextTheme } from "@nextui-org/react";
+import { ButtonGroup } from "../../common/buttons/groups";
 export const CreateInvoiceComponent = ({
   title,
   className,
@@ -22,11 +23,7 @@ export const CreateInvoiceComponent = ({
     validationSchema: validationSchema,
     onSubmit: (values) => {},
   });
-  /* onSubmit: (values) => {
-      const dbValue = localStorage.getItem("totalPackage");
-      let setValue = dbValue ? JSON.parse(dbValue) : [];
-      formik.values.items = setValue;
-    }, */
+
   const form = formik.values;
   const touch = formik.touched;
   const errors = formik.errors;
@@ -179,9 +176,8 @@ export const CreateInvoiceComponent = ({
             helperText={touch?.description && errors?.description}
           />
         </div>
-        <div>
-          <ListItemComponent form={form} formik={formik} type="submit" />
-        </div>
+        <ListItemComponent />
+        <ButtonGroup form={form} formik={formik} />
       </form>
     </Container>
   );
@@ -212,14 +208,14 @@ const Container = styled.div<{ theme: string; title: string }>`
     font-size: 3rem;
     font-weight: 550;
     margin-bottom: 2rem;
-    color: ${(props) => props.theme.colors.text.value};
+    color: ${(props) => props.theme.colors.text?.value};
   }
   h2 {
-    color: ${(props) => props.theme.colors.input_heading.value};
+    color: ${(props) => props.theme.colors.input_heading?.value};
     margin-bottom: 1rem;
   }
   h3 {
-    color: ${(props) => props.theme.colors.input_subheading.value};
+    color: ${(props) => props.theme.colors.input_subheading?.value};
     font-size: 1.1rem;
     font-weight: 300;
   }
@@ -239,7 +235,7 @@ const Container = styled.div<{ theme: string; title: string }>`
   textarea:-webkit-autofill,
   select:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px
-      ${(props) => props.theme.colors.text_filed_bg.value} inset !important;
+      ${(props) => props.theme.colors.text_filed_bg?.value} inset !important;
 
     font-weight: 800;
     font-family: var(--main-font);
@@ -261,12 +257,12 @@ const Container = styled.div<{ theme: string; title: string }>`
     margin-top: 3rem;
   }
   & .MuiOutlinedInput-input {
-    background: ${(props) => props.theme.colors.text_filed_bg.value};
+    background: ${(props) => props.theme.colors.text_filed_bg?.value};
     border-radius: inherit;
-    color: ${(props) => props.theme.colors.child_4.value};
+    color: ${(props) => props.theme.colors.child_4?.value};
   }
   & .MuiOutlinedInput-notchedOutline {
-    border-color: ${(props) => props.theme.colors.input_border.value};
+    border-color: ${(props) => props.theme.colors.input_border?.value};
   }
   & .MuiInputBase-root {
     font-family: ${(props) => props.theme.fonts.sans};
