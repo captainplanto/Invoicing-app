@@ -1,15 +1,17 @@
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
-import { ApolloServer } from "@apollo/server";
+// import { ApolloServer } from "@apollo/server";
 import { resolvers, typeDefs } from "../../apollo/server/schema";
 import { getSession } from "next-auth/react";
 import { NextApiRequest, NextApiResponse } from "next";
+import { ApolloServer } from "apollo-server";
 
-export const schema = {
+
+export const schemas = {
   typeDefs: typeDefs,
   resolvers,
 };
 
-const server = new ApolloServer<ApolloServer>(schema);
+const server: any = new ApolloServer(schemas);
 export default startServerAndCreateNextHandler(server, {
   context: async (req: NextApiRequest, res: NextApiResponse) => ({
     req,

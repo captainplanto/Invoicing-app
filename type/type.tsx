@@ -79,7 +79,7 @@ export interface IINewtems {
 }
 
 export interface IInvoiceForm {
-  _id: Schema.Types.ObjectId;
+  // _id: Schema.Types.ObjectId | undefined;
   userAddress: IAddress;
   clientAddress: IAddress;
   invoiceState: string;
@@ -88,7 +88,7 @@ export interface IInvoiceForm {
   paymentPlan: string;
   description: string;
   items: IINewtems;
-  author: string;
+  author: string | Schema.Types.ObjectId;
 }
 
 export interface IDetailsCardInvoice {

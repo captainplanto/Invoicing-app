@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 import { invoiceMutation } from "../../apollo/client/local/mutation";
 
 export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
-  invoice
+  invoice,
 }) => {
   const { theme } = useTheme();
   const router = useRouter();
@@ -37,7 +37,7 @@ export const InvoiceDetailsCardComponent: FC<IDetailsCardInvoice> = ({
       createdAt,
       paymentPlan,
       clientAddress,
-    } = invoice;
+    } = invoice as any;
     const {
       street: userStreet,
       city: userCity,
