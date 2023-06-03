@@ -4,13 +4,12 @@ import { ApolloProvider } from "@apollo/client";
 import { SessionProvider } from "next-auth/react";
 import { client } from "../apollo/client/Config";
 import { SSRProvider } from "react-aria";
-// import { Session } from "next-Auth";
+import { Session } from "next-Auth";
 import { darkTheme, lightTheme } from "../styles/theme";
 import { useTheme } from "next-themes";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { NextUIProvider } from "@nextui-org/react";
-import { Session } from "next-auth/core/types";
-
+// import { Session } from "next-auth/core/types";
 
 export default function App({
   Component,

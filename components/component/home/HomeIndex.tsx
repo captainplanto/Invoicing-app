@@ -1,4 +1,5 @@
 import { useQuery, useReactiveVar } from "@apollo/client";
+import { Session } from "next-auth/core/types";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { Index } from ".";
@@ -12,7 +13,7 @@ export const HomeIndex = () => {
   const { data: session } = useSession();
   const { invoices, showSnackBar } = useReactiveVar(invoiceVar);
   const { data } = useQuery(GET_ALL_INVOICE_BY_USER, {
-    variables: { _id: session && session.id },
+    variables: { _id: session && session.id},
   });
 
   useEffect(() => {
