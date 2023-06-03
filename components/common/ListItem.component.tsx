@@ -22,7 +22,8 @@ export const ListItemComponent = () => {
   const handleCreateNewItemClick = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
-    invoiceMutation("itemEntryLists", true), event.preventDefault();
+    // invoiceMutation("itemEntryLists", true),
+    event.preventDefault();
     setNewItem([...newItem, { name: "", quantity: 0, price: 0, total: 0 }]);
   };
 
