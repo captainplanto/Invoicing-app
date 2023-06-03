@@ -40,7 +40,7 @@ export const HeaderComponent = () => {
           : `${day}` > "16"
           ? `Good Evening`
           : ""}{" "}
-        {session?.user.name}
+        {session && session.user?.name}
       </p>
       <Container>
         <div>
