@@ -8,7 +8,6 @@ import {
 } from "next-auth/react";
 import { useRouter } from "next/router";
 
-
 const Register = ({
   providers,
 }: {
@@ -38,24 +37,3 @@ export async function getServerSideProps(context: any) {
     props: { providers },
   };
 }
-
-/*
-const Loading = styled.div`
-  .signing-in {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-if (status === "loading" && !session) {
-    return (
-      <Loading>
-        <div className="signing-in">
-          <Progress indeterminated value={50} color="gradient" size="sm" />
-          <p>You are signing in...</p>
-        </div>
-      </Loading>
-    );
-  }
-
-*/

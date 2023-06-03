@@ -10,14 +10,12 @@ import { RegisterComponent } from "../components/component/register/Register.com
 import { BuiltInProviderType } from "next-auth/providers";
 
 const Home = ({
-  data,
+  providers,
 }: {
-  data: {
-    providers: Record<
-      LiteralUnion<BuiltInProviderType, string>,
-      ClientSafeProvider
-    > | null;
-  };
+  providers: Record<
+    LiteralUnion<BuiltInProviderType, string>,
+    ClientSafeProvider
+  > | null;
 }) => {
   const { data: session, status } = useSession();
 
@@ -25,19 +23,15 @@ const Home = ({
     return <HomeIndex />;
   }
   if (status === "unauthenticated" && !session) {
-    return <RegisterComponent providers={data.providers} />;
+    return <RegisterComponent providers={providers} />;
   }
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  //const { req } = context;
-  //const session = await getSession({ req });
+export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const providers = await getProviders();
   return {
     props: {
-      data: {
-        providers: providers,
-      },
+      providers,
     },
   };
 };
