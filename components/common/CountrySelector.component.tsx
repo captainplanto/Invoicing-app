@@ -1,7 +1,12 @@
 import { TextField } from "@mui/material";
 import { FormikErrors, FormikTouched } from "formik";
 import { FC } from "react";
-import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
+import {
+  CountryDropdown,
+  RegionDropdown,
+  RegionDropdownProps,
+  CountryDropdownProps,
+} from "react-country-region-selector";
 import styled from "styled-components";
 import { IInvoiceForm } from "../../type/type";
 import { useTheme as useNextTheme } from "@nextui-org/react";
@@ -21,7 +26,14 @@ interface ISelector {
   errors?: FormikErrors<IInvoiceForm> | undefined;
   isUser: boolean;
 }
-
+interface ExtendedRegionDropdownProps extends RegionDropdownProps<Element> {
+  error?: boolean;
+  helperText: any;
+}
+interface ExtendedCountrySelectorProps extends CountryDropdownProps<Element> {
+  error?: boolean;
+  helperText: any;
+}
 export const CountrySelectorComponent: FC<ISelector> = ({
   countryValue,
   city,
@@ -39,29 +51,40 @@ export const CountrySelectorComponent: FC<ISelector> = ({
   ...props
 }) => {
   const { theme } = useNextTheme();
+  const extendedPropsRegion: ExtendedRegionDropdownProps = {
+    blankOptionLabel: "Region",
+    country: country,
+    value: city,
+    onChange: onChange,
+    name: inputNameRegion,
+    error: isUser
+      ? touch?.userAddress?.city && Boolean(errors?.userAddress?.city)
+      : touch?.clientAddress?.city && Boolean(errors?.clientAddress?.city),
+    helperText: isUser
+      ? touch?.userAddress?.city && errors?.userAddress?.city
+      : touch?.clientAddress?.city && errors?.clientAddress?.city,
+  };
+  const extendedPropsCountry: ExtendedCountrySelectorProps = {
+    defaultOptionLabel: "Country",
+    id: "select_box",
+    value: countryValue,
+    name: inputNameCountry,
+    onChange: onChange,
+    error: isUser
+      ? touch?.userAddress?.country && Boolean(errors?.userAddress?.country)
+      : touch?.clientAddress?.country &&
+        Boolean(errors?.clientAddress?.country),
+
+    helperText: isUser
+      ? touch?.userAddress?.country && errors?.userAddress?.country
+      : touch?.clientAddress?.country && errors?.clientAddress?.country,
+  };
   return (
     <Container theme={theme}>
       <div className="country_region">
         <div>
           <h3>City</h3>
-          <RegionDropdown
-            blankOptionLabel="Region"
-            country={country}
-            value={city}
-            onChange={onChange}
-            name={inputNameRegion}
-            error={
-              isUser
-                ? touch?.userAddress?.city && Boolean(errors?.userAddress?.city)
-                : touch?.clientAddress?.city &&
-                  Boolean(errors?.clientAddress?.city)
-            }
-            helperText={
-              isUser
-                ? touch?.userAddress?.city && errors?.userAddress?.city
-                : touch?.clientAddress?.city && errors?.clientAddress?.city
-            }
-          />
+          <RegionDropdown {...extendedPropsRegion} />
         </div>
         <div>
           <h3>Post Code</h3>
@@ -92,26 +115,7 @@ export const CountrySelectorComponent: FC<ISelector> = ({
 
         <div>
           <h3>Country</h3>
-          <CountryDropdown
-            defaultOptionLabel="Country"
-            id="select_box"
-            value={countryValue}
-            name={inputNameCountry}
-            onChange={onChange}
-            error={
-              isUser
-                ? touch?.userAddress?.country &&
-                  Boolean(errors?.userAddress?.country)
-                : touch?.clientAddress?.country &&
-                  Boolean(errors?.clientAddress?.country)
-            }
-            helperText={
-              isUser
-                ? touch?.userAddress?.country && errors?.userAddress?.country
-                : touch?.clientAddress?.country &&
-                  errors?.clientAddress?.country
-            }
-          />
+          <CountryDropdown {...extendedPropsCountry} />
         </div>
       </div>
     </Container>
