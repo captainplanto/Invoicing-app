@@ -23,7 +23,7 @@ export const SaveAndSendButtonComponent: FC<ISendProps> = ({
   const session = useSession();
 
   const handleSubmit = async () => {
-    if (session && session.data?.id) {
+    if (session) {
       if (Object.keys(formik.errors).length === 0) {
         const dbValue = localStorage.getItem("totalPackage");
         let setValue = dbValue ? JSON.parse(dbValue) : [];
