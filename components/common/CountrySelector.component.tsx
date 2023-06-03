@@ -18,7 +18,7 @@ interface ISelector {
   inputNameCountry: string;
   form: object;
   touch: FormikTouched<IInvoiceForm> | undefined;
-  errors: FormikErrors<IInvoiceForm> | undefined;
+  errors?: FormikErrors<IInvoiceForm> | undefined;
   isUser: boolean;
 }
 
