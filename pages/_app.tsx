@@ -4,7 +4,6 @@ import { ApolloProvider } from "@apollo/client";
 import { SessionProvider } from "next-auth/react";
 import { client } from "../apollo/client/Config";
 import { SSRProvider } from "react-aria";
-import { Session } from "next-Auth";
 import { darkTheme, lightTheme } from "../styles/theme";
 import { useTheme } from "next-themes";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
