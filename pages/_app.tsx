@@ -9,19 +9,17 @@ import { darkTheme, lightTheme } from "../styles/theme";
 import { useTheme } from "next-themes";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { NextUIProvider } from "@nextui-org/react";
-// import { Session } from "next-auth/core/types";
 
 export default function App({
   Component,
   pageProps,
 }: AppProps<{
-  session: Session;
+  session: any;
 }>) {
   const { theme } = useTheme();
-  // console.log(theme, "type");
+
   return (
     <NextThemesProvider
-      //  defaultTheme={lightTheme}
       attribute="class"
       value={{
         light: lightTheme,
