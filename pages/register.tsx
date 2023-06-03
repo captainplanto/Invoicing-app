@@ -30,10 +30,3 @@ const Register = ({
   }
 };
 export default Register;
-
-export async function getServerSideProps(context: any) {
-  const providers = await getProviders();
-  return {
-    props: { providers },
-  };
-}
