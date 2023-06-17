@@ -5,7 +5,7 @@ const nextConfig = {
   images: {
     domains: ["res.cloudinary.com", "lh3.googleusercontent.com"],
   },
-  basePath: isProduction ? "https://demoinvoicing.vercel.app/" : "",
+
   assetPrefix: isProduction ? "https://demoinvoicing.vercel.app/" : "",
 };
 
