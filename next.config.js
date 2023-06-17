@@ -5,8 +5,8 @@ const nextConfig = {
   images: {
     domains: ["res.cloudinary.com", "lh3.googleusercontent.com"],
   },
-  basePath: isProduction ? "/your-new-url" : "",
-  assetPrefix: isProduction ? "/your-new-url/" : "",
+  basePath: isProduction ? "https://demoinvoicing.vercel.app/" : "",
+  assetPrefix: isProduction ? "https://demoinvoicing.vercel.app/" : "",
 };
 
 module.exports = nextConfig;
