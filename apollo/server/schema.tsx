@@ -1,6 +1,7 @@
 import { gql } from "apollo-server";
+import { ObjectId } from "mongodb";
 import { Error } from "mongoose";
-import { ObjectId } from "mongoose/node_modules/mongodb";
+// import { ObjectId } from "mongoose/node_modules/mongodb";
 import dbConnect from "../../db/config/dbConnects";
 import InvoiceModel from "../../db/models/Invoice.model";
 import UserModel from "../../db/models/User.model";
