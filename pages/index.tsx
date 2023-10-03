@@ -6,8 +6,9 @@ import {
   LiteralUnion,
   useSession,
 } from "next-auth/react";
-import { RegisterComponent } from "../components/component/register/Register.component";
 import { BuiltInProviderType } from "next-auth/providers";
+import { useRouter } from "next/router";
+import { RegisterComponent } from "../components/component/register/Register.component";
 
 const Home = ({
   providers,
@@ -18,12 +19,14 @@ const Home = ({
   > | null;
 }) => {
   const { data: session, status } = useSession();
+  const router = useRouter();
+
+  if (status === "unauthenticated") {
+    return <RegisterComponent providers={providers} />;
+  }
 
   if (status === "authenticated" && session) {
     return <HomeIndex />;
-  }
-  if (status === "unauthenticated" && !session) {
-    return <RegisterComponent providers={providers} />;
   }
 };
 

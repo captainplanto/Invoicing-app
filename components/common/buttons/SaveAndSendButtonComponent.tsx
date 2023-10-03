@@ -20,8 +20,8 @@ export const SaveAndSendButtonComponent: FC<ISendProps> = ({
     CREATE_NEW_INVOICE_MUTATION,
     { refetchQueries: [GET_ALL_INVOICE_BY_USER] }
   );
-  const session = useSession();
-
+  const { data: session } = useSession();
+  console.log(session, "client-session");
   const handleSubmit = async () => {
     if (session) {
       if (Object.keys(formik.errors).length === 0) {
@@ -58,7 +58,7 @@ export const SaveAndSendButtonComponent: FC<ISendProps> = ({
             localStorage.removeItem("totalPackage");
           }
         } catch (error) {
-          console.log(error);
+          console.log(error, "send error....");
         }
       }
     } else {

@@ -1,8 +1,9 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import styled from "styled-components";
 import { IUserInvoiceProps } from "../../../type/type";
 import { HeaderComponent } from "../../common/Header.component";
 import { InvoiceCardComponent } from "../../common/InvoiceCardComponent";
+
 
 export const Index: FC<IUserInvoiceProps> = ({ userInvoices }) => {
   return (
@@ -26,3 +27,4 @@ const Container = styled.div`
     width: 90%;
   }
 `;
+

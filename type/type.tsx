@@ -14,7 +14,7 @@ export interface IMenu {
   name: string;
 }
 export interface IIcon {
-  icon: string | ReactNode;
+  children: ReactNode;
 }
 
 export interface IButtonProps {

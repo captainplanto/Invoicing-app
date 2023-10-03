@@ -2,11 +2,12 @@ import * as React from "react";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { useState } from "react";
 import styled from "styled-components";
-import { CreateNewInvoiceButton } from "./Header.component";
 import { EditInvoiceButton } from "./buttons/DetailPageButton.component";
 import { CreateInvoiceComponent } from "../component/create/NewInvoice.component";
 import { Schema } from "mongoose";
 import { useTheme as useNextTheme } from "next-themes";
+import { CreateNewInvoiceButton } from "./buttons/CreateNewInvoiceButton";
+
 type Anchor = "top" | "left" | "bottom" | "right";
 
 export const DrawerComponent = ({
