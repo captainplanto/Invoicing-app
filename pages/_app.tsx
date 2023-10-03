@@ -5,7 +5,6 @@ import { SessionProvider } from "next-auth/react";
 import { client } from "../apollo/client/Config";
 import { SSRProvider } from "@react-aria/ssr";
 import { darkTheme, lightTheme } from "../styles/theme";
-import { useTheme } from "next-themes";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { NextUIProvider } from "@nextui-org/react";
 
@@ -15,29 +14,28 @@ export default function App({
 }: AppProps<{
   session: any;
 }>) {
-  const { theme } = useTheme();
-
   return (
-    <SSRProvider>
-      <NextThemesProvider
-        attribute="class"
-        value={{
-          light: lightTheme,
-          dark: darkTheme,
-        }}
-      >
+    <>
         <NextUIProvider>
-          <SessionProvider
-            session={pageProps.session}
-            refetchInterval={0}
-            refetchOnWindowFocus={true}
+          <NextThemesProvider
+            attribute="class"
+            value={{
+              light: lightTheme,
+              dark: darkTheme,
+            }}
           >
-            <ApolloProvider client={client}>
-              <Component {...pageProps} />
-            </ApolloProvider>
-          </SessionProvider>
+            <SessionProvider
+              session={pageProps.session}
+              refetchInterval={0}
+              refetchOnWindowFocus={true}
+            >
+              <ApolloProvider client={client}>
+                <Component {...pageProps} />
+              </ApolloProvider>
+            </SessionProvider>
+          </NextThemesProvider>
         </NextUIProvider>
-      </NextThemesProvider>
-    </SSRProvider>
+    </>
   );
 }
+//<SSRProvider>  </SSRProvider>

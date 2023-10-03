@@ -1,18 +1,13 @@
 import { useReactiveVar } from "@apollo/client";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { invoiceVar } from "../../apollo/client/Config";
-import { addInvoiceIcon } from "../../constant/const";
-import { ButtonComponent } from "./Button.component";
 import { DrawerComponent } from "./Drawer.component";
 import { FilterComponent } from "./Filter.component";
+import { HeaderTimeComponent } from "./HeaderTimeComponent";
 
 export const HeaderComponent = () => {
-  const { data: session, status } = useSession();
-  const [day, setDay] = useState<string>();
   const { invoices } = useReactiveVar(invoiceVar);
-
   const invoiceLengthDesktop =
     invoices && invoices?.length > 1
       ? `There are ${invoices.length} total invoices`
@@ -21,34 +16,16 @@ export const HeaderComponent = () => {
     invoices && invoices.length > 1
       ? `${invoices.length} total invoices`
       : `${invoices.length} total invoice`;
-  useEffect(() => {
-    const date = new Date();
-    const hour = date.toLocaleString("en-US", {
-      hour: "numeric",
-      hour12: false,
-    });
-    setDay(hour);
-  }, []);
 
   return (
     <>
-      <p style={greetings}>
-        {`${day}` < "12"
-          ? ` Good Morning`
-          : `${day}` > "12"
-          ? `Good Afternoon`
-          : `${day}` > "16"
-          ? `Good Evening`
-          : ""}{" "}
-        {session && session.user?.name}
-      </p>
+      <HeaderTimeComponent />
       <Container>
         <div>
           <h1>Invoices</h1>
           <span className="desktop_view">{invoiceLengthDesktop}</span>
           <span className="mobile_view">{invoiceLengthMobile}</span>
         </div>
-
         <div className="filter">
           <FilterComponent
             desktop_view="desktop_view"
@@ -87,37 +64,6 @@ const Container = styled.div`
       gap: 1rem;
     }
   }
-  .desktop_view {
-    @media screen and (max-width: 600px) {
-      display: none;
-    }
-  }
-  .mobile_view {
-    @media screen and (min-width: 601px) {
-      display: none;
-    }
-  }
-`;
-const greetings = {
-  fontSize: "1.3rem",
-  fontWeight: "700",
-};
-
-export const CreateNewInvoiceButton = ({
-  onClick,
-}: {
-  onClick: (event: React.KeyboardEvent | React.MouseEvent) => void;
-}) => {
-  return (
-    <ButtonContainer>
-      <ButtonComponent icon={addInvoiceIcon} showIcon onClick={onClick}>
-        <div className="desktop_view">New Invoice</div>
-        <div className="mobile_view">New</div>
-      </ButtonComponent>
-    </ButtonContainer>
-  );
-};
-const ButtonContainer = styled.div`
   .desktop_view {
     @media screen and (max-width: 600px) {
       display: none;

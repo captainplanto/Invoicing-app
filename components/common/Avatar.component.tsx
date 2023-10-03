@@ -1,65 +1,35 @@
 import { Avatar, Tooltip } from "@nextui-org/react";
 import { signOut, useSession } from "next-auth/react";
 import styled from "styled-components";
-import useScreenSize from "../../hooks/useScreenSize";
+import { LogoutUser } from "./LogOutUser";
+import { useMediaQuery } from "@mui/material";
 
 export const AvatarComponent = () => {
   const { data: session, status } = useSession();
-  const { windowDimensions } = useScreenSize();
-
-  if (session && session?.user?.image) {
-    return (
-      <Tooltips
-        trigger={
-          windowDimensions && windowDimensions.width > 820 ? "hover" : "click"
-        }
-        content={<LogoutUser signout={() => signOut()} />}
-        placement={
-          windowDimensions && windowDimensions.width > 820
-            ? "rightStart"
-            : "bottomEnd"
-        }
-        leaveDelay={1000}
-      >
+  const matches = useMediaQuery("(max-width:820px)");
+  return (
+    <Tooltips
+      trigger="click"
+      content={<LogoutUser signout={() => signOut()} />}
+      placement={matches ? "bottom" : "rightStart"}
+      // leaveDelay={1000}
+    >
+      {session && session.user.image ? (
         <Avatar
           src={session.user.image}
           size="lg"
           alt="avatar"
           className="avatar_hover"
         />
-      </Tooltips>
-    );
-  }
-  return <Avatar src="aa" size="lg" alt="avatar" />;
+      ) : (
+        <Avatar src="" size="lg" alt="avatar" />
+      )}
+    </Tooltips>
+  );
 };
+
 const Tooltips = styled(Tooltip)`
   .avatar_hover {
     cursor: pointer;
   }
 `;
-
-export const LogoutUser = ({ signout }: { signout: () => void }) => {
-  const { windowDimensions } = useScreenSize();
-
-  return (
-    <Typography
-      style={
-        windowDimensions && windowDimensions.width > 820 ? desktop : mobile
-      }
-      onClick={signout}
-    >
-      Logout
-    </Typography>
-  );
-};
-const Typography = styled.p`
-  font-size: 1.2rem;
-  font-weight: 600;
-  cursor: pointer;
-`;
-const desktop = {
-  marginLeft: "1rem",
-};
-const mobile = {
-  marginLeft: 0,
-};
