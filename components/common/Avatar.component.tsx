@@ -14,9 +14,9 @@ export const AvatarComponent = () => {
       placement={matches ? "bottom" : "rightStart"}
       // leaveDelay={1000}
     >
-      {session && session.user.image ? (
+      {session && session?.user?.image ? (
         <Avatar
-          src={session.user.image}
+          src={session?.user?.image}
           size="lg"
           alt="avatar"
           className="avatar_hover"
