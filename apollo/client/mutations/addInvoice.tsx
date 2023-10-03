@@ -61,6 +61,7 @@ export const DELETE_INVOICE_MUTATION = gql`
       _id
     }
   }
+  
 `;
 
 export const MARK_INVOICE_AS_PAID_MUTATION = gql`

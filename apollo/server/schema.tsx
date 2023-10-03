@@ -1,11 +1,14 @@
 import { gql } from "apollo-server";
+import { ObjectId } from "mongodb";
 import { Error } from "mongoose";
-import { ObjectId } from "mongoose/node_modules/mongodb";
+// import { ObjectId } from "mongoose/node_modules/mongodb";
 import dbConnect from "../../db/config/dbConnects";
 import InvoiceModel from "../../db/models/Invoice.model";
 import UserModel from "../../db/models/User.model";
 import { IInvoiceForm } from "../../type/type";
 import { validationSchema } from "../../utils/utils";
+import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth/next";
 
 export const typeDefs = gql`
   scalar Date
@@ -172,58 +175,52 @@ export const resolvers = {
           author,
         },
       }: { createNewInvoice: IInvoiceForm },
-      context: any,
-      info: any
+      context: any
     ) => {
-      if (context.session) {
-        try {
-          const validateInvoiceInput = await validationSchema.validate({
-            userAddress,
-            clientAddress,
-            invoiceState,
-            invoiceDate,
-            paymentPlan,
-            description,
-            items,
-            author,
-          });
-          if (validateInvoiceInput) {
-            const newInvoice = await new InvoiceModel({
-              userAddress: {
-                street: userAddress.street,
-                country: userAddress.country,
-                postCode: userAddress.postCode,
-                city: userAddress.city,
-              },
-              clientAddress: {
-                street: clientAddress.street,
-                country: clientAddress.country,
-                postCode: clientAddress.postCode,
-                city: clientAddress.city,
-                name: clientAddress.name,
-                email: clientAddress.email,
-              },
-              invoiceState: invoiceState,
-              invoiceDate: invoiceDate,
-              paymentPlan: paymentPlan,
-              description: description,
-              items: items,
-              author: context.session.id,
-            });
-            const response = await newInvoice.save();
-            if (response) {
-              return {
-                data: response,
-                status: 200,
-                success: true,
-              };
-            }
-          }
-        } catch (error) {
-          console.log(error, "error in schema");
-        }
-      } else {
+      const { session } = context;
+      console.log(session, "context here...");
+      if (!session) {
         console.log("Please log in to create an invoice");
+      }
+      try {
+        const validateInvoiceInput = await validationSchema.validate({
+          userAddress,
+          clientAddress,
+          invoiceState,
+          invoiceDate,
+          paymentPlan,
+          description,
+          items,
+          author,
+        });
+        if (validateInvoiceInput) {
+          const newInvoice = await new InvoiceModel({
+            userAddress: {
+              street: userAddress.street,
+              country: userAddress.country,
+              postCode: userAddress.postCode,
+              city: userAddress.city,
+            },
+            clientAddress: {
+              street: clientAddress.street,
+              country: clientAddress.country,
+              postCode: clientAddress.postCode,
+              city: clientAddress.city,
+              name: clientAddress.name,
+              email: clientAddress.email,
+            },
+            invoiceState: invoiceState,
+            invoiceDate: invoiceDate,
+            paymentPlan: paymentPlan,
+            description: description,
+            items: items,
+            author: session?.id,
+          });
+          const response = await newInvoice.save();
+          return response;
+        }
+      } catch (error) {
+        console.log(error, "Validation error in form");
       }
     },
     deleteInvoice: async (_: any, { _id }: { _id: string }, context: any) => {

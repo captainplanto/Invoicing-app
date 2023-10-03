@@ -1,8 +1,10 @@
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
+import type { NextAuthOptions } from "next-auth";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "../../../db/config/mongodb";
+
 declare var process: {
   env: {
     GITHUB_CLIENT_ID: string;
@@ -13,7 +15,7 @@ declare var process: {
     NEXTAUTH_SECRET: string;
   };
 };
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   adapter: MongoDBAdapter(clientPromise),
   providers: [
     GithubProvider({
@@ -26,7 +28,7 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    async session({ session, user }:any) {
+    async session({ session, user }: any) {
       session.id = user.id;
       return session;
     },
@@ -36,11 +38,13 @@ export default NextAuth({
     strategy: "database",
   },
   pages: {
-    signIn: "/register",
+    signIn: "/login",
   },
   theme: {
     colorScheme: "light",
   },
   debug: true,
   secret: process.env.NEXTAUTH_SECRET,
-});
+};
+
+export default NextAuth(authOptions);
